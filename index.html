@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Harold Al Lorenz Tracker</title>
+<style>
+:root{
+  --bg:#10131a;
+  --surface:#181d27;
+  --surface-2:#212837;
+  --card:#1d2431;
+  --card-2:#273041;
+  --border:#364057;
+  --accent:#72bda3;
+  --accent-2:#bfe7d6;
+  --accent-3:#8ad5b8;
+  --danger:#d66868;
+  --warn:#d4b169;
+  --info:#7aa9e8;
+  --text:#edf1f5;
+  --text-2:#b7bfcb;
+  --text-3:#7f8999;
+  --shadow:0 14px 40px rgba(0,0,0,.35);
+  --radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:
+    radial-gradient(circle at top, rgba(114,189,163,.14), transparent 28%),
+    linear-gradient(180deg,#0a0d12,var(--bg));
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:15px;
+  line-height:1.45;
+  min-height:100vh;
+  padding-bottom:140px;
+}
+.header{
+  background:linear-gradient(180deg,#0a0d12 0%,var(--surface) 100%);
+  border-bottom:2px solid var(--accent);
+}
+.portrait-wrap{
+  position:relative;
+  max-height:760px;
+  overflow:hidden;
+}
+.portrait-wrap::after{
+  content:"";
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:120px;
+  background:linear-gradient(transparent,var(--surface));
+}
+.portrait-wrap img{
+  width:100%;
+  display:block;
+  object-fit:cover;
+  object-position:top center;
+  background:#0b0e13;
+}
+.char-title{padding:14px 16px 16px;text-align:center}
+.char-name{
+  font-size:26px;
+  font-weight:900;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:var(--accent-2);
+}
+.char-sub{
+  margin-top:4px;
+  font-size:13px;
+  color:var(--text-2);
+}
+.char-badge{
+  display:inline-block;
+  margin-top:8px;
+  padding:5px 12px;
+  border-radius:999px;
+  background:linear-gradient(135deg,#193127,#27473a);
+  border:1px solid var(--accent);
+  color:var(--accent-3);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+.section-hdr{
+  padding:16px 12px 8px;
+  margin-top:4px;
+  border-top:1px solid var(--border);
+  font-size:11px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  color:var(--accent);
+}
+#effectBanner{
+  display:none;
+  margin:10px 12px 0;
+  padding:12px 14px;
+  border-radius:var(--radius);
+  background:linear-gradient(135deg,#1b2621,#22352d);
+  border:1px solid var(--accent);
+}
+#effectBanner.visible{display:block}
+#effectBanner .title{
+  margin-bottom:6px;
+  font-size:12px;
+  font-weight:900;
+  color:var(--accent-3);
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+#effectBanner .list{
+  font-size:12px;
+  color:#d7f2e7;
+  white-space:pre-line;
+  line-height:1.65;
+}
+.grid-pills{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  padding:10px 12px 8px;
+}
+.pill{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:11px 8px;
+  text-align:center;
+  box-shadow:var(--shadow);
+}
+.pill .val{
+  display:block;
+  font-size:22px;
+  font-weight:900;
+  color:var(--accent-2);
+}
+.pill .lbl{
+  display:block;
+  margin-top:3px;
+  font-size:10px;
+  letter-spacing:.7px;
+  text-transform:uppercase;
+  color:var(--text-2);
+}
+.pill .sub{
+  display:block;
+  margin-top:2px;
+  font-size:10px;
+  color:var(--text-3);
+}
+.hp-wrap,.panel{
+  margin:0 12px 8px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:12px 14px;
+}
+.hp-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.hp-row label{
+  min-width:64px;
+  color:var(--text-2);
+  font-size:12px;
+  font-weight:800;
+  text-transform:uppercase;
+}
+.hp-row input,.coin-input input,textarea{
+  background:var(--card-2);
+  border:1px solid var(--border);
+  border-radius:10px;
+  color:var(--text);
+  font-size:18px;
+  font-weight:800;
+  text-align:center;
+  padding:7px 8px;
+  -moz-appearance:textfield;
+}
+.hp-row input{width:82px}
+.hp-row .temp{color:var(--accent-2)}
+.hp-row input::-webkit-outer-spin-button,
+.hp-row input::-webkit-inner-spin-button,
+.coin-input input::-webkit-outer-spin-button,
+.coin-input input::-webkit-inner-spin-button{-webkit-appearance:none}
+.hp-row .sep{font-size:18px;color:var(--text-3)}
+.hp-row .maxhp{font-size:18px;color:var(--text-2)}
+.hp-btns{display:flex;gap:6px;margin-left:auto}
+.mini-btn{
+  min-width:40px;height:40px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:var(--card-2);
+  color:var(--text);
+  font-size:18px;
+  font-weight:900;
+  cursor:pointer;
+}
+.ability-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:6px;
+  padding:0 12px;
+  margin-bottom:8px;
+}
+.ability-cell{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:10px 4px;
+  text-align:center;
+}
+.ability-score{font-size:22px;font-weight:900}
+.ability-mod{font-size:14px;font-weight:800;color:var(--accent-2)}
+.ability-name{margin-top:2px;font-size:10px;color:var(--text-3);letter-spacing:.8px;text-transform:uppercase}
+.roll-grid,.state-grid,.resource-grid,.cards{
+  display:grid;
+  gap:8px;
+  padding:0 12px;
+}
+.roll-row,.state-card,.resource-card,.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  box-shadow:var(--shadow);
+}
+.roll-row{
+  padding:11px 12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.roll-bonus{
+  min-width:48px;
+  text-align:center;
+  font-size:20px;
+  font-weight:900;
+  color:var(--accent-2);
+}
+.roll-meta{flex:1}
+.roll-name{font-size:13px;color:var(--text)}
+.roll-note{font-size:11px;color:var(--text-3);margin-top:2px}
+.state-grid{
+  grid-template-columns:1fr 1fr;
+}
+.state-card,.resource-card{
+  padding:12px 14px;
+}
+.state-head,.resource-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+}
+.state-name,.resource-name{font-size:14px;font-weight:900}
+.state-note,.resource-desc,.resource-refresh{
+  font-size:11px;
+  color:var(--text-3);
+}
+.state-note{margin-top:4px}
+.resource-refresh{text-align:right}
+.toggle-chip{
+  min-width:96px;
+  padding:9px 12px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:var(--card-2);
+  color:var(--text);
+  font-size:12px;
+  font-weight:900;
+  cursor:pointer;
+}
+.toggle-chip.active{
+  background:linear-gradient(135deg,#244034,#2f5a4a);
+  border-color:var(--accent);
+  color:var(--accent-2);
+}
+.pip-row{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+.pip{
+  width:24px;height:24px;
+  border-radius:50%;
+  border:2px solid var(--accent);
+  background:var(--accent);
+  cursor:pointer;
+}
+.pip.empty{background:transparent}
+.resource-actions,.button-row,.state-actions{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+.pool-value{
+  font-size:20px;
+  font-weight:900;
+  color:var(--accent-2);
+  margin-top:8px;
+}
+.btn{
+  padding:10px 14px;
+  border:none;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:900;
+  cursor:pointer;
+  line-height:1;
+}
+.btn-roll{background:linear-gradient(135deg,#335b8d,#4d82bf);color:#eff6ff}
+.btn-note{background:#48536b;color:#eff2f7}
+.btn-dmg{background:linear-gradient(135deg,#904b4b,#b75f5f);color:#fff0f0}
+.btn-toggle{background:linear-gradient(135deg,#275244,#36705d);color:#ebfff7}
+.btn-reset{background:#303748;color:#d8dee9}
+.btn-heal{background:linear-gradient(135deg,#2e6a58,#3f9078);color:#effff7}
+.card-head{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  cursor:pointer;
+}
+.card-head.has-art{align-items:flex-start}
+.card-title-wrap{display:flex;gap:12px;flex:1}
+.card-art{
+  width:62px;height:62px;
+  object-fit:cover;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.08);
+  background:var(--card-2);
+  flex-shrink:0;
+}
+.card-name{font-size:16px;font-weight:900;color:var(--text)}
+.card-sub{font-size:12px;color:var(--text-2);margin-top:2px}
+.tag-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin-top:8px;
+}
+.tag{
+  padding:3px 7px;
+  border-radius:999px;
+  font-size:10px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  border:1px solid;
+}
+.tag.action{color:#9bd6ff;border-color:#5d92c422;background:#5d92c414}
+.tag.bonus{color:#c1efc6;border-color:#4e946322;background:#4e946314}
+.tag.reaction{color:#f2d39c;border-color:#a57d2d22;background:#a57d2d14}
+.tag.long{color:#e4d6ff;border-color:#7e5ab622;background:#7e5ab614}
+.tag.passive{color:#cad2dc;border-color:#75839922;background:#75839914}
+.tag.highlight{color:var(--accent-2);border-color:var(--accent);background:#72bda314}
+.tag.concentration{color:#ffd8aa;border-color:#b17b3322;background:#b17b3314}
+.chev{font-size:18px;color:var(--text-3);transition:transform .2s}
+.card.expanded .chev{transform:rotate(180deg)}
+.card-body{
+  display:none;
+  border-top:1px solid var(--border);
+  padding:0 14px 14px;
+}
+.card.expanded .card-body{display:block}
+.card-desc{
+  padding-top:12px;
+  font-size:13px;
+  color:var(--text-2);
+  line-height:1.58;
+}
+.notes-box,.coins-row{padding:0 12px}
+.coins-row{
+  display:flex;
+  gap:8px;
+  margin-bottom:8px;
+}
+.coin-input{
+  flex:1;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  box-shadow:var(--shadow);
+  padding:10px;
+  text-align:center;
+}
+.coin-input label{
+  display:block;
+  margin-bottom:6px;
+  font-size:11px;
+  font-weight:900;
+  color:var(--accent);
+  text-transform:uppercase;
+}
+.coin-input input{
+  width:100%;
+}
+.notes-box textarea{
+  width:100%;
+  min-height:120px;
+  text-align:left;
+  resize:vertical;
+  font-size:14px;
+  line-height:1.5;
+  padding:12px;
+}
+.reset-row{
+  display:flex;
+  gap:8px;
+  padding:12px;
+}
+.result-overlay{
+  position:fixed;
+  left:0;right:0;bottom:0;
+  z-index:1000;
+  transform:translateY(100%);
+  transition:transform .25s ease;
+}
+.result-overlay.open{transform:translateY(0)}
+.result-panel{
+  background:#161b25;
+  border-top:3px solid var(--accent);
+  border-radius:18px 18px 0 0;
+  box-shadow:0 -10px 28px rgba(0,0,0,.45);
+  padding:18px 20px 24px;
+}
+.result-toprow{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:12px;
+}
+.result-label{
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:var(--accent-3);
+}
+.result-close{
+  width:36px;height:36px;
+  border-radius:50%;
+  border:1px solid var(--border);
+  background:var(--card-2);
+  color:var(--text);
+  cursor:pointer;
+  font-size:18px;
+}
+.result-formula,.result-dice{
+  font-size:13px;
+  color:var(--text-2);
+}
+.result-dice{margin-top:6px;font-style:italic}
+.result-total{
+  padding:12px 0 8px;
+  font-size:54px;
+  font-weight:900;
+  text-align:center;
+}
+.result-note{
+  margin-top:6px;
+  padding:10px 12px;
+  border-radius:10px;
+  text-align:center;
+  background:#223325;
+  color:#d6f0dc;
+  font-size:14px;
+  font-weight:800;
+}
+@media (max-width:700px){
+  .state-grid{grid-template-columns:1fr}
+  .coins-row{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="portrait-wrap">
+    <img id="portrait" alt="Harold Al Lorenz portrait">
+  </div>
+  <div class="char-title">
+    <div class="char-name" id="charName"></div>
+    <div class="char-sub" id="charSub"></div>
+    <div class="char-badge" id="charBadge"></div>
+  </div>
+</header>
+
+<div id="effectBanner">
+  <div class="title">Active Effects</div>
+  <div class="list" id="effectBannerText"></div>
+</div>
+
+<div class="section-hdr">Quick Stats</div>
+<div class="grid-pills" id="quickStats"></div>
+
+<div class="hp-wrap">
+  <div class="hp-row">
+    <label>HP</label>
+    <input id="currentHP" type="number" min="0" inputmode="numeric">
+    <span class="sep">/</span>
+    <span class="maxhp" id="maxHP"></span>
+    <div class="hp-btns">
+      <button class="mini-btn" onclick="adjustHP(-1)">-1</button>
+      <button class="mini-btn" onclick="adjustHP(1)">+1</button>
+    </div>
+  </div>
+  <div class="hp-row" style="margin-top:10px">
+    <label>Temp</label>
+    <input id="tempHP" class="temp" type="number" min="0" inputmode="numeric">
+    <div class="hp-btns">
+      <button class="mini-btn" onclick="adjustTempHP(-1)">-1</button>
+      <button class="mini-btn" onclick="adjustTempHP(1)">+1</button>
+    </div>
+  </div>
+</div>
+
+<div class="section-hdr">Ability Scores</div>
+<div class="ability-grid" id="abilityScores"></div>
+
+<div class="section-hdr">Custom Rolls</div>
+<div class="roll-grid" id="quickRolls"></div>
+
+<div class="section-hdr">Combat States</div>
+<div class="state-grid" id="combatStates"></div>
+
+<div class="section-hdr">Resources</div>
+<div class="resource-grid" id="resources"></div>
+
+<div class="section-hdr">Tracker Cards</div>
+<div class="cards" id="cardsRoot"></div>
+
+<div class="section-hdr">Coins</div>
+<div class="coins-row">
+  <div class="coin-input">
+    <label>GP</label>
+    <input id="coinGp" type="number" min="0" inputmode="numeric">
+  </div>
+  <div class="coin-input">
+    <label>SP</label>
+    <input id="coinSp" type="number" min="0" inputmode="numeric">
+  </div>
+  <div class="coin-input">
+    <label>CP</label>
+    <input id="coinCp" type="number" min="0" inputmode="numeric">
+  </div>
+</div>
+
+<div class="section-hdr">Notes</div>
+<div class="notes-box">
+  <textarea id="notesText"></textarea>
+</div>
+
+<div class="reset-row">
+  <button class="btn btn-reset" onclick="shortReset()">Quick Reset Effects</button>
+  <button class="btn btn-reset" onclick="longRest()">Long Rest Reset</button>
+</div>
+
+<div class="result-overlay" id="resultOverlay">
+  <div class="result-panel">
+    <div class="result-toprow">
+      <div class="result-label" id="resultLabel">Roll</div>
+      <button class="result-close" onclick="closeResult()">×</button>
+    </div>
+    <div class="result-formula" id="resultFormula"></div>
+    <div class="result-dice" id="resultDice"></div>
+    <div class="result-total" id="resultTotal"></div>
+    <div class="result-note" id="resultNote"></div>
+  </div>
+</div>
+
+<script id="tracker-data" type="application/json">
+{
+  "storageKey": "harold_al_lorenz_tracker_v2",
+  "meta": {
+    "name": "Harold Al Lorenz",
+    "subtitle": "Arcane Trickster · Custom Mechanics Sheet",
+    "badge": "Interactive Ability Tracker",
+    "portrait": "assets/manual_upload/harold.portriat.png"
+  },
+  "base": {
+    "hpMax": 0,
+    "tempHpDefault": 0,
+    "ac": 0,
+    "initiative": 0,
+    "speed": 30,
+    "proficiency": 2,
+    "spellAttackBonus": 2,
+    "passivePerception": 10,
+    "spellcastingAbility": "int"
+  },
+  "abilities": {
+    "str": 10,
+    "dex": 10,
+    "con": 10,
+    "int": 10,
+    "wis": 10,
+    "cha": 10
+  },
+  "coins": {
+    "gp": 0,
+    "sp": 0,
+    "cp": 0
+  },
+  "quickRolls": [
+    { "name": "Dexterity Check", "formula": "1d20+3", "bonus": 3, "note": "Source sheet fixed bonus" },
+    { "name": "Stealth", "formula": "1d20+7", "bonus": 7, "note": "Base stealth bonus before Phantom Cloak" },
+    { "name": "Melee Hit", "formula": "1d20+3", "bonus": 3, "note": "Custom melee attack bonus" },
+    { "name": "Magic Hit", "formula": "1d20+2", "bonus": 2, "note": "Custom magic attack bonus" },
+    { "name": "Lockpicking", "formula": "1d20+2", "bonus": 2, "note": "Custom lockpicking bonus" },
+    { "name": "Magic Check", "formula": "1d20+2", "bonus": 2, "note": "Arcane or magic manipulation check" }
+  ],
+  "stateDefs": [
+    {
+      "id": "hiddenFromTarget",
+      "label": "Hidden From Target",
+      "description": "Enables Magical Ambush notes and hidden casting reminders."
+    },
+    {
+      "id": "phantomCloakRoundOne",
+      "label": "Phantom Cloak Round 1",
+      "description": "Invisible, silent, intangible round. Usually set when Phantom Cloak begins."
+    },
+    {
+      "id": "targetStrangled",
+      "label": "Target Strangled",
+      "description": "Mind Burn gets +1d8 damage and its save is reduced by 4 this round."
+    },
+    {
+      "id": "targetVulnerable",
+      "label": "Target Vulnerable",
+      "description": "Triggered after Magic Missile hit. Harold's next damage gains +1d6 and target AC is reduced by 1."
+    },
+    {
+      "id": "cunningMoveAdvantageReady",
+      "label": "Cunning Move Advantage",
+      "description": "Your next attack against that creature has advantage before end of next turn."
+    }
+  ],
+  "resources": [
+    {
+      "id": "forceOfMind",
+      "type": "pips",
+      "label": "Force of Mind",
+      "refresh": "Long Rest",
+      "description": "Create a dangerous illusion inside one creature's mind.",
+      "current": 2,
+      "max": 2
+    },
+    {
+      "id": "mindBurn",
+      "type": "pips",
+      "label": "Mind Burn",
+      "refresh": "Long Rest",
+      "description": "Psychic attack against up to three creatures.",
+      "current": 2,
+      "max": 2
+    },
+    {
+      "id": "phantomCloak",
+      "type": "toggleCharge",
+      "label": "Phantom Cloak",
+      "refresh": "Long Rest",
+      "description": "Round one full concealment. Afterwards grants stealth advantage in shadows.",
+      "current": 3,
+      "max": 3,
+      "active": false
+    },
+    {
+      "id": "brittleBones",
+      "type": "toggleCharge",
+      "label": "Brittle Bones",
+      "refresh": "Long Rest",
+      "description": "Concentration effect with escalating 1d4 damage each round.",
+      "current": 1,
+      "max": 1,
+      "active": false
+    },
+    {
+      "id": "strangling",
+      "type": "toggleCharge",
+      "label": "Strangling",
+      "refresh": "Long Rest",
+      "description": "Silences the target and amplifies Mind Burn for the round.",
+      "current": 2,
+      "max": 2,
+      "active": false
+    },
+    {
+      "id": "cunningMove",
+      "type": "pips",
+      "label": "Cunning Move",
+      "refresh": "Long Rest",
+      "description": "Reaction to hinder a melee attack and set up advantage on your next strike.",
+      "current": 2,
+      "max": 2
+    },
+    {
+      "id": "blightAura",
+      "type": "toggle",
+      "label": "Blight Aura",
+      "refresh": "At Will",
+      "description": "1 meter necrotic aura. Living creatures nearby lose 1d8 each round.",
+      "active": false
+    },
+    {
+      "id": "brittleBonesRounds",
+      "type": "counter",
+      "label": "Brittle Bones Rounds",
+      "refresh": "Manual",
+      "description": "Escalation tracker for cumulative damage.",
+      "current": 0,
+      "max": 9,
+      "step": 1
+    }
+  ],
+  "cards": [
+    {
+      "id": "forceOfMindCard",
+      "section": "Actions",
+      "name": "Force of Mind",
+      "subtitle": "Action · 2 / Long Rest",
+      "image": "assets/manual_upload/способность - Сила мысли.png",
+      "tags": ["Action", "Long Rest", "Highlight"],
+      "description": "Save DC 13. Harold creates a short-lived illusion in the target's mind that feels fully real, even when interacted with. Harmful sensations can be perceived as real damage.",
+      "buttons": [
+        { "type": "note", "label": "Show Save 13", "message": "Force of Mind: save DC 13." },
+        { "type": "spend", "label": "Spend Use", "resourceId": "forceOfMind", "amount": 1 }
+      ]
+    },
+    {
+      "id": "mindBurnCard",
+      "section": "Actions",
+      "name": "Mind Burn",
+      "subtitle": "Action · 2 / Long Rest",
+      "image": "assets/manual_upload/выжигание разума.png",
+      "tags": ["Action", "Long Rest", "Highlight"],
+      "description": "Up to three creatures. Base Int save 14. On a failed save the target takes 3d8 psychic damage and is incapacitated for 2 rounds, able only to move. Strangling lowers the save by 4 and adds 1d8 damage.",
+      "buttons": [
+        { "type": "mindBurnDamage", "label": "Roll Mind Burn" },
+        { "type": "mindBurnSave", "label": "Show Save DC" },
+        { "type": "note", "label": "Half On Save", "message": "On a successful save, the target takes half damage." },
+        { "type": "spend", "label": "Spend Use", "resourceId": "mindBurn", "amount": 1 }
+      ]
+    },
+    {
+      "id": "phantomCloakCard",
+      "section": "Actions",
+      "name": "Phantom Cloak",
+      "subtitle": "Action · 3 / Long Rest",
+      "image": "assets/manual_upload/призрачный плащ.png",
+      "tags": ["Action", "Long Rest"],
+      "description": "First round: invisible, silent, intangible. After that Harold remains shadow-hidden and gains +5 to Stealth. Any active action breaks the effect.",
+      "buttons": [
+        { "type": "toggleCharge", "label": "Activate / Use", "resourceId": "phantomCloak" },
+        { "type": "note", "label": "End On Action", "message": "Any active action immediately ends Phantom Cloak." }
+      ]
+    },
+    {
+      "id": "brittleBonesCard",
+      "section": "Actions",
+      "name": "Brittle Bones",
+      "subtitle": "Action · 1 / Long Rest · Concentration",
+      "tags": ["Action", "Long Rest", "Concentration"],
+      "description": "Requires a hit. The target's bones become fragile. Damage starts at 1d4 and adds another 1d4 every round while the effect continues. Surviving targets keep lasting injuries.",
+      "buttons": [
+        { "type": "toggleCharge", "label": "Activate / Use", "resourceId": "brittleBones" },
+        { "type": "brittleRoll", "label": "Roll Current Damage" },
+        { "type": "counterAdjust", "label": "Round +1", "resourceId": "brittleBonesRounds", "amount": 1 },
+        { "type": "counterAdjust", "label": "Round -1", "resourceId": "brittleBonesRounds", "amount": -1 }
+      ]
+    },
+    {
+      "id": "stranglingCard",
+      "section": "Bonus Actions / Reactions",
+      "name": "Strangling",
+      "subtitle": "Bonus Action · 2 / Long Rest",
+      "image": "assets/manual_upload/очи черные.png",
+      "tags": ["Bonus Action", "Long Rest"],
+      "description": "Mental lash to 10 meters. Save 14. The target loses speech for 1 round and becomes easier to break with Mind Burn this round.",
+      "buttons": [
+        { "type": "note", "label": "Show Save 14", "message": "Strangling: save DC 14." },
+        { "type": "toggleCharge", "label": "Activate / Use", "resourceId": "strangling" }
+      ]
+    },
+    {
+      "id": "blightCard",
+      "section": "Bonus Actions / Reactions",
+      "name": "Blight",
+      "subtitle": "Bonus Action · Cantrip",
+      "tags": ["Bonus Action", "Passive"],
+      "description": "A visible necrotic aura forms around Harold in a 1 meter radius. Every round, living creatures inside lose 1d8 HP.",
+      "buttons": [
+        { "type": "toggle", "label": "Toggle Aura", "resourceId": "blightAura" },
+        { "type": "roll", "label": "Aura Damage 1d8", "formula": "1d8", "resultType": "Damage" }
+      ]
+    },
+    {
+      "id": "cunningMoveCard",
+      "section": "Bonus Actions / Reactions",
+      "name": "Cunning Move",
+      "subtitle": "Reaction · 2 / Long Rest",
+      "image": "assets/manual_upload/удача.png",
+      "tags": ["Reaction", "Long Rest"],
+      "description": "Impose disadvantage on an incoming melee attack. If it misses, Harold gains advantage on the next attack against that creature before the end of his next turn.",
+      "buttons": [
+        { "type": "spend", "label": "Spend Use", "resourceId": "cunningMove", "amount": 1 },
+        { "type": "stateToggle", "label": "Toggle Advantage Ready", "stateId": "cunningMoveAdvantageReady" },
+        { "type": "note", "label": "Apply Disadvantage", "message": "The incoming melee attack is made with disadvantage." }
+      ]
+    },
+    {
+      "id": "vulnerabilityPassive",
+      "section": "Passives",
+      "name": "Vulnerability",
+      "subtitle": "Passive",
+      "image": "assets/manual_upload/магические стрелы.png",
+      "tags": ["Passive", "Highlight"],
+      "description": "After at least one Magic Missile hits, the target gets -1 AC and Harold's next-round damage against it gains +1d6.",
+      "buttons": [
+        { "type": "stateToggle", "label": "Toggle Vulnerability", "stateId": "targetVulnerable" },
+        { "type": "note", "label": "Reminder", "message": "Triggered by Magic Missile hit. Next-round damage gets +1d6 and target AC is reduced by 1." }
+      ]
+    },
+    {
+      "id": "magicalAmbushPassive",
+      "section": "Passives",
+      "name": "Magical Ambush",
+      "subtitle": "Passive",
+      "tags": ["Passive", "Highlight"],
+      "description": "If Harold is hidden from the target, his spell setup becomes stronger: attack delivery is advantaged and the target saves with disadvantage.",
+      "buttons": [
+        { "type": "stateToggle", "label": "Toggle Hidden", "stateId": "hiddenFromTarget" },
+        { "type": "note", "label": "Ambush Reminder", "message": "If hidden from the target, cast with advantage and force the target's save at disadvantage." }
+      ]
+    }
+  ],
+  "notes": [
+    "This source is a custom mechanics sheet, not a complete official 5e character sheet.",
+    "Base HP, AC, and six ability scores are placeholders until the full character sheet is available.",
+    "The tracker implements linked combo logic for Phantom Cloak, Strangling, Mind Burn, Brittle Bones, and Vulnerability."
+  ]
+}
+</script>
+
+<script>
+const TRACKER_DATA = JSON.parse(document.getElementById("tracker-data").textContent);
+const STORAGE_KEY = TRACKER_DATA.storageKey;
+const state = loadState();
+
+function loadState(){
+  const notesText = Array.isArray(TRACKER_DATA.notes) ? TRACKER_DATA.notes.join("\n") : "";
+  const fallback = {
+    hp: TRACKER_DATA.base.hpMax,
+    tempHp: TRACKER_DATA.base.tempHpDefault || 0,
+    notesText,
+    coins: { ...(TRACKER_DATA.coins || { gp: 0, sp: 0, cp: 0 }) },
+    resources: {},
+    combatStates: {}
+  };
+  for (const resource of TRACKER_DATA.resources) {
+    fallback.resources[resource.id] = resourceStateFromData(resource);
+  }
+  for (const stateDef of TRACKER_DATA.stateDefs) {
+    fallback.combatStates[stateDef.id] = false;
+  }
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+    if (!saved) return fallback;
+    return {
+      hp: typeof saved.hp === "number" ? saved.hp : fallback.hp,
+      tempHp: typeof saved.tempHp === "number" ? saved.tempHp : fallback.tempHp,
+      notesText: typeof saved.notesText === "string" ? saved.notesText : fallback.notesText,
+      coins: { ...fallback.coins, ...(saved.coins || {}) },
+      resources: { ...fallback.resources, ...(saved.resources || {}) },
+      combatStates: { ...fallback.combatStates, ...(saved.combatStates || {}) }
+    };
+  } catch (error) {
+    return fallback;
+  }
+}
+
+function resourceStateFromData(resource){
+  if (resource.type === "pips") return { current: resource.current };
+  if (resource.type === "toggle") return { active: !!resource.active };
+  if (resource.type === "toggleCharge") return { current: resource.current, active: !!resource.active };
+  if (resource.type === "counter") return { current: resource.current };
+  return {};
+}
+
+function saveState(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function signed(value){
+  return value >= 0 ? `+${value}` : `${value}`;
+}
+
+function abilityMod(score){
+  return Math.floor((score - 10) / 2);
+}
+
+function clamp(value, min, max){
+  return Math.min(max, Math.max(min, value));
+}
+
+function getResourceDefinition(id){
+  return TRACKER_DATA.resources.find(resource => resource.id === id);
+}
+
+function getResourceState(id){
+  return state.resources[id] || {};
+}
+
+function getCombatState(id){
+  return !!state.combatStates[id];
+}
+
+function setCombatState(id, value){
+  state.combatStates[id] = !!value;
+}
+
+function computeDerived(){
+  const abilityScores = { ...TRACKER_DATA.abilities };
+  const stats = {
+    ac: TRACKER_DATA.base.ac,
+    speed: TRACKER_DATA.base.speed,
+    initiative: TRACKER_DATA.base.initiative,
+    proficiency: TRACKER_DATA.base.proficiency,
+    passivePerception: TRACKER_DATA.base.passivePerception
+  };
+  const bannerLines = [];
+
+  if (getResourceState("phantomCloak").active) {
+    bannerLines.push("Phantom Cloak active");
+    if (!getCombatState("phantomCloakRoundOne")) {
+      bannerLines.push("Phantom Cloak: +5 Stealth while staying in shadows");
+    }
+  }
+  if (getCombatState("phantomCloakRoundOne")) {
+    bannerLines.push("Phantom Cloak round 1: invisible, silent, intangible");
+  }
+  if (getCombatState("hiddenFromTarget")) {
+    bannerLines.push("Magical Ambush ready: hidden spell delivery, target saves with disadvantage");
+  }
+  if (getCombatState("targetStrangled")) {
+    bannerLines.push("Target strangled: Mind Burn save -4 and damage +1d8 this round");
+  }
+  if (getCombatState("targetVulnerable")) {
+    bannerLines.push("Target vulnerable: target AC -1 and Harold's next damage gains +1d6");
+  }
+  if (getCombatState("cunningMoveAdvantageReady")) {
+    bannerLines.push("Cunning Move payoff ready: next attack has advantage");
+  }
+  if (getResourceState("blightAura").active) {
+    bannerLines.push("Blight aura active: nearby creatures lose 1d8 HP each round");
+  }
+  if (getResourceState("brittleBones").active) {
+    const rounds = getResourceState("brittleBonesRounds").current || 1;
+    bannerLines.push(`Brittle Bones active: current damage ${rounds}d4`);
+  }
+
+  return { abilityScores, stats, bannerLines };
+}
+
+function buildQuickStats(){
+  const derived = computeDerived();
+  const spellAbility = TRACKER_DATA.base.spellcastingAbility;
+  const spellMod = spellAbility ? abilityMod(derived.abilityScores[spellAbility]) : 0;
+  const spellDc = 8 + derived.stats.proficiency + spellMod;
+  const spellAttack = TRACKER_DATA.base.spellAttackBonus;
+  return [
+    { label: "AC", value: derived.stats.ac, sub: "Placeholder" },
+    { label: "HP Max", value: TRACKER_DATA.base.hpMax, sub: "Placeholder" },
+    { label: "Init", value: signed(derived.stats.initiative), sub: "Placeholder" },
+    { label: "Speed", value: `${derived.stats.speed} ft`, sub: "Base move" },
+    { label: "Spell DC", value: spellDc, sub: "INT shell value" },
+    { label: "Spell Atk", value: signed(spellAttack), sub: "Custom sheet bonus" }
+  ];
+}
+
+function renderHeader(){
+  document.title = `${TRACKER_DATA.meta.name} - Tracker`;
+  document.getElementById("portrait").src = TRACKER_DATA.meta.portrait;
+  document.getElementById("charName").textContent = TRACKER_DATA.meta.name;
+  document.getElementById("charSub").textContent = TRACKER_DATA.meta.subtitle;
+  document.getElementById("charBadge").textContent = TRACKER_DATA.meta.badge;
+}
+
+function renderEffectBanner(){
+  const derived = computeDerived();
+  const banner = document.getElementById("effectBanner");
+  const text = document.getElementById("effectBannerText");
+  if (!derived.bannerLines.length) {
+    banner.classList.remove("visible");
+    text.textContent = "";
+    return;
+  }
+  banner.classList.add("visible");
+  text.textContent = derived.bannerLines.join("\n");
+}
+
+function renderQuickStats(){
+  const root = document.getElementById("quickStats");
+  root.innerHTML = "";
+  for (const item of buildQuickStats()) {
+    const div = document.createElement("div");
+    div.className = "pill";
+    div.innerHTML = `<span class="val">${item.value}</span><span class="lbl">${item.label}</span><span class="sub">${item.sub}</span>`;
+    root.appendChild(div);
+  }
+}
+
+function renderHP(){
+  document.getElementById("currentHP").value = state.hp;
+  document.getElementById("tempHP").value = state.tempHp;
+  document.getElementById("maxHP").textContent = TRACKER_DATA.base.hpMax;
+}
+
+function renderAbilities(){
+  const root = document.getElementById("abilityScores");
+  root.innerHTML = "";
+  for (const key of ["str","dex","con","int","wis","cha"]) {
+    const score = TRACKER_DATA.abilities[key];
+    const div = document.createElement("div");
+    div.className = "ability-cell";
+    div.innerHTML = `
+      <div class="ability-score">${score}</div>
+      <div class="ability-mod">${signed(abilityMod(score))}</div>
+      <div class="ability-name">${key.toUpperCase()}</div>
+    `;
+    root.appendChild(div);
+  }
+}
+
+function adjustedQuickRoll(roll){
+  let formula = roll.formula;
+  let note = roll.note || "";
+  if (roll.name === "Stealth" && getResourceState("phantomCloak").active && !getCombatState("phantomCloakRoundOne")) {
+    formula = "1d20+12";
+    note = `${note} · Phantom Cloak active +5`;
+  }
+  if ((roll.name === "Melee Hit" || roll.name === "Magic Hit") && getCombatState("cunningMoveAdvantageReady")) {
+    note = `${note} · next attack has advantage`;
+  }
+  return { formula, note };
+}
+
+function renderQuickRolls(){
+  const root = document.getElementById("quickRolls");
+  root.innerHTML = "";
+  for (const roll of TRACKER_DATA.quickRolls) {
+    const adj = adjustedQuickRoll(roll);
+    const row = document.createElement("div");
+    row.className = "roll-row";
+    row.innerHTML = `
+      <div class="roll-bonus">${signed(roll.bonus)}</div>
+      <div class="roll-meta">
+        <div class="roll-name">${roll.name}</div>
+        <div class="roll-note">${adj.note}</div>
+      </div>
+      <button class="btn btn-roll" onclick="doFormulaRoll('${escapeAttr(roll.name)}', '${escapeAttr(adj.formula)}', 'Check')">Roll</button>
+    `;
+    root.appendChild(row);
+  }
+}
+
+function renderCombatStates(){
+  const root = document.getElementById("combatStates");
+  root.innerHTML = "";
+  for (const stateDef of TRACKER_DATA.stateDefs) {
+    const active = getCombatState(stateDef.id);
+    const card = document.createElement("div");
+    card.className = "state-card";
+    card.innerHTML = `
+      <div class="state-head">
+        <div>
+          <div class="state-name">${stateDef.label}</div>
+          <div class="state-note">${stateDef.description}</div>
+        </div>
+        <button class="toggle-chip ${active ? "active" : ""}" onclick="toggleCombatState('${stateDef.id}')">${active ? "Active" : "Inactive"}</button>
+      </div>
+    `;
+    root.appendChild(card);
+  }
+}
+
+function renderResources(){
+  const root = document.getElementById("resources");
+  root.innerHTML = "";
+  for (const resource of TRACKER_DATA.resources) {
+    const resourceState = getResourceState(resource.id);
+    const card = document.createElement("div");
+    card.className = "resource-card";
+    let body = "";
+    if (resource.type === "pips") {
+      const pips = Array.from({ length: resource.max }, (_, index) => {
+        const filled = index < resourceState.current;
+        const value = filled ? index : index + 1;
+        return `<button class="pip${filled ? "" : " empty"}" onclick="setResourceCurrent('${resource.id}', ${value})"></button>`;
+      }).join("");
+      body = `<div class="pip-row">${pips}</div><div class="resource-actions"><button class="btn btn-reset" onclick="resetResource('${resource.id}')">Reset</button></div>`;
+    } else if (resource.type === "toggle") {
+      body = `<div class="resource-actions"><button class="btn btn-toggle" onclick="toggleResource('${resource.id}')">${resourceState.active ? "Deactivate" : "Activate"}</button></div>`;
+    } else if (resource.type === "toggleCharge") {
+      body = `
+        <div class="resource-actions">
+          <button class="btn btn-toggle" onclick="toggleChargeResource('${resource.id}')">${resourceState.active ? "Deactivate" : "Activate / Use"}</button>
+          <button class="btn btn-reset" onclick="resetResource('${resource.id}')">Reset</button>
+        </div>
+        <div class="resource-desc" style="margin-top:8px">Uses remaining: ${resourceState.current}/${resource.max}</div>
+      `;
+    } else if (resource.type === "counter") {
+      body = `
+        <div class="pool-value">${resourceState.current}/${resource.max}</div>
+        <div class="resource-actions">
+          <button class="btn btn-note" onclick="adjustCounter('${resource.id}', -1)">-1</button>
+          <button class="btn btn-heal" onclick="adjustCounter('${resource.id}', 1)">+1</button>
+          <button class="btn btn-reset" onclick="resetResource('${resource.id}')">Reset</button>
+        </div>
+      `;
+    }
+    card.innerHTML = `
+      <div class="resource-top">
+        <div>
+          <div class="resource-name">${resource.label}</div>
+          <div class="resource-desc">${resource.description || ""}</div>
+        </div>
+        <div class="resource-refresh">${resource.refresh || ""}</div>
+      </div>
+      ${body}
+    `;
+    root.appendChild(card);
+  }
+}
+
+function renderCards(){
+  const root = document.getElementById("cardsRoot");
+  root.innerHTML = "";
+  const sections = [...new Set(TRACKER_DATA.cards.map(card => card.section))];
+  for (const section of sections) {
+    const hdr = document.createElement("div");
+    hdr.className = "section-hdr";
+    hdr.style.paddingLeft = "0";
+    hdr.style.paddingRight = "0";
+    hdr.textContent = section;
+    root.appendChild(hdr);
+    for (const cardData of TRACKER_DATA.cards.filter(card => card.section === section)) {
+      const card = document.createElement("div");
+      card.className = "card";
+      const tags = (cardData.tags || []).map(tag => {
+        const cls = ({
+          "Action": "action",
+          "Bonus Action": "bonus",
+          "Reaction": "reaction",
+          "Long Rest": "long",
+          "Passive": "passive",
+          "Highlight": "highlight",
+          "Concentration": "concentration"
+        })[tag] || "passive";
+        return `<span class="tag ${cls}">${tag}</span>`;
+      }).join("");
+      const art = cardData.image ? `<img class="card-art" src="${cardData.image}" alt="${cardData.name}">` : "";
+      card.innerHTML = `
+        <div class="card-head ${cardData.image ? "has-art" : ""}" onclick="toggleCard(this.parentElement)">
+          <div class="card-title-wrap">
+            ${art}
+            <div>
+              <div class="card-name">${cardData.name}</div>
+              <div class="card-sub">${cardData.subtitle || ""}</div>
+              <div class="tag-row">${tags}</div>
+            </div>
+          </div>
+          <div class="chev">▾</div>
+        </div>
+        <div class="card-body">
+          <div class="card-desc">${cardData.description || ""}</div>
+          <div class="button-row">${renderCardButtons(cardData)}</div>
+        </div>
+      `;
+      root.appendChild(card);
+    }
+  }
+}
+
+function renderCardButtons(cardData){
+  return (cardData.buttons || []).map((button, index) => {
+    const cls = ({
+      "roll": "btn-dmg",
+      "note": "btn-note",
+      "spend": "btn-reset",
+      "toggle": "btn-toggle",
+      "toggleCharge": "btn-toggle",
+      "stateToggle": "btn-toggle",
+      "mindBurnDamage": "btn-dmg",
+      "mindBurnSave": "btn-note",
+      "brittleRoll": "btn-dmg",
+      "counterAdjust": "btn-heal"
+    })[button.type] || "btn-note";
+    return `<button class="btn ${cls}" onclick="handleCardButton('${cardData.id}', ${index})">${button.label}</button>`;
+  }).join("");
+}
+
+function handleCardButton(cardId, buttonIndex){
+  const cardData = TRACKER_DATA.cards.find(card => card.id === cardId);
+  const button = (cardData.buttons || [])[buttonIndex];
+  if (!button) return;
+  if (button.type === "roll") {
+    showResult(button.label, button.formula, rollFormula(button.formula), button.resultType || "Roll");
+    return;
+  }
+  if (button.type === "note") {
+    showResult(button.label, "", { total: "-", diceText: "" }, button.message);
+    return;
+  }
+  if (button.type === "spend") {
+    spendResource(button.resourceId, button.amount || 1);
+    return;
+  }
+  if (button.type === "toggle") {
+    toggleResource(button.resourceId);
+    return;
+  }
+  if (button.type === "toggleCharge") {
+    toggleChargeResource(button.resourceId);
+    return;
+  }
+  if (button.type === "stateToggle") {
+    toggleCombatState(button.stateId);
+    return;
+  }
+  if (button.type === "mindBurnDamage") {
+    const formula = getCombatState("targetStrangled") ? "4d8" : "3d8";
+    const note = getCombatState("targetVulnerable") ? "Includes later Vulnerability interaction reminder on next damage only." : "Psychic damage.";
+    showResult("Mind Burn Damage", formula, rollFormula(formula), note);
+    return;
+  }
+  if (button.type === "mindBurnSave") {
+    const dc = getCombatState("targetStrangled") ? 10 : 14;
+    const extra = getCombatState("hiddenFromTarget") ? " Target saves with disadvantage due to Magical Ambush." : "";
+    showResult("Mind Burn Save", String(dc), { total: dc, diceText: "" }, `Mind Burn: Intelligence save DC ${dc}.${extra}`);
+    return;
+  }
+  if (button.type === "brittleRoll") {
+    const rounds = Math.max(1, getResourceState("brittleBonesRounds").current || 1);
+    const formula = `${rounds}d4`;
+    showResult("Brittle Bones Damage", formula, rollFormula(formula), `Round ${rounds} cumulative damage.`);
+    return;
+  }
+  if (button.type === "counterAdjust") {
+    adjustCounter(button.resourceId, button.amount || 0);
+  }
+}
+
+function toggleCard(card){
+  card.classList.toggle("expanded");
+}
+
+function toggleCombatState(id){
+  setCombatState(id, !getCombatState(id));
+  saveState();
+  render();
+}
+
+function setResourceCurrent(id, value){
+  const resource = getResourceDefinition(id);
+  if (!resource) return;
+  state.resources[id].current = clamp(value, 0, resource.max);
+  saveState();
+  render();
+}
+
+function spendResource(id, amount){
+  const resource = getResourceDefinition(id);
+  const resourceState = getResourceState(id);
+  if (!resource || typeof resourceState.current !== "number") return;
+  if (resourceState.current <= 0) {
+    showResult(resource.label, "", { total: "-", diceText: "" }, "No uses remaining.");
+    return;
+  }
+  resourceState.current = clamp(resourceState.current - amount, 0, resource.max);
+  saveState();
+  render();
+}
+
+function resetResource(id){
+  const resource = getResourceDefinition(id);
+  if (!resource) return;
+  state.resources[id] = resourceStateFromData(resource);
+  if (id === "phantomCloak") {
+    setCombatState("hiddenFromTarget", false);
+    setCombatState("phantomCloakRoundOne", false);
+  }
+  if (id === "strangling") {
+    setCombatState("targetStrangled", false);
+  }
+  if (id === "brittleBones") {
+    state.resources.brittleBonesRounds.current = 0;
+  }
+  saveState();
+  render();
+}
+
+function toggleResource(id){
+  const resourceState = getResourceState(id);
+  resourceState.active = !resourceState.active;
+  saveState();
+  render();
+}
+
+function toggleChargeResource(id){
+  const resource = getResourceDefinition(id);
+  const resourceState = getResourceState(id);
+  if (resourceState.active) {
+    resourceState.active = false;
+    if (id === "phantomCloak") {
+      setCombatState("phantomCloakRoundOne", false);
+      setCombatState("hiddenFromTarget", false);
+    }
+    if (id === "strangling") {
+      setCombatState("targetStrangled", false);
+    }
+    if (id === "brittleBones") {
+      state.resources.brittleBonesRounds.current = 0;
+    }
+  } else {
+    if (resourceState.current <= 0) {
+      showResult(resource.label, "", { total: "-", diceText: "" }, "No uses remaining.");
+      return;
+    }
+    resourceState.current = clamp(resourceState.current - 1, 0, resource.max);
+    resourceState.active = true;
+    if (id === "phantomCloak") {
+      setCombatState("hiddenFromTarget", true);
+      setCombatState("phantomCloakRoundOne", true);
+    }
+    if (id === "strangling") {
+      setCombatState("targetStrangled", true);
+    }
+    if (id === "brittleBones") {
+      state.resources.brittleBonesRounds.current = Math.max(1, state.resources.brittleBonesRounds.current || 0);
+    }
+  }
+  saveState();
+  render();
+}
+
+function adjustCounter(id, delta){
+  const resource = getResourceDefinition(id);
+  const resourceState = getResourceState(id);
+  resourceState.current = clamp((resourceState.current || 0) + delta, 0, resource.max);
+  saveState();
+  render();
+}
+
+function adjustHP(delta){
+  state.hp = Math.max(0, Number(state.hp || 0) + delta);
+  saveState();
+  renderHP();
+}
+
+function adjustTempHP(delta){
+  state.tempHp = Math.max(0, Number(state.tempHp || 0) + delta);
+  saveState();
+  renderHP();
+}
+
+function shortReset(){
+  setCombatState("hiddenFromTarget", false);
+  setCombatState("phantomCloakRoundOne", false);
+  setCombatState("targetStrangled", false);
+  setCombatState("targetVulnerable", false);
+  setCombatState("cunningMoveAdvantageReady", false);
+  state.resources.blightAura.active = false;
+  state.resources.phantomCloak.active = false;
+  state.resources.strangling.active = false;
+  state.resources.brittleBones.active = false;
+  state.resources.brittleBonesRounds.current = 0;
+  saveState();
+  render();
+}
+
+function longRest(){
+  state.hp = TRACKER_DATA.base.hpMax;
+  state.tempHp = TRACKER_DATA.base.tempHpDefault || 0;
+  for (const resource of TRACKER_DATA.resources) {
+    state.resources[resource.id] = resourceStateFromData(resource);
+  }
+  for (const stateDef of TRACKER_DATA.stateDefs) {
+    state.combatStates[stateDef.id] = false;
+  }
+  saveState();
+  render();
+  showResult("Long Rest", "", { total: "Reset", diceText: "" }, "Resources, combat states, and HP values were reset to the current sheet defaults.");
+}
+
+function persistInputs(){
+  state.hp = Number(document.getElementById("currentHP").value || 0);
+  state.tempHp = Number(document.getElementById("tempHP").value || 0);
+  state.coins.gp = Number(document.getElementById("coinGp").value || 0);
+  state.coins.sp = Number(document.getElementById("coinSp").value || 0);
+  state.coins.cp = Number(document.getElementById("coinCp").value || 0);
+  state.notesText = document.getElementById("notesText").value;
+  saveState();
+}
+
+function renderInputs(){
+  document.getElementById("coinGp").value = state.coins.gp;
+  document.getElementById("coinSp").value = state.coins.sp;
+  document.getElementById("coinCp").value = state.coins.cp;
+  document.getElementById("notesText").value = state.notesText;
+}
+
+function rollDie(sides){
+  return Math.floor(Math.random() * sides) + 1;
+}
+
+function rollFormula(formula){
+  const clean = String(formula).replace(/\s+/g, "");
+  if (/^\d+$/.test(clean)) {
+    return { total: Number(clean), diceText: "" };
+  }
+  let total = 0;
+  const diceTextParts = [];
+  const tokens = clean.match(/[+-]?[^+-]+/g) || [];
+  for (const token of tokens) {
+    let sign = 1;
+    let body = token;
+    if (body.startsWith("+")) body = body.slice(1);
+    if (body.startsWith("-")) {
+      sign = -1;
+      body = body.slice(1);
+    }
+    if (body.includes("d")) {
+      const [countText, sidesText] = body.split("d");
+      const count = Number(countText || 1);
+      const sides = Number(sidesText);
+      const rolls = [];
+      for (let i = 0; i < count; i += 1) {
+        const value = rollDie(sides);
+        rolls.push(value);
+        total += sign * value;
+      }
+      diceTextParts.push(`${sign < 0 ? "-" : "+"}${count}d${sides}: [${rolls.join(", ")}]`);
+    } else {
+      const value = Number(body || 0);
+      total += sign * value;
+      diceTextParts.push(`${sign < 0 ? "-" : "+"}${value}`);
+    }
+  }
+  return {
+    total,
+    diceText: diceTextParts.join(" ").replace(/^\+/, "")
+  };
+}
+
+function doFormulaRoll(label, formula, note){
+  showResult(label, formula, rollFormula(formula), note);
+}
+
+function showResult(label, formula, result, note){
+  document.getElementById("resultLabel").textContent = label;
+  document.getElementById("resultFormula").textContent = formula ? `Formula: ${formula}` : "";
+  document.getElementById("resultDice").textContent = result.diceText || "";
+  document.getElementById("resultTotal").textContent = result.total;
+  document.getElementById("resultNote").textContent = note || "";
+  document.getElementById("resultOverlay").classList.add("open");
+}
+
+function closeResult(){
+  document.getElementById("resultOverlay").classList.remove("open");
+}
+
+function escapeAttr(value){
+  return String(value).replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+}
+
+function bindInputs(){
+  document.getElementById("currentHP").addEventListener("change", persistInputs);
+  document.getElementById("tempHP").addEventListener("change", persistInputs);
+  document.getElementById("coinGp").addEventListener("change", persistInputs);
+  document.getElementById("coinSp").addEventListener("change", persistInputs);
+  document.getElementById("coinCp").addEventListener("change", persistInputs);
+  document.getElementById("notesText").addEventListener("change", persistInputs);
+}
+
+function render(){
+  renderHeader();
+  renderEffectBanner();
+  renderQuickStats();
+  renderHP();
+  renderAbilities();
+  renderQuickRolls();
+  renderCombatStates();
+  renderResources();
+  renderCards();
+  renderInputs();
+}
+
+bindInputs();
+render();
+</script>
+</body>
+</html>
