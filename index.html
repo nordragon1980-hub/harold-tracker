@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Harold Al Lorenz Tracker</title>
+<title>Трекер Гарольда Аль Лоренца</title>
 <style>
 :root{
   --bg:#10131a;
@@ -484,7 +484,7 @@ body{
 <body>
 <header class="header">
   <div class="portrait-wrap">
-    <img id="portrait" alt="Harold Al Lorenz portrait">
+    <img id="portrait" alt="Портрет Гарольда Аль Лоренца">
   </div>
   <div class="char-title">
     <div class="char-name" id="charName"></div>
@@ -494,16 +494,16 @@ body{
 </header>
 
 <div id="effectBanner">
-  <div class="title">Active Effects</div>
+  <div class="title">Активные эффекты</div>
   <div class="list" id="effectBannerText"></div>
 </div>
 
-<div class="section-hdr">Quick Stats</div>
+<div class="section-hdr">Ключевые параметры</div>
 <div class="grid-pills" id="quickStats"></div>
 
 <div class="hp-wrap">
   <div class="hp-row">
-    <label>HP</label>
+    <label>ХП</label>
     <input id="currentHP" type="number" min="0" inputmode="numeric">
     <span class="sep">/</span>
     <span class="maxhp" id="maxHP"></span>
@@ -513,7 +513,7 @@ body{
     </div>
   </div>
   <div class="hp-row" style="margin-top:10px">
-    <label>Temp</label>
+    <label>Врем.</label>
     <input id="tempHP" class="temp" type="number" min="0" inputmode="numeric">
     <div class="hp-btns">
       <button class="mini-btn" onclick="adjustTempHP(-1)">-1</button>
@@ -522,22 +522,22 @@ body{
   </div>
 </div>
 
-<div class="section-hdr">Ability Scores</div>
+<div class="section-hdr">Характеристики</div>
 <div class="ability-grid" id="abilityScores"></div>
 
-<div class="section-hdr">Custom Rolls</div>
+<div class="section-hdr">Быстрые броски</div>
 <div class="roll-grid" id="quickRolls"></div>
 
-<div class="section-hdr">Combat States</div>
+<div class="section-hdr">Боевые состояния</div>
 <div class="state-grid" id="combatStates"></div>
 
-<div class="section-hdr">Resources</div>
+<div class="section-hdr">Ресурсы</div>
 <div class="resource-grid" id="resources"></div>
 
-<div class="section-hdr">Tracker Cards</div>
+<div class="section-hdr">Карточки способностей</div>
 <div class="cards" id="cardsRoot"></div>
 
-<div class="section-hdr">Coins</div>
+<div class="section-hdr">Монеты</div>
 <div class="coins-row">
   <div class="coin-input">
     <label>GP</label>
@@ -553,20 +553,20 @@ body{
   </div>
 </div>
 
-<div class="section-hdr">Notes</div>
+<div class="section-hdr">Заметки</div>
 <div class="notes-box">
   <textarea id="notesText"></textarea>
 </div>
 
 <div class="reset-row">
-  <button class="btn btn-reset" onclick="shortReset()">Quick Reset Effects</button>
-  <button class="btn btn-reset" onclick="longRest()">Long Rest Reset</button>
+  <button class="btn btn-reset" onclick="shortReset()">Сбросить боевые эффекты</button>
+  <button class="btn btn-reset" onclick="longRest()">Долгий отдых</button>
 </div>
 
 <div class="result-overlay" id="resultOverlay">
   <div class="result-panel">
     <div class="result-toprow">
-      <div class="result-label" id="resultLabel">Roll</div>
+      <div class="result-label" id="resultLabel">Бросок</div>
       <button class="result-close" onclick="closeResult()">×</button>
     </div>
     <div class="result-formula" id="resultFormula"></div>
@@ -580,10 +580,10 @@ body{
 {
   "storageKey": "harold_al_lorenz_tracker_v2",
   "meta": {
-    "name": "Harold Al Lorenz",
-    "subtitle": "Arcane Trickster · Custom Mechanics Sheet",
-    "badge": "Interactive Ability Tracker",
-    "portrait": "assets/manual_upload/harold.portriat.png"
+    "name": "Гарольд Аль Лоренц",
+    "subtitle": "Магический трикстер · Лист кастомной механики",
+    "badge": "Русскоязычный трекер способностей",
+    "portrait": "assets/manual_upload/harold-portrait.png"
   },
   "base": {
     "hpMax": 0,
@@ -610,65 +610,65 @@ body{
     "cp": 0
   },
   "quickRolls": [
-    { "name": "Dexterity Check", "formula": "1d20+3", "bonus": 3, "note": "Source sheet fixed bonus" },
-    { "name": "Stealth", "formula": "1d20+7", "bonus": 7, "note": "Base stealth bonus before Phantom Cloak" },
-    { "name": "Melee Hit", "formula": "1d20+3", "bonus": 3, "note": "Custom melee attack bonus" },
-    { "name": "Magic Hit", "formula": "1d20+2", "bonus": 2, "note": "Custom magic attack bonus" },
-    { "name": "Lockpicking", "formula": "1d20+2", "bonus": 2, "note": "Custom lockpicking bonus" },
-    { "name": "Magic Check", "formula": "1d20+2", "bonus": 2, "note": "Arcane or magic manipulation check" }
+    { "name": "Проверка Ловкости", "formula": "1d20+3", "bonus": 3, "note": "Фиксированный бонус из исходника" },
+    { "name": "Скрытность", "formula": "1d20+7", "bonus": 7, "note": "Базовый бонус до Призрачного плаща" },
+    { "name": "Попадание в ближнем бою", "formula": "1d20+3", "bonus": 3, "note": "Кастомный бонус атаки" },
+    { "name": "Попадание магией", "formula": "1d20+2", "bonus": 2, "note": "Кастомный магический бонус" },
+    { "name": "Взлом замков", "formula": "1d20+2", "bonus": 2, "note": "Кастомный бонус взлома" },
+    { "name": "Проверка магии", "formula": "1d20+2", "bonus": 2, "note": "Аркана или управление магией" }
   ],
   "stateDefs": [
     {
       "id": "hiddenFromTarget",
-      "label": "Hidden From Target",
-      "description": "Enables Magical Ambush notes and hidden casting reminders."
+      "label": "Скрыт от цели",
+      "description": "Включает эффекты Магической засады и напоминания о скрытом наложении."
     },
     {
       "id": "phantomCloakRoundOne",
-      "label": "Phantom Cloak Round 1",
-      "description": "Invisible, silent, intangible round. Usually set when Phantom Cloak begins."
+      "label": "Призрачный плащ: 1 раунд",
+      "description": "Невидимость, бесшумность и неосязаемость в первый раунд."
     },
     {
       "id": "targetStrangled",
-      "label": "Target Strangled",
-      "description": "Mind Burn gets +1d8 damage and its save is reduced by 4 this round."
+      "label": "Цель под Удушением",
+      "description": "Выжигание разума получает +1d8 урона, а спасбросок цели уменьшается на 4."
     },
     {
       "id": "targetVulnerable",
-      "label": "Target Vulnerable",
-      "description": "Triggered after Magic Missile hit. Harold's next damage gains +1d6 and target AC is reduced by 1."
+      "label": "Цель уязвима",
+      "description": "После попадания Магической стрелой: следующая атака Гарольда получает +1d6, КД цели снижается на 1."
     },
     {
       "id": "cunningMoveAdvantageReady",
-      "label": "Cunning Move Advantage",
-      "description": "Your next attack against that creature has advantage before end of next turn."
+      "label": "Преимущество от Хитрого приема",
+      "description": "Следующая атака по этой цели совершается с преимуществом до конца следующего хода."
     }
   ],
   "resources": [
     {
       "id": "forceOfMind",
       "type": "pips",
-      "label": "Force of Mind",
-      "refresh": "Long Rest",
-      "description": "Create a dangerous illusion inside one creature's mind.",
+      "label": "Сила мысли",
+      "refresh": "Долгий отдых",
+      "description": "Создает опасную иллюзию в сознании одной цели.",
       "current": 2,
       "max": 2
     },
     {
       "id": "mindBurn",
       "type": "pips",
-      "label": "Mind Burn",
-      "refresh": "Long Rest",
-      "description": "Psychic attack against up to three creatures.",
+      "label": "Выжигание разума",
+      "refresh": "Долгий отдых",
+      "description": "Психическая атака по трем существам максимум.",
       "current": 2,
       "max": 2
     },
     {
       "id": "phantomCloak",
       "type": "toggleCharge",
-      "label": "Phantom Cloak",
-      "refresh": "Long Rest",
-      "description": "Round one full concealment. Afterwards grants stealth advantage in shadows.",
+      "label": "Призрачный плащ",
+      "refresh": "Долгий отдых",
+      "description": "В первый раунд полное сокрытие, затем +5 к Скрытности в тенях.",
       "current": 3,
       "max": 3,
       "active": false
@@ -676,9 +676,9 @@ body{
     {
       "id": "brittleBones",
       "type": "toggleCharge",
-      "label": "Brittle Bones",
-      "refresh": "Long Rest",
-      "description": "Concentration effect with escalating 1d4 damage each round.",
+      "label": "Ломкие кости",
+      "refresh": "Долгий отдых",
+      "description": "Концентрация с нарастающим уроном 1d4 каждый раунд.",
       "current": 1,
       "max": 1,
       "active": false
@@ -686,9 +686,9 @@ body{
     {
       "id": "strangling",
       "type": "toggleCharge",
-      "label": "Strangling",
-      "refresh": "Long Rest",
-      "description": "Silences the target and amplifies Mind Burn for the round.",
+      "label": "Удушение",
+      "refresh": "Долгий отдых",
+      "description": "Лишает цель речи и усиливает Выжигание разума на этот раунд.",
       "current": 2,
       "max": 2,
       "active": false
@@ -696,26 +696,26 @@ body{
     {
       "id": "cunningMove",
       "type": "pips",
-      "label": "Cunning Move",
-      "refresh": "Long Rest",
-      "description": "Reaction to hinder a melee attack and set up advantage on your next strike.",
+      "label": "Хитрый прием",
+      "refresh": "Долгий отдых",
+      "description": "Реакция на ближнюю атаку, которая может подготовить преимущество на следующий удар.",
       "current": 2,
       "max": 2
     },
     {
       "id": "blightAura",
       "type": "toggle",
-      "label": "Blight Aura",
-      "refresh": "At Will",
-      "description": "1 meter necrotic aura. Living creatures nearby lose 1d8 each round.",
+      "label": "Пагуба",
+      "refresh": "Заговор",
+      "description": "Некротическая аура радиусом 1 метр. Живые существа рядом теряют 1d8 каждый раунд.",
       "active": false
     },
     {
       "id": "brittleBonesRounds",
       "type": "counter",
-      "label": "Brittle Bones Rounds",
-      "refresh": "Manual",
-      "description": "Escalation tracker for cumulative damage.",
+      "label": "Раунды Ломких костей",
+      "refresh": "Вручную",
+      "description": "Счетчик нарастающего урона.",
       "current": 0,
       "max": 9,
       "step": 1
@@ -724,128 +724,128 @@ body{
   "cards": [
     {
       "id": "forceOfMindCard",
-      "section": "Actions",
-      "name": "Force of Mind",
-      "subtitle": "Action · 2 / Long Rest",
-      "image": "assets/manual_upload/способность - Сила мысли.png",
-      "tags": ["Action", "Long Rest", "Highlight"],
-      "description": "Save DC 13. Harold creates a short-lived illusion in the target's mind that feels fully real, even when interacted with. Harmful sensations can be perceived as real damage.",
+      "section": "Действия",
+      "name": "Сила мысли",
+      "subtitle": "Действие · 2 / долгий отдых",
+      "image": "assets/manual_upload/force-of-mind.png",
+      "tags": ["Действие", "Долгий отдых", "Акцент"],
+      "description": "Спасбросок 13. Гарольд создает кратковременную иллюзию в сознании цели. Цель полностью уверена, что иллюзия реальна, даже при взаимодействии с ней.",
       "buttons": [
-        { "type": "note", "label": "Show Save 13", "message": "Force of Mind: save DC 13." },
-        { "type": "spend", "label": "Spend Use", "resourceId": "forceOfMind", "amount": 1 }
+        { "type": "note", "label": "Показать КС 13", "message": "Сила мысли: спасбросок 13." },
+        { "type": "spend", "label": "Потратить использование", "resourceId": "forceOfMind", "amount": 1 }
       ]
     },
     {
       "id": "mindBurnCard",
-      "section": "Actions",
-      "name": "Mind Burn",
-      "subtitle": "Action · 2 / Long Rest",
-      "image": "assets/manual_upload/выжигание разума.png",
-      "tags": ["Action", "Long Rest", "Highlight"],
-      "description": "Up to three creatures. Base Int save 14. On a failed save the target takes 3d8 psychic damage and is incapacitated for 2 rounds, able only to move. Strangling lowers the save by 4 and adds 1d8 damage.",
+      "section": "Действия",
+      "name": "Выжигание разума",
+      "subtitle": "Действие · 2 / долгий отдых",
+      "image": "assets/manual_upload/mind-burn.png",
+      "tags": ["Действие", "Долгий отдых", "Акцент"],
+      "description": "До трех существ. Базовый спасбросок Интеллекта 14. При провале цель получает 3d8 психического урона и становится недееспособной на 2 раунда. Удушение снижает КС на 4 и добавляет 1d8 урона.",
       "buttons": [
-        { "type": "mindBurnDamage", "label": "Roll Mind Burn" },
-        { "type": "mindBurnSave", "label": "Show Save DC" },
-        { "type": "note", "label": "Half On Save", "message": "On a successful save, the target takes half damage." },
-        { "type": "spend", "label": "Spend Use", "resourceId": "mindBurn", "amount": 1 }
+        { "type": "mindBurnDamage", "label": "Бросить урон" },
+        { "type": "mindBurnSave", "label": "Показать КС" },
+        { "type": "note", "label": "Половина при успехе", "message": "При успешном спасброске цель получает половину урона." },
+        { "type": "spend", "label": "Потратить использование", "resourceId": "mindBurn", "amount": 1 }
       ]
     },
     {
       "id": "phantomCloakCard",
-      "section": "Actions",
-      "name": "Phantom Cloak",
-      "subtitle": "Action · 3 / Long Rest",
-      "image": "assets/manual_upload/призрачный плащ.png",
-      "tags": ["Action", "Long Rest"],
-      "description": "First round: invisible, silent, intangible. After that Harold remains shadow-hidden and gains +5 to Stealth. Any active action breaks the effect.",
+      "section": "Действия",
+      "name": "Призрачный плащ",
+      "subtitle": "Действие · 3 / долгий отдых",
+      "image": "assets/manual_upload/phantom-cloak.png",
+      "tags": ["Действие", "Долгий отдых"],
+      "description": "Первый раунд: невидимость, бесшумность и неосязаемость. Затем Гарольд остается скрытым в тенях и получает +5 к Скрытности. Любое активное действие прерывает эффект.",
       "buttons": [
-        { "type": "toggleCharge", "label": "Activate / Use", "resourceId": "phantomCloak" },
-        { "type": "note", "label": "End On Action", "message": "Any active action immediately ends Phantom Cloak." }
+        { "type": "toggleCharge", "label": "Активировать / использовать", "resourceId": "phantomCloak" },
+        { "type": "note", "label": "Сбросить при действии", "message": "Любое активное действие немедленно завершает Призрачный плащ." }
       ]
     },
     {
       "id": "brittleBonesCard",
-      "section": "Actions",
-      "name": "Brittle Bones",
-      "subtitle": "Action · 1 / Long Rest · Concentration",
-      "tags": ["Action", "Long Rest", "Concentration"],
-      "description": "Requires a hit. The target's bones become fragile. Damage starts at 1d4 and adds another 1d4 every round while the effect continues. Surviving targets keep lasting injuries.",
+      "section": "Действия",
+      "name": "Ломкие кости",
+      "subtitle": "Действие · 1 / долгий отдых · Концентрация",
+      "tags": ["Действие", "Долгий отдых", "Концентрация"],
+      "description": "Требует попадания. Кости цели становятся хрупкими. Урон начинается с 1d4 и каждый раунд увеличивается еще на 1d4, пока эффект действует.",
       "buttons": [
-        { "type": "toggleCharge", "label": "Activate / Use", "resourceId": "brittleBones" },
-        { "type": "brittleRoll", "label": "Roll Current Damage" },
-        { "type": "counterAdjust", "label": "Round +1", "resourceId": "brittleBonesRounds", "amount": 1 },
-        { "type": "counterAdjust", "label": "Round -1", "resourceId": "brittleBonesRounds", "amount": -1 }
+        { "type": "toggleCharge", "label": "Активировать / использовать", "resourceId": "brittleBones" },
+        { "type": "brittleRoll", "label": "Бросить текущий урон" },
+        { "type": "counterAdjust", "label": "Раунд +1", "resourceId": "brittleBonesRounds", "amount": 1 },
+        { "type": "counterAdjust", "label": "Раунд -1", "resourceId": "brittleBonesRounds", "amount": -1 }
       ]
     },
     {
       "id": "stranglingCard",
-      "section": "Bonus Actions / Reactions",
-      "name": "Strangling",
-      "subtitle": "Bonus Action · 2 / Long Rest",
-      "image": "assets/manual_upload/очи черные.png",
-      "tags": ["Bonus Action", "Long Rest"],
-      "description": "Mental lash to 10 meters. Save 14. The target loses speech for 1 round and becomes easier to break with Mind Burn this round.",
+      "section": "Бонусные действия / Реакции",
+      "name": "Удушение",
+      "subtitle": "Бонусное действие · 2 / долгий отдых",
+      "image": "assets/manual_upload/black-eyes.png",
+      "tags": ["Бонусное действие", "Долгий отдых"],
+      "description": "Ментальная плеть на 10 метров. Спасбросок 14. Цель лишается речи на 1 раунд и становится более уязвимой к Выжиганию разума в этот раунд.",
       "buttons": [
-        { "type": "note", "label": "Show Save 14", "message": "Strangling: save DC 14." },
-        { "type": "toggleCharge", "label": "Activate / Use", "resourceId": "strangling" }
+        { "type": "note", "label": "Показать КС 14", "message": "Удушение: спасбросок 14." },
+        { "type": "toggleCharge", "label": "Активировать / использовать", "resourceId": "strangling" }
       ]
     },
     {
       "id": "blightCard",
-      "section": "Bonus Actions / Reactions",
-      "name": "Blight",
-      "subtitle": "Bonus Action · Cantrip",
-      "tags": ["Bonus Action", "Passive"],
-      "description": "A visible necrotic aura forms around Harold in a 1 meter radius. Every round, living creatures inside lose 1d8 HP.",
+      "section": "Бонусные действия / Реакции",
+      "name": "Пагуба",
+      "subtitle": "Бонусное действие · Заговор",
+      "tags": ["Бонусное действие", "Пассивно"],
+      "description": "Вокруг Гарольда возникает видимая некротическая аура радиусом 1 метр. Каждый раунд живые существа внутри теряют 1d8 ХП.",
       "buttons": [
-        { "type": "toggle", "label": "Toggle Aura", "resourceId": "blightAura" },
-        { "type": "roll", "label": "Aura Damage 1d8", "formula": "1d8", "resultType": "Damage" }
+        { "type": "toggle", "label": "Переключить ауру", "resourceId": "blightAura" },
+        { "type": "roll", "label": "Урон ауры 1d8", "formula": "1d8", "resultType": "Урон" }
       ]
     },
     {
       "id": "cunningMoveCard",
-      "section": "Bonus Actions / Reactions",
-      "name": "Cunning Move",
-      "subtitle": "Reaction · 2 / Long Rest",
-      "image": "assets/manual_upload/удача.png",
-      "tags": ["Reaction", "Long Rest"],
-      "description": "Impose disadvantage on an incoming melee attack. If it misses, Harold gains advantage on the next attack against that creature before the end of his next turn.",
+      "section": "Бонусные действия / Реакции",
+      "name": "Хитрый прием",
+      "subtitle": "Реакция · 2 / долгий отдых",
+      "image": "assets/manual_upload/luck.png",
+      "tags": ["Реакция", "Долгий отдых"],
+      "description": "Создает помеху для входящей ближней атаки. Если атака промахнется, следующая атака Гарольда по этой цели получает преимущество до конца следующего хода.",
       "buttons": [
-        { "type": "spend", "label": "Spend Use", "resourceId": "cunningMove", "amount": 1 },
-        { "type": "stateToggle", "label": "Toggle Advantage Ready", "stateId": "cunningMoveAdvantageReady" },
-        { "type": "note", "label": "Apply Disadvantage", "message": "The incoming melee attack is made with disadvantage." }
+        { "type": "spend", "label": "Потратить использование", "resourceId": "cunningMove", "amount": 1 },
+        { "type": "stateToggle", "label": "Переключить преимущество", "stateId": "cunningMoveAdvantageReady" },
+        { "type": "note", "label": "Применить помеху", "message": "Входящая ближняя атака совершается с помехой." }
       ]
     },
     {
       "id": "vulnerabilityPassive",
-      "section": "Passives",
-      "name": "Vulnerability",
-      "subtitle": "Passive",
-      "image": "assets/manual_upload/магические стрелы.png",
-      "tags": ["Passive", "Highlight"],
-      "description": "After at least one Magic Missile hits, the target gets -1 AC and Harold's next-round damage against it gains +1d6.",
+      "section": "Пассивки",
+      "name": "Уязвимость",
+      "subtitle": "Пассивно",
+      "image": "assets/manual_upload/magic-missiles.png",
+      "tags": ["Пассивно", "Акцент"],
+      "description": "После попадания хотя бы одной Магической стрелой цель получает -1 к КД, а следующий урон Гарольда по ней увеличивается на 1d6.",
       "buttons": [
-        { "type": "stateToggle", "label": "Toggle Vulnerability", "stateId": "targetVulnerable" },
-        { "type": "note", "label": "Reminder", "message": "Triggered by Magic Missile hit. Next-round damage gets +1d6 and target AC is reduced by 1." }
+        { "type": "stateToggle", "label": "Переключить Уязвимость", "stateId": "targetVulnerable" },
+        { "type": "note", "label": "Напоминание", "message": "Срабатывает после попадания Магической стрелой. Следующий урон получает +1d6, КД цели уменьшается на 1." }
       ]
     },
     {
       "id": "magicalAmbushPassive",
-      "section": "Passives",
-      "name": "Magical Ambush",
-      "subtitle": "Passive",
-      "tags": ["Passive", "Highlight"],
-      "description": "If Harold is hidden from the target, his spell setup becomes stronger: attack delivery is advantaged and the target saves with disadvantage.",
+      "section": "Пассивки",
+      "name": "Магическая засада",
+      "subtitle": "Пассивно",
+      "tags": ["Пассивно", "Акцент"],
+      "description": "Если Гарольд скрыт от цели, его заклинание разыгрывается выгоднее: у него преимущество, а цель совершает спасбросок с помехой.",
       "buttons": [
-        { "type": "stateToggle", "label": "Toggle Hidden", "stateId": "hiddenFromTarget" },
-        { "type": "note", "label": "Ambush Reminder", "message": "If hidden from the target, cast with advantage and force the target's save at disadvantage." }
+        { "type": "stateToggle", "label": "Переключить скрытность", "stateId": "hiddenFromTarget" },
+        { "type": "note", "label": "Напоминание о засаде", "message": "Если Гарольд скрыт от цели, он колдует с преимуществом, а цель спасается с помехой." }
       ]
     }
   ],
   "notes": [
-    "This source is a custom mechanics sheet, not a complete official 5e character sheet.",
-    "Base HP, AC, and six ability scores are placeholders until the full character sheet is available.",
-    "The tracker implements linked combo logic for Phantom Cloak, Strangling, Mind Burn, Brittle Bones, and Vulnerability."
+    "Этот источник описывает кастомную боевую механику, а не полный официальный лист персонажа 5e.",
+    "Базовые ХП, КД и шесть характеристик пока остаются заглушками до появления полного листа.",
+    "Этот конкретный трекер Гарольда фиксируем как русскоязычную версию."
   ]
 }
 </script>
@@ -939,32 +939,32 @@ function computeDerived(){
   const bannerLines = [];
 
   if (getResourceState("phantomCloak").active) {
-    bannerLines.push("Phantom Cloak active");
+    bannerLines.push("Призрачный плащ активен");
     if (!getCombatState("phantomCloakRoundOne")) {
-      bannerLines.push("Phantom Cloak: +5 Stealth while staying in shadows");
+      bannerLines.push("Призрачный плащ: +5 к Скрытности, пока Гарольд держится в тенях");
     }
   }
   if (getCombatState("phantomCloakRoundOne")) {
-    bannerLines.push("Phantom Cloak round 1: invisible, silent, intangible");
+    bannerLines.push("Призрачный плащ, 1 раунд: невидим, бесшумен, неосязаем");
   }
   if (getCombatState("hiddenFromTarget")) {
-    bannerLines.push("Magical Ambush ready: hidden spell delivery, target saves with disadvantage");
+    bannerLines.push("Магическая засада готова: скрытое наложение, цель спасается с помехой");
   }
   if (getCombatState("targetStrangled")) {
-    bannerLines.push("Target strangled: Mind Burn save -4 and damage +1d8 this round");
+    bannerLines.push("Цель под Удушением: КС Выжигания разума -4 и урон +1d8 в этот раунд");
   }
   if (getCombatState("targetVulnerable")) {
-    bannerLines.push("Target vulnerable: target AC -1 and Harold's next damage gains +1d6");
+    bannerLines.push("Цель уязвима: КД -1, следующий урон Гарольда получает +1d6");
   }
   if (getCombatState("cunningMoveAdvantageReady")) {
-    bannerLines.push("Cunning Move payoff ready: next attack has advantage");
+    bannerLines.push("Хитрый прием готов: следующая атака совершается с преимуществом");
   }
   if (getResourceState("blightAura").active) {
-    bannerLines.push("Blight aura active: nearby creatures lose 1d8 HP each round");
+    bannerLines.push("Пагуба активна: соседние живые существа теряют 1d8 ХП каждый раунд");
   }
   if (getResourceState("brittleBones").active) {
     const rounds = getResourceState("brittleBonesRounds").current || 1;
-    bannerLines.push(`Brittle Bones active: current damage ${rounds}d4`);
+    bannerLines.push(`Ломкие кости активны: текущий урон ${rounds}d4`);
   }
 
   return { abilityScores, stats, bannerLines };
@@ -977,17 +977,17 @@ function buildQuickStats(){
   const spellDc = 8 + derived.stats.proficiency + spellMod;
   const spellAttack = TRACKER_DATA.base.spellAttackBonus;
   return [
-    { label: "AC", value: derived.stats.ac, sub: "Placeholder" },
-    { label: "HP Max", value: TRACKER_DATA.base.hpMax, sub: "Placeholder" },
-    { label: "Init", value: signed(derived.stats.initiative), sub: "Placeholder" },
-    { label: "Speed", value: `${derived.stats.speed} ft`, sub: "Base move" },
-    { label: "Spell DC", value: spellDc, sub: "INT shell value" },
-    { label: "Spell Atk", value: signed(spellAttack), sub: "Custom sheet bonus" }
+    { label: "КД", value: derived.stats.ac, sub: "Пока заглушка" },
+    { label: "Макс. ХП", value: TRACKER_DATA.base.hpMax, sub: "Пока заглушка" },
+    { label: "Инициатива", value: signed(derived.stats.initiative), sub: "Пока заглушка" },
+    { label: "Скорость", value: `${derived.stats.speed} фт`, sub: "Базовое движение" },
+    { label: "КС закл.", value: spellDc, sub: "Временная INT-обвязка" },
+    { label: "Атака магией", value: signed(spellAttack), sub: "Кастомный бонус" }
   ];
 }
 
 function renderHeader(){
-  document.title = `${TRACKER_DATA.meta.name} - Tracker`;
+  document.title = `${TRACKER_DATA.meta.name} - Трекер`;
   document.getElementById("portrait").src = TRACKER_DATA.meta.portrait;
   document.getElementById("charName").textContent = TRACKER_DATA.meta.name;
   document.getElementById("charSub").textContent = TRACKER_DATA.meta.subtitle;
@@ -1043,12 +1043,12 @@ function renderAbilities(){
 function adjustedQuickRoll(roll){
   let formula = roll.formula;
   let note = roll.note || "";
-  if (roll.name === "Stealth" && getResourceState("phantomCloak").active && !getCombatState("phantomCloakRoundOne")) {
+  if (roll.name === "Скрытность" && getResourceState("phantomCloak").active && !getCombatState("phantomCloakRoundOne")) {
     formula = "1d20+12";
-    note = `${note} · Phantom Cloak active +5`;
+    note = `${note} · Призрачный плащ активен: +5`;
   }
-  if ((roll.name === "Melee Hit" || roll.name === "Magic Hit") && getCombatState("cunningMoveAdvantageReady")) {
-    note = `${note} · next attack has advantage`;
+  if ((roll.name === "Попадание в ближнем бою" || roll.name === "Попадание магией") && getCombatState("cunningMoveAdvantageReady")) {
+    note = `${note} · следующая атака с преимуществом`;
   }
   return { formula, note };
 }
@@ -1066,7 +1066,7 @@ function renderQuickRolls(){
         <div class="roll-name">${roll.name}</div>
         <div class="roll-note">${adj.note}</div>
       </div>
-      <button class="btn btn-roll" onclick="doFormulaRoll('${escapeAttr(roll.name)}', '${escapeAttr(adj.formula)}', 'Check')">Roll</button>
+      <button class="btn btn-roll" onclick="doFormulaRoll('${escapeAttr(roll.name)}', '${escapeAttr(adj.formula)}', 'Проверка')">Бросок</button>
     `;
     root.appendChild(row);
   }
@@ -1085,7 +1085,7 @@ function renderCombatStates(){
           <div class="state-name">${stateDef.label}</div>
           <div class="state-note">${stateDef.description}</div>
         </div>
-        <button class="toggle-chip ${active ? "active" : ""}" onclick="toggleCombatState('${stateDef.id}')">${active ? "Active" : "Inactive"}</button>
+        <button class="toggle-chip ${active ? "active" : ""}" onclick="toggleCombatState('${stateDef.id}')">${active ? "Активно" : "Неактивно"}</button>
       </div>
     `;
     root.appendChild(card);
@@ -1106,16 +1106,16 @@ function renderResources(){
         const value = filled ? index : index + 1;
         return `<button class="pip${filled ? "" : " empty"}" onclick="setResourceCurrent('${resource.id}', ${value})"></button>`;
       }).join("");
-      body = `<div class="pip-row">${pips}</div><div class="resource-actions"><button class="btn btn-reset" onclick="resetResource('${resource.id}')">Reset</button></div>`;
+      body = `<div class="pip-row">${pips}</div><div class="resource-actions"><button class="btn btn-reset" onclick="resetResource('${resource.id}')">Сброс</button></div>`;
     } else if (resource.type === "toggle") {
-      body = `<div class="resource-actions"><button class="btn btn-toggle" onclick="toggleResource('${resource.id}')">${resourceState.active ? "Deactivate" : "Activate"}</button></div>`;
+      body = `<div class="resource-actions"><button class="btn btn-toggle" onclick="toggleResource('${resource.id}')">${resourceState.active ? "Выключить" : "Включить"}</button></div>`;
     } else if (resource.type === "toggleCharge") {
       body = `
         <div class="resource-actions">
-          <button class="btn btn-toggle" onclick="toggleChargeResource('${resource.id}')">${resourceState.active ? "Deactivate" : "Activate / Use"}</button>
-          <button class="btn btn-reset" onclick="resetResource('${resource.id}')">Reset</button>
+          <button class="btn btn-toggle" onclick="toggleChargeResource('${resource.id}')">${resourceState.active ? "Выключить" : "Активировать / использовать"}</button>
+          <button class="btn btn-reset" onclick="resetResource('${resource.id}')">Сброс</button>
         </div>
-        <div class="resource-desc" style="margin-top:8px">Uses remaining: ${resourceState.current}/${resource.max}</div>
+        <div class="resource-desc" style="margin-top:8px">Осталось использований: ${resourceState.current}/${resource.max}</div>
       `;
     } else if (resource.type === "counter") {
       body = `
@@ -1123,7 +1123,7 @@ function renderResources(){
         <div class="resource-actions">
           <button class="btn btn-note" onclick="adjustCounter('${resource.id}', -1)">-1</button>
           <button class="btn btn-heal" onclick="adjustCounter('${resource.id}', 1)">+1</button>
-          <button class="btn btn-reset" onclick="resetResource('${resource.id}')">Reset</button>
+          <button class="btn btn-reset" onclick="resetResource('${resource.id}')">Сброс</button>
         </div>
       `;
     }
@@ -1157,13 +1157,13 @@ function renderCards(){
       card.className = "card";
       const tags = (cardData.tags || []).map(tag => {
         const cls = ({
-          "Action": "action",
-          "Bonus Action": "bonus",
-          "Reaction": "reaction",
-          "Long Rest": "long",
-          "Passive": "passive",
-          "Highlight": "highlight",
-          "Concentration": "concentration"
+          "Действие": "action",
+          "Бонусное действие": "bonus",
+          "Реакция": "reaction",
+          "Долгий отдых": "long",
+          "Пассивно": "passive",
+          "Акцент": "highlight",
+          "Концентрация": "concentration"
         })[tag] || "passive";
         return `<span class="tag ${cls}">${tag}</span>`;
       }).join("");
@@ -1213,7 +1213,7 @@ function handleCardButton(cardId, buttonIndex){
   const button = (cardData.buttons || [])[buttonIndex];
   if (!button) return;
   if (button.type === "roll") {
-    showResult(button.label, button.formula, rollFormula(button.formula), button.resultType || "Roll");
+    showResult(button.label, button.formula, rollFormula(button.formula), button.resultType || "Бросок");
     return;
   }
   if (button.type === "note") {
@@ -1238,20 +1238,20 @@ function handleCardButton(cardId, buttonIndex){
   }
   if (button.type === "mindBurnDamage") {
     const formula = getCombatState("targetStrangled") ? "4d8" : "3d8";
-    const note = getCombatState("targetVulnerable") ? "Includes later Vulnerability interaction reminder on next damage only." : "Psychic damage.";
-    showResult("Mind Burn Damage", formula, rollFormula(formula), note);
+    const note = getCombatState("targetVulnerable") ? "Уязвимость применяется только к следующему отдельному урону по цели." : "Психический урон.";
+    showResult("Выжигание разума: урон", formula, rollFormula(formula), note);
     return;
   }
   if (button.type === "mindBurnSave") {
     const dc = getCombatState("targetStrangled") ? 10 : 14;
-    const extra = getCombatState("hiddenFromTarget") ? " Target saves with disadvantage due to Magical Ambush." : "";
-    showResult("Mind Burn Save", String(dc), { total: dc, diceText: "" }, `Mind Burn: Intelligence save DC ${dc}.${extra}`);
+    const extra = getCombatState("hiddenFromTarget") ? " Цель совершает спасбросок с помехой из-за Магической засады." : "";
+    showResult("Выжигание разума: КС", String(dc), { total: dc, diceText: "" }, `Выжигание разума: спасбросок Интеллекта ${dc}.${extra}`);
     return;
   }
   if (button.type === "brittleRoll") {
     const rounds = Math.max(1, getResourceState("brittleBonesRounds").current || 1);
     const formula = `${rounds}d4`;
-    showResult("Brittle Bones Damage", formula, rollFormula(formula), `Round ${rounds} cumulative damage.`);
+    showResult("Ломкие кости: урон", formula, rollFormula(formula), `Раунд ${rounds}, накопительный урон.`);
     return;
   }
   if (button.type === "counterAdjust") {
@@ -1282,7 +1282,7 @@ function spendResource(id, amount){
   const resourceState = getResourceState(id);
   if (!resource || typeof resourceState.current !== "number") return;
   if (resourceState.current <= 0) {
-    showResult(resource.label, "", { total: "-", diceText: "" }, "No uses remaining.");
+    showResult(resource.label, "", { total: "-", diceText: "" }, "Использования закончились.");
     return;
   }
   resourceState.current = clamp(resourceState.current - amount, 0, resource.max);
@@ -1332,7 +1332,7 @@ function toggleChargeResource(id){
     }
   } else {
     if (resourceState.current <= 0) {
-      showResult(resource.label, "", { total: "-", diceText: "" }, "No uses remaining.");
+      showResult(resource.label, "", { total: "-", diceText: "" }, "Использования закончились.");
       return;
     }
     resourceState.current = clamp(resourceState.current - 1, 0, resource.max);
@@ -1398,7 +1398,7 @@ function longRest(){
   }
   saveState();
   render();
-  showResult("Long Rest", "", { total: "Reset", diceText: "" }, "Resources, combat states, and HP values were reset to the current sheet defaults.");
+  showResult("Долгий отдых", "", { total: "Сброшено", diceText: "" }, "Ресурсы, боевые состояния и значения ХП сброшены к текущим значениям листа.");
 }
 
 function persistInputs(){
@@ -1467,7 +1467,7 @@ function doFormulaRoll(label, formula, note){
 
 function showResult(label, formula, result, note){
   document.getElementById("resultLabel").textContent = label;
-  document.getElementById("resultFormula").textContent = formula ? `Formula: ${formula}` : "";
+  document.getElementById("resultFormula").textContent = formula ? `Формула: ${formula}` : "";
   document.getElementById("resultDice").textContent = result.diceText || "";
   document.getElementById("resultTotal").textContent = result.total;
   document.getElementById("resultNote").textContent = note || "";
