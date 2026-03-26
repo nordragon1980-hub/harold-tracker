@@ -1,48 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Трекер Гарольда Аль Лоренца</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Гарольд — трекер способностей</title>
 <style>
 :root{
-  --bg:#10131a;
-  --surface:#181d27;
-  --surface-2:#212837;
-  --card:#1d2431;
-  --card-2:#273041;
-  --border:#364057;
-  --accent:#72bda3;
-  --accent-2:#bfe7d6;
-  --accent-3:#8ad5b8;
-  --danger:#d66868;
-  --warn:#d4b169;
-  --info:#7aa9e8;
-  --text:#edf1f5;
-  --text-2:#b7bfcb;
-  --text-3:#7f8999;
-  --shadow:0 14px 40px rgba(0,0,0,.35);
+  --bg:#0d1117;
+  --panel:#151b24;
+  --panel-2:#1b2330;
+  --line:#2a3444;
+  --soft:#34445c;
+  --text:#eef3fb;
+  --muted:#9eadc4;
+  --accent:#79d0b0;
+  --accent-2:#b7f0dc;
+  --gold:#d9b86c;
+  --danger:#d97575;
+  --warn:#d4a36a;
+  --info:#78a8e0;
+  --shadow:0 14px 34px rgba(0,0,0,.32);
   --radius:16px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{
-  background:
-    radial-gradient(circle at top, rgba(114,189,163,.14), transparent 28%),
-    linear-gradient(180deg,#0a0d12,var(--bg));
-  color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  font-size:15px;
-  line-height:1.45;
   min-height:100vh;
-  padding-bottom:140px;
+  background:
+    radial-gradient(circle at top, rgba(121,208,176,.10), transparent 28%),
+    linear-gradient(180deg, #090d12, var(--bg));
+  color:var(--text);
+  font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  padding-bottom:120px;
 }
-.header{
-  background:linear-gradient(180deg,#0a0d12 0%,var(--surface) 100%);
-  border-bottom:2px solid var(--accent);
+.page{
+  width:min(1120px, calc(100% - 24px));
+  margin:0 auto;
+}
+.hero{
+  background:linear-gradient(180deg,#0c1016 0%, var(--panel) 100%);
+  border:1px solid var(--line);
+  border-top:none;
+  border-radius:0 0 24px 24px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
 }
 .portrait-wrap{
   position:relative;
-  max-height:760px;
+  max-height:560px;
   overflow:hidden;
 }
 .portrait-wrap::after{
@@ -50,1386 +54,1377 @@ body{
   position:absolute;
   left:0;right:0;bottom:0;
   height:120px;
-  background:linear-gradient(transparent,var(--surface));
+  background:linear-gradient(transparent, var(--panel));
 }
 .portrait-wrap img{
   width:100%;
   display:block;
   object-fit:cover;
   object-position:top center;
-  background:#0b0e13;
+  background:#090d12;
 }
-.char-title{padding:14px 16px 16px;text-align:center}
-.char-name{
-  font-size:26px;
-  font-weight:900;
-  letter-spacing:1px;
+.hero-main{
+  display:grid;
+  grid-template-columns:1.3fr .9fr;
+  gap:16px;
+  padding:16px;
+}
+.title-box{
+  display:flex;
+  flex-direction:column;
+  justify-content:end;
+}
+.eyebrow{
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:1.5px;
+  color:var(--accent);
   text-transform:uppercase;
+}
+.hero-name{
+  margin-top:4px;
+  font-size:34px;
+  font-weight:900;
+  letter-spacing:.5px;
   color:var(--accent-2);
 }
-.char-sub{
-  margin-top:4px;
-  font-size:13px;
-  color:var(--text-2);
+.hero-sub{
+  margin-top:6px;
+  color:var(--muted);
+  max-width:44ch;
 }
-.char-badge{
-  display:inline-block;
-  margin-top:8px;
-  padding:5px 12px;
-  border-radius:999px;
-  background:linear-gradient(135deg,#193127,#27473a);
-  border:1px solid var(--accent);
-  color:var(--accent-3);
-  font-size:11px;
+.hp-box{
+  background:var(--panel-2);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:14px;
+}
+.hp-title{
+  font-size:12px;
   font-weight:800;
-  letter-spacing:1px;
-  text-transform:uppercase;
-}
-.section-hdr{
-  padding:16px 12px 8px;
-  margin-top:4px;
-  border-top:1px solid var(--border);
-  font-size:11px;
-  font-weight:900;
-  text-transform:uppercase;
-  letter-spacing:2px;
+  letter-spacing:1.4px;
   color:var(--accent);
-}
-#effectBanner{
-  display:none;
-  margin:10px 12px 0;
-  padding:12px 14px;
-  border-radius:var(--radius);
-  background:linear-gradient(135deg,#1b2621,#22352d);
-  border:1px solid var(--accent);
-}
-#effectBanner.visible{display:block}
-#effectBanner .title{
-  margin-bottom:6px;
-  font-size:12px;
-  font-weight:900;
-  color:var(--accent-3);
-  letter-spacing:1px;
   text-transform:uppercase;
+  margin-bottom:12px;
 }
-#effectBanner .list{
-  font-size:12px;
-  color:#d7f2e7;
-  white-space:pre-line;
-  line-height:1.65;
-}
-.grid-pills{
+.hp-row{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:auto 92px auto 92px auto 1fr;
   gap:8px;
-  padding:10px 12px 8px;
+  align-items:center;
 }
-.pill{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:11px 8px;
+.hp-label{
+  font-size:13px;
+  color:var(--muted);
+  font-weight:700;
+}
+.num{
+  width:100%;
+  background:#0f1520;
+  border:1px solid var(--line);
+  border-radius:12px;
+  color:var(--text);
+  font-size:24px;
+  font-weight:900;
   text-align:center;
+  padding:8px;
+  -moz-appearance:textfield;
+}
+.num::-webkit-outer-spin-button,
+.num::-webkit-inner-spin-button{-webkit-appearance:none}
+.mini-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:6px;
+}
+.btn{
+  border:none;
+  border-radius:12px;
+  font-size:13px;
+  font-weight:900;
+  line-height:1;
+  cursor:pointer;
+  padding:11px 13px;
+}
+.btn:active{transform:translateY(1px)}
+.btn-dark{background:var(--soft);color:var(--text)}
+.btn-roll{background:linear-gradient(135deg,#345c8c,#4a82c3);color:#f4f9ff}
+.btn-dmg{background:linear-gradient(135deg,#8e4e5a,#b9667b);color:#fff5f8}
+.btn-state{background:linear-gradient(135deg,#265548,#367565);color:#ecfff7}
+.btn-warn{background:linear-gradient(135deg,#77512c,#9a6d3d);color:#fff7e9}
+.btn-reset{background:#333d4e;color:#eaf0f8}
+.btn-small{
+  padding:8px 10px;
+  border-radius:10px;
+  font-size:12px;
+}
+.grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+  margin-top:14px;
+}
+.panel{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:14px;
   box-shadow:var(--shadow);
 }
-.pill .val{
-  display:block;
+.panel-title{
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:1.6px;
+  color:var(--accent);
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+.bonus-grid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:8px;
+}
+.bonus-row{
+  display:grid;
+  grid-template-columns:1fr auto auto;
+  gap:8px;
+  align-items:center;
+  background:var(--panel-2);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:10px 12px;
+}
+.bonus-row.active{
+  border-color:#5ca989;
+  background:linear-gradient(135deg, rgba(56,101,86,.30), rgba(27,35,48,.95));
+}
+.bonus-name{font-size:13px}
+.bonus-note{font-size:11px;color:var(--muted)}
+.bonus-val{
+  font-size:18px;
+  font-weight:900;
+  color:var(--accent-2);
+  min-width:50px;
+  text-align:right;
+}
+.bonus-row.active .bonus-val{color:#ebffbe}
+.bonus-roll{
+  justify-self:end;
+}
+.state-grid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:10px;
+}
+.state-box{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:10px;
+  align-items:center;
+  background:var(--panel-2);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px;
+}
+.state-label{
+  font-size:14px;
+  font-weight:800;
+}
+.state-desc{
+  margin-top:4px;
+  font-size:11px;
+  color:var(--muted);
+}
+.switch{
+  min-width:92px;
+}
+.switch.active{background:linear-gradient(135deg,#275748,#39806c)}
+.section{
+  margin-top:16px;
+}
+.section-title{
+  margin:0 2px 10px;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:1.7px;
+  color:var(--gold);
+  text-transform:uppercase;
+}
+.cards{
+  display:grid;
+  gap:10px;
+}
+.card{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+.card-head{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:12px;
+  padding:12px 14px;
+  cursor:pointer;
+  align-items:start;
+}
+.icon{
+  width:58px;
+  height:58px;
+  border-radius:14px;
+  object-fit:cover;
+  background:#101722;
+  border:1px solid rgba(255,255,255,.06);
+}
+.icon.placeholder{
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg, rgba(121,208,176,.08), rgba(255,255,255,.02));
+  border-style:dashed;
+  color:transparent;
+}
+.card-name{
+  font-size:18px;
+  font-weight:900;
+}
+.meta{
+  margin-top:4px;
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+.chip{
+  padding:4px 8px;
+  border-radius:999px;
+  border:1px solid;
+  font-size:10px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.4px;
+}
+.chip.action{color:#bfe6ff;border-color:#4c89bb55;background:#4c89bb18}
+.chip.bonus{color:#d2ffd5;border-color:#4b966055;background:#4b966018}
+.chip.reaction{color:#ffe0b4;border-color:#b4803655;background:#b4803618}
+.chip.passive{color:#d5dcea;border-color:#6d7d9555;background:#6d7d9514}
+.chip.limit{color:#f4ebc2;border-color:#aa8d4055;background:#aa8d4018}
+.chip.active-flag{color:#ecffef;border-color:#5ea77b;background:#315548}
+.summary{
+  margin-top:7px;
+  color:var(--muted);
+  font-size:12px;
+}
+.chev{
+  color:var(--muted);
+  font-size:20px;
+  transition:transform .18s ease;
+}
+.card.open .chev{transform:rotate(180deg)}
+.card-body{
+  display:none;
+  border-top:1px solid var(--line);
+  padding:14px;
+}
+.card.open .card-body{display:block}
+.body-grid{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:14px;
+}
+.block{
+  background:var(--panel-2);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px;
+}
+.block + .block{margin-top:10px}
+.block-title{
+  margin-bottom:8px;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1.2px;
+  color:var(--accent);
+  text-transform:uppercase;
+}
+.details{
+  display:grid;
+  gap:7px;
+}
+.detail{
+  display:grid;
+  grid-template-columns:170px 1fr;
+  gap:8px;
+}
+.detail-key{
+  color:var(--muted);
+  font-size:12px;
+  font-weight:800;
+}
+.detail-val{
+  font-size:13px;
+}
+.detail-val strong{color:var(--accent-2)}
+.list{
+  display:grid;
+  gap:6px;
+}
+.list li{
+  margin-left:18px;
+  color:var(--text);
+  font-size:13px;
+}
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.counter{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.counter-val{
+  min-width:54px;
+  text-align:center;
   font-size:22px;
   font-weight:900;
   color:var(--accent-2);
 }
-.pill .lbl{
-  display:block;
-  margin-top:3px;
-  font-size:10px;
-  letter-spacing:.7px;
-  text-transform:uppercase;
-  color:var(--text-2);
-}
-.pill .sub{
-  display:block;
-  margin-top:2px;
-  font-size:10px;
-  color:var(--text-3);
-}
-.hp-wrap,.panel{
-  margin:0 12px 8px;
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  padding:12px 14px;
-}
-.hp-row{
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-.hp-row label{
-  min-width:64px;
-  color:var(--text-2);
+.counter-label{
   font-size:12px;
+  color:var(--muted);
   font-weight:800;
-  text-transform:uppercase;
 }
-.hp-row input,.coin-input input,textarea{
-  background:var(--card-2);
-  border:1px solid var(--border);
-  border-radius:10px;
-  color:var(--text);
-  font-size:18px;
-  font-weight:800;
-  text-align:center;
-  padding:7px 8px;
-  -moz-appearance:textfield;
-}
-.hp-row input{width:82px}
-.hp-row .temp{color:var(--accent-2)}
-.hp-row input::-webkit-outer-spin-button,
-.hp-row input::-webkit-inner-spin-button,
-.coin-input input::-webkit-outer-spin-button,
-.coin-input input::-webkit-inner-spin-button{-webkit-appearance:none}
-.hp-row .sep{font-size:18px;color:var(--text-3)}
-.hp-row .maxhp{font-size:18px;color:var(--text-2)}
-.hp-btns{display:flex;gap:6px;margin-left:auto}
-.mini-btn{
-  min-width:40px;height:40px;
-  border-radius:10px;
-  border:1px solid var(--border);
-  background:var(--card-2);
-  color:var(--text);
-  font-size:18px;
-  font-weight:900;
-  cursor:pointer;
-}
-.ability-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:6px;
-  padding:0 12px;
-  margin-bottom:8px;
-}
-.ability-cell{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:10px 4px;
-  text-align:center;
-}
-.ability-score{font-size:22px;font-weight:900}
-.ability-mod{font-size:14px;font-weight:800;color:var(--accent-2)}
-.ability-name{margin-top:2px;font-size:10px;color:var(--text-3);letter-spacing:.8px;text-transform:uppercase}
-.roll-grid,.state-grid,.resource-grid,.cards{
-  display:grid;
-  gap:8px;
-  padding:0 12px;
-}
-.roll-row,.state-card,.resource-card,.card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:14px;
-  box-shadow:var(--shadow);
-}
-.roll-row{
-  padding:11px 12px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-.roll-bonus{
-  min-width:48px;
-  text-align:center;
-  font-size:20px;
-  font-weight:900;
-  color:var(--accent-2);
-}
-.roll-meta{flex:1}
-.roll-name{font-size:13px;color:var(--text)}
-.roll-note{font-size:11px;color:var(--text-3);margin-top:2px}
-.state-grid{
-  grid-template-columns:1fr 1fr;
-}
-.state-card,.resource-card{
-  padding:12px 14px;
-}
-.state-head,.resource-top{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:10px;
-}
-.state-name,.resource-name{font-size:14px;font-weight:900}
-.state-note,.resource-desc,.resource-refresh{
-  font-size:11px;
-  color:var(--text-3);
-}
-.state-note{margin-top:4px}
-.resource-refresh{text-align:right}
-.toggle-chip{
-  min-width:96px;
-  padding:9px 12px;
-  border-radius:999px;
-  border:1px solid var(--border);
-  background:var(--card-2);
-  color:var(--text);
-  font-size:12px;
-  font-weight:900;
-  cursor:pointer;
-}
-.toggle-chip.active{
-  background:linear-gradient(135deg,#244034,#2f5a4a);
-  border-color:var(--accent);
-  color:var(--accent-2);
-}
-.pip-row{
+.meter{
   display:flex;
   gap:6px;
   flex-wrap:wrap;
-  margin-top:10px;
 }
 .pip{
-  width:24px;height:24px;
-  border-radius:50%;
+  width:22px;
+  height:22px;
+  border-radius:999px;
   border:2px solid var(--accent);
   background:var(--accent);
   cursor:pointer;
 }
-.pip.empty{background:transparent}
-.resource-actions,.button-row,.state-actions{
-  display:flex;
-  gap:7px;
-  flex-wrap:wrap;
-  margin-top:10px;
+.pip.off{background:transparent}
+.utility{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:8px;
 }
-.pool-value{
-  font-size:20px;
-  font-weight:900;
-  color:var(--accent-2);
-  margin-top:8px;
-}
-.btn{
-  padding:10px 14px;
-  border:none;
-  border-radius:10px;
+.rest-copy{
+  color:var(--muted);
   font-size:13px;
-  font-weight:900;
-  cursor:pointer;
-  line-height:1;
+  margin-bottom:12px;
+  max-width:78ch;
 }
-.btn-roll{background:linear-gradient(135deg,#335b8d,#4d82bf);color:#eff6ff}
-.btn-note{background:#48536b;color:#eff2f7}
-.btn-dmg{background:linear-gradient(135deg,#904b4b,#b75f5f);color:#fff0f0}
-.btn-toggle{background:linear-gradient(135deg,#275244,#36705d);color:#ebfff7}
-.btn-reset{background:#303748;color:#d8dee9}
-.btn-heal{background:linear-gradient(135deg,#2e6a58,#3f9078);color:#effff7}
-.card-head{
+.coin{
+  background:var(--panel-2);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px;
+}
+.coin label{
+  display:block;
+  margin-bottom:8px;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1.2px;
+  color:var(--gold);
+  text-transform:uppercase;
+}
+.coin input{
+  width:100%;
+}
+textarea{
+  width:100%;
+  min-height:120px;
+  resize:vertical;
+  background:#0f1520;
+  border:1px solid var(--line);
+  border-radius:14px;
+  color:var(--text);
+  padding:12px;
+  font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+.result{
+  position:fixed;
+  left:0;right:0;bottom:0;
+  transform:translateY(105%);
+  transition:transform .22s ease;
+  z-index:50;
+}
+.result.open{transform:translateY(0)}
+.result-panel{
+  width:min(760px, calc(100% - 16px));
+  margin:0 auto 8px;
+  background:#141b25;
+  border:1px solid var(--line);
+  border-top:3px solid var(--accent);
+  border-radius:20px;
+  box-shadow:0 -10px 28px rgba(0,0,0,.38);
+  padding:16px;
+}
+.result-top{
   display:flex;
   justify-content:space-between;
   gap:12px;
-  padding:12px 14px;
-  cursor:pointer;
-}
-.card-head.has-art{align-items:flex-start}
-.card-title-wrap{display:flex;gap:12px;flex:1}
-.card-art{
-  width:62px;height:62px;
-  object-fit:cover;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,.08);
-  background:var(--card-2);
-  flex-shrink:0;
-}
-.card-name{font-size:16px;font-weight:900;color:var(--text)}
-.card-sub{font-size:12px;color:var(--text-2);margin-top:2px}
-.tag-row{
-  display:flex;
-  flex-wrap:wrap;
-  gap:5px;
-  margin-top:8px;
-}
-.tag{
-  padding:3px 7px;
-  border-radius:999px;
-  font-size:10px;
-  font-weight:900;
-  text-transform:uppercase;
-  letter-spacing:.5px;
-  border:1px solid;
-}
-.tag.action{color:#9bd6ff;border-color:#5d92c422;background:#5d92c414}
-.tag.bonus{color:#c1efc6;border-color:#4e946322;background:#4e946314}
-.tag.reaction{color:#f2d39c;border-color:#a57d2d22;background:#a57d2d14}
-.tag.long{color:#e4d6ff;border-color:#7e5ab622;background:#7e5ab614}
-.tag.passive{color:#cad2dc;border-color:#75839922;background:#75839914}
-.tag.highlight{color:var(--accent-2);border-color:var(--accent);background:#72bda314}
-.tag.concentration{color:#ffd8aa;border-color:#b17b3322;background:#b17b3314}
-.chev{font-size:18px;color:var(--text-3);transition:transform .2s}
-.card.expanded .chev{transform:rotate(180deg)}
-.card-body{
-  display:none;
-  border-top:1px solid var(--border);
-  padding:0 14px 14px;
-}
-.card.expanded .card-body{display:block}
-.card-desc{
-  padding-top:12px;
-  font-size:13px;
-  color:var(--text-2);
-  line-height:1.58;
-}
-.notes-box,.coins-row{padding:0 12px}
-.coins-row{
-  display:flex;
-  gap:8px;
-  margin-bottom:8px;
-}
-.coin-input{
-  flex:1;
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:14px;
-  box-shadow:var(--shadow);
-  padding:10px;
-  text-align:center;
-}
-.coin-input label{
-  display:block;
-  margin-bottom:6px;
-  font-size:11px;
-  font-weight:900;
-  color:var(--accent);
-  text-transform:uppercase;
-}
-.coin-input input{
-  width:100%;
-}
-.notes-box textarea{
-  width:100%;
-  min-height:120px;
-  text-align:left;
-  resize:vertical;
-  font-size:14px;
-  line-height:1.5;
-  padding:12px;
-}
-.reset-row{
-  display:flex;
-  gap:8px;
-  padding:12px;
-}
-.result-overlay{
-  position:fixed;
-  left:0;right:0;bottom:0;
-  z-index:1000;
-  transform:translateY(100%);
-  transition:transform .25s ease;
-}
-.result-overlay.open{transform:translateY(0)}
-.result-panel{
-  background:#161b25;
-  border-top:3px solid var(--accent);
-  border-radius:18px 18px 0 0;
-  box-shadow:0 -10px 28px rgba(0,0,0,.45);
-  padding:18px 20px 24px;
-}
-.result-toprow{
-  display:flex;
   align-items:center;
-  justify-content:space-between;
-  margin-bottom:12px;
 }
-.result-label{
-  font-size:13px;
-  font-weight:900;
-  letter-spacing:1px;
-  text-transform:uppercase;
-  color:var(--accent-3);
-}
-.result-close{
-  width:36px;height:36px;
-  border-radius:50%;
-  border:1px solid var(--border);
-  background:var(--card-2);
-  color:var(--text);
-  cursor:pointer;
-  font-size:18px;
-}
-.result-formula,.result-dice{
-  font-size:13px;
-  color:var(--text-2);
-}
-.result-dice{margin-top:6px;font-style:italic}
-.result-total{
-  padding:12px 0 8px;
-  font-size:54px;
-  font-weight:900;
-  text-align:center;
-}
-.result-note{
-  margin-top:6px;
-  padding:10px 12px;
-  border-radius:10px;
-  text-align:center;
-  background:#223325;
-  color:#d6f0dc;
+.result-name{
   font-size:14px;
-  font-weight:800;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:var(--accent);
 }
-@media (max-width:700px){
-  .state-grid{grid-template-columns:1fr}
-  .coins-row{flex-direction:column}
+.result-x{
+  background:var(--soft);
+  color:var(--text);
+}
+.formula,.dice{
+  margin-top:8px;
+  font-size:13px;
+  color:var(--muted);
+}
+.total{
+  margin-top:10px;
+  font-size:52px;
+  font-weight:900;
+  text-align:center;
+}
+.note{
+  margin-top:10px;
+  padding:10px 12px;
+  border-radius:12px;
+  background:#233246;
+  color:#ebf4ff;
+  text-align:center;
+  font-weight:700;
+}
+@media (max-width:900px){
+  .hero-main,.body-grid,.bonus-grid,.utility{grid-template-columns:1fr}
+  .hp-row{grid-template-columns:auto 1fr auto 1fr}
+  .hp-row .mini-actions{grid-column:1 / -1;justify-content:start}
+  .detail{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
-<header class="header">
-  <div class="portrait-wrap">
-    <img id="portrait" alt="Портрет Гарольда Аль Лоренца">
-  </div>
-  <div class="char-title">
-    <div class="char-name" id="charName"></div>
-    <div class="char-sub" id="charSub"></div>
-    <div class="char-badge" id="charBadge"></div>
-  </div>
-</header>
-
-<div id="effectBanner">
-  <div class="title">Активные эффекты</div>
-  <div class="list" id="effectBannerText"></div>
-</div>
-
-<div class="section-hdr">Ключевые параметры</div>
-<div class="grid-pills" id="quickStats"></div>
-
-<div class="hp-wrap">
-  <div class="hp-row">
-    <label>ХП</label>
-    <input id="currentHP" type="number" min="0" inputmode="numeric">
-    <span class="sep">/</span>
-    <span class="maxhp" id="maxHP"></span>
-    <div class="hp-btns">
-      <button class="mini-btn" onclick="adjustHP(-1)">-1</button>
-      <button class="mini-btn" onclick="adjustHP(1)">+1</button>
+<div class="page">
+  <header class="hero">
+    <div class="portrait-wrap">
+      <img src="assets/manual_upload/harold-portrait.png" alt="Портрет Гарольда">
     </div>
-  </div>
-  <div class="hp-row" style="margin-top:10px">
-    <label>Врем.</label>
-    <input id="tempHP" class="temp" type="number" min="0" inputmode="numeric">
-    <div class="hp-btns">
-      <button class="mini-btn" onclick="adjustTempHP(-1)">-1</button>
-      <button class="mini-btn" onclick="adjustTempHP(1)">+1</button>
+    <div class="hero-main">
+      <div class="title-box">
+        <div class="eyebrow">Русскоязычный трекер способностей</div>
+        <h1 class="hero-name">Гарольд</h1>
+        <div class="hero-sub">Компактный боевой лист для отслеживания бросков, состояний, ресурсов, меток, урона по раундам и ключевых синергий.</div>
+      </div>
+      <div class="hp-box">
+        <div class="hp-title">ХП</div>
+        <div class="hp-row">
+          <div class="hp-label">Текущее</div>
+          <input id="hpCurrent" class="num" type="number" value="0">
+          <div class="hp-label">Макс.</div>
+          <input id="hpMax" class="num" type="number" value="0">
+          <div class="mini-actions">
+            <button class="btn btn-dark btn-small" onclick="adjustHp(-1)">-1</button>
+            <button class="btn btn-dark btn-small" onclick="adjustHp(1)">+1</button>
+            <button class="btn btn-dark btn-small" onclick="adjustHp(-5)">-5</button>
+            <button class="btn btn-dark btn-small" onclick="adjustHp(5)">+5</button>
+          </div>
+        </div>
+      </div>
     </div>
+  </header>
+
+  <div class="grid">
+    <section class="panel">
+      <div class="panel-title">Бонусы на броски</div>
+      <div class="bonus-grid" id="bonusGrid"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title">Глобальные состояния</div>
+      <div class="state-grid">
+        <div class="state-box">
+          <div>
+            <div class="state-label">Скрыт</div>
+            <div class="state-desc">Влияет на Магическую засаду, Скрытую атаку и некоторые связки после Волшебной стрелы и Призрачного плаща.</div>
+          </div>
+          <button id="hiddenToggle" class="btn btn-state switch" onclick="toggleState('hidden')">ВЫКЛ</button>
+        </div>
+        <div class="state-box">
+          <div>
+            <div class="state-label">Алкоголь в крови</div>
+            <div class="state-desc">Активирует Грациозного балагура: +1 к защите, Обман +5, Убеждение +5.</div>
+          </div>
+          <button id="alcoholToggle" class="btn btn-state switch" onclick="toggleState('alcohol')">ВЫКЛ</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">Активные способности</div>
+      <div class="cards" id="activeCards"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">Пассивные способности</div>
+      <div class="cards" id="passiveCards"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title">Отдых</div>
+      <div class="rest-copy">Короткий отдых по исходному файлу не восстанавливает способности с пометкой «в долгий отдых», поэтому здесь он сбрасывает временные боевые эффекты и снова делает доступной «Волшебную стрелу» как способность «раз в бой». Долгий отдых восстанавливает все использования и ХП до максимума.</div>
+      <div class="actions">
+        <button class="btn btn-warn" onclick="shortRest()">Короткий отдых</button>
+        <button class="btn btn-state" onclick="longRest()">Долгий отдых</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title">Монеты</div>
+      <div class="utility">
+        <div class="coin">
+          <label>Золото</label>
+          <input id="gold" class="num" type="number" value="0">
+        </div>
+        <div class="coin">
+          <label>Серебро</label>
+          <input id="silver" class="num" type="number" value="0">
+        </div>
+        <div class="coin">
+          <label>Медь</label>
+          <input id="copper" class="num" type="number" value="0">
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title">Инвентарь</div>
+      <textarea id="inventory"></textarea>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title">Заметки</div>
+      <textarea id="notes"></textarea>
+    </section>
   </div>
 </div>
 
-<div class="section-hdr">Характеристики</div>
-<div class="ability-grid" id="abilityScores"></div>
-
-<div class="section-hdr">Быстрые броски</div>
-<div class="roll-grid" id="quickRolls"></div>
-
-<div class="section-hdr">Боевые состояния</div>
-<div class="state-grid" id="combatStates"></div>
-
-<div class="section-hdr">Ресурсы</div>
-<div class="resource-grid" id="resources"></div>
-
-<div class="section-hdr">Карточки способностей</div>
-<div class="cards" id="cardsRoot"></div>
-
-<div class="section-hdr">Монеты</div>
-<div class="coins-row">
-  <div class="coin-input">
-    <label>GP</label>
-    <input id="coinGp" type="number" min="0" inputmode="numeric">
-  </div>
-  <div class="coin-input">
-    <label>SP</label>
-    <input id="coinSp" type="number" min="0" inputmode="numeric">
-  </div>
-  <div class="coin-input">
-    <label>CP</label>
-    <input id="coinCp" type="number" min="0" inputmode="numeric">
-  </div>
-</div>
-
-<div class="section-hdr">Заметки</div>
-<div class="notes-box">
-  <textarea id="notesText"></textarea>
-</div>
-
-<div class="reset-row">
-  <button class="btn btn-reset" onclick="shortReset()">Сбросить боевые эффекты</button>
-  <button class="btn btn-reset" onclick="longRest()">Долгий отдых</button>
-</div>
-
-<div class="result-overlay" id="resultOverlay">
+<div class="result" id="resultWrap">
   <div class="result-panel">
-    <div class="result-toprow">
-      <div class="result-label" id="resultLabel">Бросок</div>
-      <button class="result-close" onclick="closeResult()">×</button>
+    <div class="result-top">
+      <div class="result-name" id="resultName">Бросок</div>
+      <button class="btn btn-small result-x" onclick="closeResult()">Закрыть</button>
     </div>
-    <div class="result-formula" id="resultFormula"></div>
-    <div class="result-dice" id="resultDice"></div>
-    <div class="result-total" id="resultTotal"></div>
-    <div class="result-note" id="resultNote"></div>
+    <div class="formula" id="resultFormula"></div>
+    <div class="dice" id="resultDice"></div>
+    <div class="total" id="resultTotal"></div>
+    <div class="note" id="resultNote"></div>
   </div>
 </div>
-
-<script id="tracker-data" type="application/json">
-{
-  "storageKey": "harold_al_lorenz_tracker_v2",
-  "meta": {
-    "name": "Гарольд Аль Лоренц",
-    "subtitle": "Магический трикстер · Лист кастомной механики",
-    "badge": "Русскоязычный трекер способностей",
-    "portrait": "assets/manual_upload/harold-portrait.png"
-  },
-  "base": {
-    "hpMax": 0,
-    "tempHpDefault": 0,
-    "ac": 0,
-    "initiative": 0,
-    "speed": 30,
-    "proficiency": 2,
-    "spellAttackBonus": 2,
-    "passivePerception": 10,
-    "spellcastingAbility": "int"
-  },
-  "abilities": {
-    "str": 10,
-    "dex": 10,
-    "con": 10,
-    "int": 10,
-    "wis": 10,
-    "cha": 10
-  },
-  "coins": {
-    "gp": 0,
-    "sp": 0,
-    "cp": 0
-  },
-  "quickRolls": [
-    { "name": "Проверка Ловкости", "formula": "1d20+3", "bonus": 3, "note": "Фиксированный бонус из исходника" },
-    { "name": "Скрытность", "formula": "1d20+7", "bonus": 7, "note": "Базовый бонус до Призрачного плаща" },
-    { "name": "Попадание в ближнем бою", "formula": "1d20+3", "bonus": 3, "note": "Кастомный бонус атаки" },
-    { "name": "Попадание магией", "formula": "1d20+2", "bonus": 2, "note": "Кастомный магический бонус" },
-    { "name": "Взлом замков", "formula": "1d20+2", "bonus": 2, "note": "Кастомный бонус взлома" },
-    { "name": "Проверка магии", "formula": "1d20+2", "bonus": 2, "note": "Аркана или управление магией" }
-  ],
-  "stateDefs": [
-    {
-      "id": "hiddenFromTarget",
-      "label": "Скрыт от цели",
-      "description": "Включает эффекты Магической засады и напоминания о скрытом наложении."
-    },
-    {
-      "id": "phantomCloakRoundOne",
-      "label": "Призрачный плащ: 1 раунд",
-      "description": "Невидимость, бесшумность и неосязаемость в первый раунд."
-    },
-    {
-      "id": "targetStrangled",
-      "label": "Цель под Удушением",
-      "description": "Выжигание разума получает +1d8 урона, а спасбросок цели уменьшается на 4."
-    },
-    {
-      "id": "targetVulnerable",
-      "label": "Цель уязвима",
-      "description": "После попадания Магической стрелой: следующая атака Гарольда получает +1d6, КД цели снижается на 1."
-    },
-    {
-      "id": "cunningMoveAdvantageReady",
-      "label": "Преимущество от Хитрого приема",
-      "description": "Следующая атака по этой цели совершается с преимуществом до конца следующего хода."
-    }
-  ],
-  "resources": [
-    {
-      "id": "forceOfMind",
-      "type": "pips",
-      "label": "Сила мысли",
-      "refresh": "Долгий отдых",
-      "description": "Создает опасную иллюзию в сознании одной цели.",
-      "current": 2,
-      "max": 2
-    },
-    {
-      "id": "mindBurn",
-      "type": "pips",
-      "label": "Выжигание разума",
-      "refresh": "Долгий отдых",
-      "description": "Психическая атака по трем существам максимум.",
-      "current": 2,
-      "max": 2
-    },
-    {
-      "id": "phantomCloak",
-      "type": "toggleCharge",
-      "label": "Призрачный плащ",
-      "refresh": "Долгий отдых",
-      "description": "В первый раунд полное сокрытие, затем +5 к Скрытности в тенях.",
-      "current": 3,
-      "max": 3,
-      "active": false
-    },
-    {
-      "id": "brittleBones",
-      "type": "toggleCharge",
-      "label": "Ломкие кости",
-      "refresh": "Долгий отдых",
-      "description": "Концентрация с нарастающим уроном 1d4 каждый раунд.",
-      "current": 1,
-      "max": 1,
-      "active": false
-    },
-    {
-      "id": "strangling",
-      "type": "toggleCharge",
-      "label": "Удушение",
-      "refresh": "Долгий отдых",
-      "description": "Лишает цель речи и усиливает Выжигание разума на этот раунд.",
-      "current": 2,
-      "max": 2,
-      "active": false
-    },
-    {
-      "id": "cunningMove",
-      "type": "pips",
-      "label": "Хитрый прием",
-      "refresh": "Долгий отдых",
-      "description": "Реакция на ближнюю атаку, которая может подготовить преимущество на следующий удар.",
-      "current": 2,
-      "max": 2
-    },
-    {
-      "id": "blightAura",
-      "type": "toggle",
-      "label": "Пагуба",
-      "refresh": "Заговор",
-      "description": "Некротическая аура радиусом 1 метр. Живые существа рядом теряют 1d8 каждый раунд.",
-      "active": false
-    },
-    {
-      "id": "brittleBonesRounds",
-      "type": "counter",
-      "label": "Раунды Ломких костей",
-      "refresh": "Вручную",
-      "description": "Счетчик нарастающего урона.",
-      "current": 0,
-      "max": 9,
-      "step": 1
-    }
-  ],
-  "cards": [
-    {
-      "id": "forceOfMindCard",
-      "section": "Действия",
-      "name": "Сила мысли",
-      "subtitle": "Действие · 2 / долгий отдых",
-      "image": "assets/manual_upload/force-of-mind.png",
-      "tags": ["Действие", "Долгий отдых", "Акцент"],
-      "description": "Спасбросок 13. Гарольд создает кратковременную иллюзию в сознании цели. Цель полностью уверена, что иллюзия реальна, даже при взаимодействии с ней.",
-      "buttons": [
-        { "type": "note", "label": "Показать КС 13", "message": "Сила мысли: спасбросок 13." },
-        { "type": "spend", "label": "Потратить использование", "resourceId": "forceOfMind", "amount": 1 }
-      ]
-    },
-    {
-      "id": "mindBurnCard",
-      "section": "Действия",
-      "name": "Выжигание разума",
-      "subtitle": "Действие · 2 / долгий отдых",
-      "image": "assets/manual_upload/mind-burn.png",
-      "tags": ["Действие", "Долгий отдых", "Акцент"],
-      "description": "До трех существ. Базовый спасбросок Интеллекта 14. При провале цель получает 3d8 психического урона и становится недееспособной на 2 раунда. Удушение снижает КС на 4 и добавляет 1d8 урона.",
-      "buttons": [
-        { "type": "mindBurnDamage", "label": "Бросить урон" },
-        { "type": "mindBurnSave", "label": "Показать КС" },
-        { "type": "note", "label": "Половина при успехе", "message": "При успешном спасброске цель получает половину урона." },
-        { "type": "spend", "label": "Потратить использование", "resourceId": "mindBurn", "amount": 1 }
-      ]
-    },
-    {
-      "id": "phantomCloakCard",
-      "section": "Действия",
-      "name": "Призрачный плащ",
-      "subtitle": "Действие · 3 / долгий отдых",
-      "image": "assets/manual_upload/phantom-cloak.png",
-      "tags": ["Действие", "Долгий отдых"],
-      "description": "Первый раунд: невидимость, бесшумность и неосязаемость. Затем Гарольд остается скрытым в тенях и получает +5 к Скрытности. Любое активное действие прерывает эффект.",
-      "buttons": [
-        { "type": "toggleCharge", "label": "Активировать / использовать", "resourceId": "phantomCloak" },
-        { "type": "note", "label": "Сбросить при действии", "message": "Любое активное действие немедленно завершает Призрачный плащ." }
-      ]
-    },
-    {
-      "id": "brittleBonesCard",
-      "section": "Действия",
-      "name": "Ломкие кости",
-      "subtitle": "Действие · 1 / долгий отдых · Концентрация",
-      "tags": ["Действие", "Долгий отдых", "Концентрация"],
-      "description": "Требует попадания. Кости цели становятся хрупкими. Урон начинается с 1d4 и каждый раунд увеличивается еще на 1d4, пока эффект действует.",
-      "buttons": [
-        { "type": "toggleCharge", "label": "Активировать / использовать", "resourceId": "brittleBones" },
-        { "type": "brittleRoll", "label": "Бросить текущий урон" },
-        { "type": "counterAdjust", "label": "Раунд +1", "resourceId": "brittleBonesRounds", "amount": 1 },
-        { "type": "counterAdjust", "label": "Раунд -1", "resourceId": "brittleBonesRounds", "amount": -1 }
-      ]
-    },
-    {
-      "id": "stranglingCard",
-      "section": "Бонусные действия / Реакции",
-      "name": "Удушение",
-      "subtitle": "Бонусное действие · 2 / долгий отдых",
-      "image": "assets/manual_upload/black-eyes.png",
-      "tags": ["Бонусное действие", "Долгий отдых"],
-      "description": "Ментальная плеть на 10 метров. Спасбросок 14. Цель лишается речи на 1 раунд и становится более уязвимой к Выжиганию разума в этот раунд.",
-      "buttons": [
-        { "type": "note", "label": "Показать КС 14", "message": "Удушение: спасбросок 14." },
-        { "type": "toggleCharge", "label": "Активировать / использовать", "resourceId": "strangling" }
-      ]
-    },
-    {
-      "id": "blightCard",
-      "section": "Бонусные действия / Реакции",
-      "name": "Пагуба",
-      "subtitle": "Бонусное действие · Заговор",
-      "tags": ["Бонусное действие", "Пассивно"],
-      "description": "Вокруг Гарольда возникает видимая некротическая аура радиусом 1 метр. Каждый раунд живые существа внутри теряют 1d8 ХП.",
-      "buttons": [
-        { "type": "toggle", "label": "Переключить ауру", "resourceId": "blightAura" },
-        { "type": "roll", "label": "Урон ауры 1d8", "formula": "1d8", "resultType": "Урон" }
-      ]
-    },
-    {
-      "id": "cunningMoveCard",
-      "section": "Бонусные действия / Реакции",
-      "name": "Хитрый прием",
-      "subtitle": "Реакция · 2 / долгий отдых",
-      "image": "assets/manual_upload/luck.png",
-      "tags": ["Реакция", "Долгий отдых"],
-      "description": "Создает помеху для входящей ближней атаки. Если атака промахнется, следующая атака Гарольда по этой цели получает преимущество до конца следующего хода.",
-      "buttons": [
-        { "type": "spend", "label": "Потратить использование", "resourceId": "cunningMove", "amount": 1 },
-        { "type": "stateToggle", "label": "Переключить преимущество", "stateId": "cunningMoveAdvantageReady" },
-        { "type": "note", "label": "Применить помеху", "message": "Входящая ближняя атака совершается с помехой." }
-      ]
-    },
-    {
-      "id": "vulnerabilityPassive",
-      "section": "Пассивки",
-      "name": "Уязвимость",
-      "subtitle": "Пассивно",
-      "image": "assets/manual_upload/magic-missiles.png",
-      "tags": ["Пассивно", "Акцент"],
-      "description": "После попадания хотя бы одной Магической стрелой цель получает -1 к КД, а следующий урон Гарольда по ней увеличивается на 1d6.",
-      "buttons": [
-        { "type": "stateToggle", "label": "Переключить Уязвимость", "stateId": "targetVulnerable" },
-        { "type": "note", "label": "Напоминание", "message": "Срабатывает после попадания Магической стрелой. Следующий урон получает +1d6, КД цели уменьшается на 1." }
-      ]
-    },
-    {
-      "id": "magicalAmbushPassive",
-      "section": "Пассивки",
-      "name": "Магическая засада",
-      "subtitle": "Пассивно",
-      "tags": ["Пассивно", "Акцент"],
-      "description": "Если Гарольд скрыт от цели, его заклинание разыгрывается выгоднее: у него преимущество, а цель совершает спасбросок с помехой.",
-      "buttons": [
-        { "type": "stateToggle", "label": "Переключить скрытность", "stateId": "hiddenFromTarget" },
-        { "type": "note", "label": "Напоминание о засаде", "message": "Если Гарольд скрыт от цели, он колдует с преимуществом, а цель спасается с помехой." }
-      ]
-    }
-  ],
-  "notes": [
-    "Этот источник описывает кастомную боевую механику, а не полный официальный лист персонажа 5e.",
-    "Базовые ХП, КД и шесть характеристик пока остаются заглушками до появления полного листа.",
-    "Этот конкретный трекер Гарольда фиксируем как русскоязычную версию."
-  ]
-}
-</script>
 
 <script>
-const TRACKER_DATA = JSON.parse(document.getElementById("tracker-data").textContent);
-const STORAGE_KEY = TRACKER_DATA.storageKey;
-const state = loadState();
+const STORAGE_KEY = "harold_tracker_local_v4";
 
-function loadState(){
-  const notesText = Array.isArray(TRACKER_DATA.notes) ? TRACKER_DATA.notes.join("\n") : "";
-  const fallback = {
-    hp: TRACKER_DATA.base.hpMax,
-    tempHp: TRACKER_DATA.base.tempHpDefault || 0,
-    notesText,
-    coins: { ...(TRACKER_DATA.coins || { gp: 0, sp: 0, cp: 0 }) },
-    resources: {},
-    combatStates: {}
-  };
-  for (const resource of TRACKER_DATA.resources) {
-    fallback.resources[resource.id] = resourceStateFromData(resource);
+const BONUS_ROWS = [
+  { id: "dexCheck", name: "Проверки ловкости", bonus: 3, type: "check", formula: "1d20+3" },
+  { id: "stealth", name: "Скрытность", bonus: 7, type: "check", formula: "1d20+7", dynamic: true },
+  { id: "meleeHit", name: "Попадание в ближнем бою", bonus: 3, type: "attack", formula: "1d20+3" },
+  { id: "magicHit", name: "Попадание магией", bonus: 2, type: "attack", formula: "1d20+2" },
+  { id: "lockpick", name: "Взлом замков", bonus: 2, type: "check", formula: "1d20+2" },
+  { id: "magicCheck", name: "Проверки магии", bonus: 2, type: "check", formula: "1d20+2" },
+  { id: "persuasionAlcohol", name: "Убеждение", bonus: 5, conditional: "alcohol", type: "check", formula: "1d20+5", note: "Только при алкоголе в крови" },
+  { id: "deceptionAlcohol", name: "Обман", bonus: 5, conditional: "alcohol", type: "check", formula: "1d20+5", note: "Только при алкоголе в крови" },
+  { id: "defenseAlcohol", name: "Защита / КД", bonus: 1, conditional: "alcohol", type: "note", note: "Условный защитный бонус от Грациозного балагура" }
+];
+
+const ACTIVE_ABILITIES = [
+  {
+    id: "forceMind",
+    icon: "assets/manual_upload/force-of-mind.png",
+    name: "Сила мысли",
+    action: "Действие",
+    resource: "2 раза в долгий отдых",
+    summary: () => "КС 13 • до 1 минуты • иллюзия в разуме цели • Ментальное оружие +1d4",
+    details: [
+      ["Тип", "Действие"],
+      ["Ресурс", "2 раза в долгий отдых"],
+      ["Спасбросок", "13"],
+      ["Длительность", "до 1 минуты"],
+      ["Эффект", "Создает кратковременную иллюзию в сознании существа. Цель абсолютно уверена, что иллюзия реальна даже при взаимодействии с ней."],
+      ["Особенность", "Иллюзия может причинять ощущаемый урон, если это поддерживает образ."]
+    ],
+    synergy: [
+      "Подпадает под Ментальное оружие: дополнительно +1d4 ментального урона.",
+      "Если цель скрыта от Гарольда через глобальное состояние «Скрыт», на заклинание действует Магическая засада."
+    ],
+    controls: `
+      <div class="actions">
+        <button class="btn btn-roll" onclick="showStatic('Сила мысли', 'КС 13', 'Цель совершает спасбросок 13.')">Показать КС 13</button>
+        <button class="btn btn-dmg" onclick="rollAndShow('Сила мысли: Ментальное оружие', '1d4', 'Дополнительный ментальный урон от Ментального оружия.')">1d4 ментального</button>
+        <button class="btn btn-reset" onclick="changeUse('forceMind', -1)">Потратить использование</button>
+      </div>
+      <div class="counter" style="margin-top:10px">
+        <div class="counter-label">Осталось</div>
+        <div class="counter-val" id="uses-forceMind"></div>
+        <div class="actions">
+          <button class="btn btn-dark btn-small" onclick="changeUse('forceMind', -1)">-1</button>
+          <button class="btn btn-dark btn-small" onclick="changeUse('forceMind', 1)">+1</button>
+          <button class="btn btn-reset btn-small" onclick="resetUse('forceMind', 2)">Сброс</button>
+        </div>
+      </div>
+    `
+  },
+  {
+    id: "mindBurn",
+    icon: "assets/manual_upload/mind-burn.png",
+    name: "Выжигание разума",
+    action: "Действие",
+    resource: "2 раза в долгий отдых",
+    summary: () => state.strangling ? "До 3 целей • КС 10 • 4d8 психического • +1d4 ментального • при провале цель только двигается 2 раунда" : "До 3 целей • КС 14 • 3d8 психического • +1d4 ментального • при провале цель только двигается 2 раунда",
+    details: [
+      ["Тип", "Действие"],
+      ["Ресурс", "2 раза в долгий отдых"],
+      ["Цели", "До 3 существ в пределах видимости"],
+      ["Ограничение", "Существа с Интеллектом 2 и ниже не затрагиваются"],
+      ["Спасбросок", "14 (Интеллект)"],
+      ["Урон", "3d8 психического урона"],
+      ["Успех цели", "Половина урона"],
+      ["Провал цели", "Цель становится недееспособной и может только двигаться 2 раунда"],
+      ["Особенность", "Если способность убивает цель, ее голова взрывается, если она есть."]
+    ],
+    synergy: [
+      "Если цель под Удушением: спасбросок против Выжигания разума получает -4, а урон становится 4d8 вместо 3d8.",
+      "Подпадает под Ментальное оружие: дополнительно +1d4 ментального урона.",
+      "Если Гарольд скрыт, через Магическую засаду заклинание идет с преимуществом, а цель спасается с помехой."
+    ],
+    controls: `
+      <div class="actions">
+        <button class="btn btn-roll" onclick="showStatic('Выжигание разума', state.strangling ? 'КС 10' : 'КС 14', state.strangling ? 'Цель под Удушением: спасбросок снижен на 4.' : 'Базовый спасбросок Интеллекта 14.')">Показать КС</button>
+        <button class="btn btn-dmg" onclick="rollAndShow('Выжигание разума', state.strangling ? '4d8+1d4' : '3d8+1d4', state.strangling ? 'Удушение активно: +1d8 к урону и -4 к спасброску.' : 'Базовый урон + Ментальное оружие.')">Бросить урон</button>
+        <button class="btn btn-note" onclick="showStatic('Выжигание разума', 'Эффект при провале', 'Цель получает урон и 2 раунда может только двигаться.')">Эффект при провале</button>
+        <button class="btn btn-reset" onclick="changeUse('mindBurn', -1)">Потратить использование</button>
+      </div>
+      <div class="counter" style="margin-top:10px">
+        <div class="counter-label">Осталось</div>
+        <div class="counter-val" id="uses-mindBurn"></div>
+        <div class="actions">
+          <button class="btn btn-dark btn-small" onclick="changeUse('mindBurn', -1)">-1</button>
+          <button class="btn btn-dark btn-small" onclick="changeUse('mindBurn', 1)">+1</button>
+          <button class="btn btn-reset btn-small" onclick="resetUse('mindBurn', 2)">Сброс</button>
+        </div>
+      </div>
+    `
+  },
+  {
+    id: "strangling",
+    icon: "",
+    name: "Удушение",
+    action: "Бонусное действие",
+    resource: "2 раза в долгий отдых",
+    summary: () => state.strangling ? "10 м • КС 14 • цель лишена речи • Выжигание разума по ней: -4 к спасброску, +1d8 урона • +1d4 ментального" : "10 м • КС 14 • лишает речи на 1 раунд / 15 секунд • +1d4 ментального",
+    details: [
+      ["Тип", "Бонусное действие"],
+      ["Ресурс", "2 раза в долгий отдых"],
+      ["Дистанция", "До 10 м"],
+      ["Спасбросок", "14"],
+      ["Эффект", "Ментальная плеть лишает цель дара речи."],
+      ["Длительность", "1 раунд / 15 секунд"]
+    ],
+    synergy: [
+      "Пока состояние активно, Выжигание разума по этой цели дает -4 к ее спасброску и +1d8 урона.",
+      "Подпадает под Ментальное оружие: дополнительно +1d4 ментального урона."
+    ],
+    controls: `
+      <div class="actions">
+        <button class="btn btn-roll" onclick="showStatic('Удушение', 'КС 14', 'Цель делает спасбросок 14.')">Показать КС 14</button>
+        <button class="btn btn-dmg" onclick="rollAndShow('Удушение: Ментальное оружие', '1d4', 'Дополнительный ментальный урон от Ментального оружия.')">1d4 ментального</button>
+        <button class="btn btn-state" onclick="toggleState('strangling')">Переключить состояние</button>
+        <button class="btn btn-reset" onclick="changeUse('stranglingUses', -1)">Потратить использование</button>
+      </div>
+      <div class="counter" style="margin-top:10px">
+        <div class="counter-label">Осталось</div>
+        <div class="counter-val" id="uses-stranglingUses"></div>
+        <div class="counter-label">На цели</div>
+        <div class="counter-val" id="flag-strangling"></div>
+      </div>
+    `
+  },
+  {
+    id: "cunningMove",
+    icon: "",
+    name: "Хитрый приём",
+    action: "Реакция",
+    resource: "2 раза в долгий отдых",
+    summary: () => state.cunningReady ? "Помеха входящей ближней атаке • следующая атака по этой цели с преимуществом • Скрытая атака +2d6 доступна" : "Помеха входящей ближней атаке • если цель промахнулась, следующая атака по ней идет с преимуществом",
+    details: [
+      ["Тип", "Реакция"],
+      ["Ресурс", "2 раза в долгий отдых"],
+      ["Триггер", "Кто-то совершает по Гарольду атаку ближнего боя"],
+      ["Эффект", "Гарольд создает помеху для этого броска"],
+      ["Если промах", "Следующая атака Гарольда по этому существу до конца следующего хода совершается с преимуществом"]
+    ],
+    synergy: [
+      "Атака с преимуществом активирует Скрытую атаку: +2d6 урона.",
+      "Может усиливать Теневой клинок."
+    ],
+    controls: `
+      <div class="actions">
+        <button class="btn btn-note" onclick="showStatic('Хитрый приём', 'Помеха', 'Входящая атака ближнего боя совершается с помехой.')">Применить помеху</button>
+        <button class="btn btn-state" onclick="toggleState('cunningReady')">Следующая атака с преимуществом</button>
+        <button class="btn btn-reset" onclick="changeUse('cunningMove', -1)">Потратить использование</button>
+      </div>
+      <div class="counter" style="margin-top:10px">
+        <div class="counter-label">Осталось</div>
+        <div class="counter-val" id="uses-cunningMove"></div>
+        <div class="counter-label">Преимущество</div>
+        <div class="counter-val" id="flag-cunningReady"></div>
+      </div>
+    `
+  },
+  {
+    id: "phantomCloak",
+    icon: "assets/manual_upload/phantom-cloak.png",
+    name: "Призрачный плащ",
+    action: "Действие",
+    resource: "3 раза в долгий отдых",
+    summary: () => {
+      if (state.phantomRoundOne) return "1-й раунд: невидим, бесшумен, неосязаем • вне боя 20 сек. • +1d4 ментального";
+      if (state.phantomActive) return "Активен • Скрытность повышена с +7 до +12 • любое активное действие прерывает эффект • +1d4 ментального";
+      return "До 1 минуты • 1-й раунд: полная неосязаемая невидимость • затем Скрытность +12 • +1d4 ментального";
+    },
+    details: [
+      ["Тип", "Действие, только на себя"],
+      ["Ресурс", "3 раза в долгий отдых"],
+      ["Длительность", "До 1 минуты"],
+      ["Фаза 1", "Первый раунд: полностью невидим, бесшумен и неосязаем"],
+      ["Вне боя", "Первая фаза длится 20 секунд"],
+      ["Далее", "Гарольд скрывается в тенях и получает +5 к Скрытности (итого +12)"],
+      ["Ограничение", "Любое активное действие прерывает эффект"]
+    ],
+    synergy: [
+      "Поднимает Скрытность с +7 до +12.",
+      "Состояние скрытности усиливает заклинания через Магическую засаду.",
+      "Подпадает под Ментальное оружие: дополнительно +1d4 ментального урона."
+    ],
+    controls: `
+      <div class="actions">
+        <button class="btn btn-state" onclick="toggleState('phantomActive')">ВКЛ / ВЫКЛ плащ</button>
+        <button class="btn btn-state" onclick="toggleState('phantomRoundOne')">1-й раунд</button>
+        <button class="btn btn-state" onclick="toggleState('hidden')">Скрыт</button>
+        <button class="btn btn-roll" onclick="rollAndShow('Призрачный плащ: Скрытность', state.phantomActive && !state.phantomRoundOne ? '1d20+12' : '1d20+7', state.phantomActive && !state.phantomRoundOne ? 'Плащ активен: бонус Скрытности +12.' : 'Базовая Скрытность.')">Бросок скрытности</button>
+        <button class="btn btn-dmg" onclick="rollAndShow('Призрачный плащ: Ментальное оружие', '1d4', 'Дополнительный ментальный урон от Ментального оружия.')">1d4 ментального</button>
+        <button class="btn btn-reset" onclick="changeUse('phantomCloak', -1)">Потратить использование</button>
+      </div>
+      <div class="counter" style="margin-top:10px">
+        <div class="counter-label">Осталось</div>
+        <div class="counter-val" id="uses-phantomCloak"></div>
+        <div class="counter-label">Плащ</div>
+        <div class="counter-val" id="flag-phantomActive"></div>
+        <div class="counter-label">1-й раунд</div>
+        <div class="counter-val" id="flag-phantomRoundOne"></div>
+      </div>
+    `
+  },
+  {
+    id: "brittleBones",
+    icon: "",
+    name: "Ломкие кости",
+    action: "Действие",
+    resource: "1 раз в долгий отдых",
+    summary: () => `Нужно попадание магией 1d20+2 • концентрация • текущий урон: ${Math.max(1, state.brittleRounds)}d4 • +1d4 ментального`,
+    details: [
+      ["Тип", "Действие"],
+      ["Ресурс", "1 раз в долгий отдых"],
+      ["Требование", "Необходимо попадание по цели"],
+      ["Бросок попадания", "Магическая атака 1d20+2"],
+      ["Концентрация", "Да"],
+      ["Эффект", "Кости становятся хрупкими, параметры цели снижаются, урон накапливается"],
+      ["Рост урона", "Раунд 1: 1d4, раунд 2: 2d4, раунд 3: 3d4 и далее по той же схеме"],
+      ["Последствие", "Если цель выжила, повреждения могут остаться постоянными"]
+    ],
+    synergy: [
+      "Подпадает под Ментальное оружие: дополнительно +1d4 ментального урона."
+    ],
+    controls: `
+      <div class="actions">
+        <button class="btn btn-roll" onclick="rollAndShow('Ломкие кости: попадание', '1d20+2', 'Бросок попадания магией.')">Попадание 1d20+2</button>
+        <button class="btn btn-dmg" onclick="rollAndShow('Ломкие кости', brittleFormula(), 'Текущий накопительный урон по раунду.')">Текущий урон</button>
+        <button class="btn btn-dmg" onclick="rollAndShow('Ломкие кости: Ментальное оружие', '1d4', 'Дополнительный ментальный урон от Ментального оружия.')">1d4 ментального</button>
+        <button class="btn btn-reset" onclick="changeUse('brittleBones', -1)">Потратить использование</button>
+      </div>
+      <div class="counter" style="margin-top:10px">
+        <div class="counter-label">Раунд эффекта</div>
+        <div class="counter-val" id="counter-brittleRounds"></div>
+        <div class="actions">
+          <button class="btn btn-dark btn-small" onclick="changeCounter('brittleRounds', -1, 1)">-1</button>
+          <button class="btn btn-dark btn-small" onclick="changeCounter('brittleRounds', 1, 1)">+1</button>
+          <button class="btn btn-reset btn-small" onclick="setCounter('brittleRounds', 1)">Сброс</button>
+        </div>
+      </div>
+      <div class="counter" style="margin-top:10px">
+        <div class="counter-label">Осталось</div>
+        <div class="counter-val" id="uses-brittleBones"></div>
+      </div>
+    `
+  },
+  {
+    id: "blight",
+    icon: "",
+    name: "Пагуба",
+    action: "Бонусное действие",
+    resource: "Заговор",
+    summary: () => state.blightActive ? `Аура активна • радиус 1 м • текущий раунд: ${state.blightRounds} • 1d8 по живым существам • +1d4 ментального` : "Радиус 1 м • 1d8 по живым существам каждый раунд • +1d4 ментального",
+    details: [
+      ["Тип", "Бонусное действие"],
+      ["Ресурс", "Заговор"],
+      ["Радиус", "1 м вокруг заклинателя"],
+      ["Эффект", "Возникает видимая некротическая зона, все живые существа в ней теряют 1d8 ХП каждый раунд"],
+      ["Варианты вида", "Черные мотыльки, черные искры, черные вороны"]
+    ],
+    synergy: [
+      "Подпадает под Ментальное оружие: дополнительно +1d4 ментального урона."
+    ],
+    controls: `
+      <div class="actions">
+        <button class="btn btn-state" onclick="toggleState('blightActive')">ВКЛ / ВЫКЛ аура</button>
+        <button class="btn btn-dmg" onclick="rollAndShow('Пагуба', '1d8+1d4', 'Базовый урон ауры плюс Ментальное оружие.')">Урон ауры</button>
+      </div>
+      <div class="counter" style="margin-top:10px">
+        <div class="counter-label">Раунд ауры</div>
+        <div class="counter-val" id="counter-blightRounds"></div>
+        <div class="actions">
+          <button class="btn btn-dark btn-small" onclick="changeCounter('blightRounds', -1, 0)">-1</button>
+          <button class="btn btn-dark btn-small" onclick="changeCounter('blightRounds', 1, 0)">+1</button>
+          <button class="btn btn-reset btn-small" onclick="setCounter('blightRounds', 0)">Сброс</button>
+        </div>
+      </div>
+      <div class="counter" style="margin-top:10px">
+        <div class="counter-label">Активна</div>
+        <div class="counter-val" id="flag-blightActive"></div>
+      </div>
+    `
+  },
+  {
+    id: "magicMissile",
+    icon: "assets/manual_upload/magic-missiles.png",
+    name: "Волшебная стрела",
+    action: "Действие",
+    resource: "1 раз в бой",
+    summary: () => `3 стрелы • авто-попадание • осталось в текущем бою: ${state.magicMissilesLeft} • каждая 1d4 выбранной стихии + 1 метка • дает шанс уйти в скрытность`,
+    details: [
+      ["Тип", "Действие"],
+      ["Ресурс", "1 раз в бой"],
+      ["Количество", "3 стрелы"],
+      ["Попадание", "Гарантированно попадают в одну цель или в разные цели"],
+      ["Урон", "Каждая стрела наносит 1d4 урона заранее выбранной стихии"],
+      ["Доп. эффект 1", "Каждая стрела образует 1 Проклятую метку на цели"],
+      ["Доп. эффект 2", "Каждое попадание создает волну тьмы, позволяющую сразу попытаться уйти в скрытность через бросок Скрытности"]
+    ],
+    synergy: [
+      "Каждая стрела добавляет 1 Проклятую метку. Максимум 3.",
+      "Попадание активирует Уязвимость: защита цели -1, следующий урон по ней на следующем раунде получает +1d6.",
+      "Вход в скрытность после стрелы может усилить заклинание через Магическую засаду.",
+      "Подпадает под Ментальное оружие: дополнительно +1d4 ментального урона."
+    ],
+    controls: `
+      <div class="actions">
+        <button class="btn btn-dmg" onclick="fireMissile()">Выпустить 1 стрелу</button>
+        <button class="btn btn-dmg" onclick="rollAndShow('Волшебная стрела: общий залп', '3d4+3d4', 'Три стрелы по 1d4 стихии и +1d4 ментального от Ментального оружия каждая.')">Урон 3 стрел</button>
+        <button class="btn btn-roll" onclick="rollAndShow('Волшебная стрела: Скрытность', currentStealthFormula(), 'Бросок Скрытности для немедленного входа в скрытность после попадания.')">Бросок скрытности</button>
+        <button class="btn btn-reset" onclick="resetBattleMissiles()">Новый бой</button>
+      </div>
+      <div class="counter" style="margin-top:10px">
+        <div class="counter-label">Стрел осталось</div>
+        <div class="counter-val" id="counter-magicMissilesLeft"></div>
+        <div class="counter-label">Проклятые метки</div>
+        <div class="counter-val" id="counter-curseMarks"></div>
+      </div>
+      <div class="meter" id="missileMeter" style="margin-top:10px"></div>
+    `
+  },
+  {
+    id: "shadowBlade",
+    icon: "",
+    name: "Теневой клинок",
+    action: "Действие",
+    resource: "2 раза в долгий отдых",
+    summary: () => `Нужно попадание 1d20+3 • цель считается с КД -3 • базовый урон 2d10 • меток сейчас: ${state.curseMarks} • добор +${state.curseMarks}d8 • дот 1d10 на 2 раунда`,
+    details: [
+      ["Тип", "Действие"],
+      ["Ресурс", "2 раза в долгий отдых"],
+      ["Требование", "Необходимо попадание по цели"],
+      ["Бросок атаки", "Попадание в ближнем бою 1d20+3"],
+      ["Особое правило", "Атака проводится по цели с эффективной защитой / КД, уменьшенной на 3"],
+      ["Урон сразу", "2d10 некротического урона"],
+      ["Урон далее", "1d10 еще 2 раунда"],
+      ["Доп. эффект", "При попадании защита цели против всех ближних атак снижается на 2 до следующего хода Гарольда"]
+    ],
+    synergy: [
+      "Поглощает все Проклятые метки на цели и добавляет +1d8 некротического урона за каждую текущую метку.",
+      "Если атака совершается с преимуществом, Скрытая атака дает еще +2d6.",
+      "Ментальное оружие к этой способности автоматически не применяется."
+    ],
+    controls: `
+      <div class="actions">
+        <button class="btn btn-roll" onclick="rollAndShow('Теневой клинок: атака', '1d20+3', 'Попадание в ближнем бою. При расчете защиты цели учитывайте правило: эффективная КД цели ниже на 3.')">Атака 1d20+3</button>
+        <button class="btn btn-dmg" onclick="rollAndShow('Теневой клинок: базовый урон', shadowBladeFormula(false), shadowBladeNote(false))">Базовый урон</button>
+        <button class="btn btn-dmg" onclick="rollAndShow('Теневой клинок: с Скрытой атакой', shadowBladeFormula(true), shadowBladeNote(true))">С преимуществом / +2d6</button>
+        <button class="btn btn-reset" onclick="consumeCurseMarks()">Поглотить метки</button>
+        <button class="btn btn-reset" onclick="changeUse('shadowBlade', -1)">Потратить использование</button>
+      </div>
+      <div class="counter" style="margin-top:10px">
+        <div class="counter-label">Метки на цели</div>
+        <div class="counter-val" id="counter-shadowMarks"></div>
+        <div class="counter-label">Раунд дота</div>
+        <div class="counter-val" id="counter-shadowDotRounds"></div>
+        <div class="actions">
+          <button class="btn btn-dark btn-small" onclick="changeCounter('shadowDotRounds', -1, 0)">-1</button>
+          <button class="btn btn-dark btn-small" onclick="changeCounter('shadowDotRounds', 1, 0)">+1</button>
+          <button class="btn btn-dmg btn-small" onclick="rollAndShow('Теневой клинок: периодический урон', '1d10', 'Периодический некротический урон текущего раунда.')">1d10 дот</button>
+        </div>
+      </div>
+      <div class="counter" style="margin-top:10px">
+        <div class="counter-label">Осталось</div>
+        <div class="counter-val" id="uses-shadowBlade"></div>
+      </div>
+    `
+  },
+  {
+    id: "blackEyes",
+    icon: "assets/manual_upload/black-eyes.png",
+    name: "Очи чёрные",
+    action: "Действие",
+    resource: "1 раз в долгий отдых",
+    summary: () => "КС 11 • при провале: постоянная слепота • при успехе: слепота до следующего хода Гарольда • всегда КД цели -4 • +1d4 ментального",
+    details: [
+      ["Тип", "Действие"],
+      ["Ресурс", "1 раз в долгий отдых"],
+      ["Спасбросок", "11"],
+      ["Провал", "Цель навсегда теряет зрение"],
+      ["Успех", "Цель теряет зрение до следующего хода заклинателя"],
+      ["Гарантированный эффект", "Независимо от результата цель получает темную печать в памяти и ее защита снижается на 4"]
+    ],
+    synergy: [
+      "Гарантированный эффект, который нельзя потерять: КД цели -4.",
+      "Подпадает под Ментальное оружие: дополнительно +1d4 ментального урона."
+    ],
+    controls: `
+      <div class="actions">
+        <button class="btn btn-roll" onclick="showStatic('Очи чёрные', 'КС 11', 'Цель совершает спасбросок 11.')">Показать КС 11</button>
+        <button class="btn btn-note" onclick="showStatic('Очи чёрные', 'Гарантированный эффект', 'Независимо от результата защиты цель получает КД -4.')">Показать КД -4</button>
+        <button class="btn btn-dmg" onclick="rollAndShow('Очи чёрные: Ментальное оружие', '1d4', 'Дополнительный ментальный урон от Ментального оружия.')">1d4 ментального</button>
+        <button class="btn btn-reset" onclick="changeUse('blackEyes', -1)">Потратить использование</button>
+      </div>
+      <div class="counter" style="margin-top:10px">
+        <div class="counter-label">Осталось</div>
+        <div class="counter-val" id="uses-blackEyes"></div>
+      </div>
+    `
+  },
+  {
+    id: "luck",
+    icon: "assets/manual_upload/luck.png",
+    name: "Удача",
+    action: "Реакция",
+    resource: "3 раза в долгий отдых",
+    summary: () => "Перебросить любой свой бросок или заставить врага перебросить любой его бросок — после того как бросок уже сделан",
+    details: [
+      ["Тип", "Реакция"],
+      ["Ресурс", "3 раза в долгий отдых"],
+      ["Эффект", "Можно перебросить любой свой бросок или заставить врага перебросить любой его бросок"],
+      ["Момент", "Используется после совершенного броска"]
+    ],
+    synergy: [
+      "Может спасать ключевые атаки и урон у Теневого клинка, Выжигания разума и других активных способностей."
+    ],
+    controls: `
+      <div class="actions">
+        <button class="btn btn-note" onclick="showStatic('Удача', 'Переброс', 'Используйте после того, как бросок уже сделан: свой или вражеский.')">Напоминание</button>
+        <button class="btn btn-reset" onclick="changeUse('luck', -1)">Потратить использование</button>
+      </div>
+      <div class="counter" style="margin-top:10px">
+        <div class="counter-label">Осталось</div>
+        <div class="counter-val" id="uses-luck"></div>
+        <div class="actions">
+          <button class="btn btn-dark btn-small" onclick="changeUse('luck', -1)">-1</button>
+          <button class="btn btn-dark btn-small" onclick="changeUse('luck', 1)">+1</button>
+          <button class="btn btn-reset btn-small" onclick="resetUse('luck', 3)">Сброс</button>
+        </div>
+      </div>
+    `
   }
-  for (const stateDef of TRACKER_DATA.stateDefs) {
-    fallback.combatStates[stateDef.id] = false;
+];
+
+const PASSIVE_ABILITIES = [
+  {
+    id: "vulnerability",
+    icon: "",
+    name: "Уязвимость",
+    action: "Пассивный",
+    resource: "После Волшебной стрелы",
+    summary: () => state.vulnerability ? "Активна • защита цели -1 • следующий урон по ней на следующем раунде получает +1d6" : "Срабатывает после попадания хотя бы одной Волшебной стрелой",
+    details: [
+      ["Тип", "Пассивный"],
+      ["Условие", "Цель должна получить попадание хотя бы одной Волшебной стрелой"],
+      ["Эффект", "Защита / КД цели снижается на 1"],
+      ["Следующий раунд", "Следующий урон по цели получает +1d6"]
+    ],
+    synergy: [
+      "Активируется Волшебной стрелой автоматически при нажатии «Выпустить 1 стрелу».",
+      "Может усиливать любую следующую атаку Гарольда по этой цели."
+    ],
+    controls: `
+      <div class="actions">
+        <button class="btn btn-state" onclick="toggleState('vulnerability')">ВКЛ / ВЫКЛ уязвимость</button>
+        <button class="btn btn-dmg" onclick="rollAndShow('Уязвимость: бонус следующего урона', '1d6', 'Дополнительный урон следующей атаке по цели на следующем раунде.')">1d6 следующему урону</button>
+      </div>
+      <div class="counter" style="margin-top:10px">
+        <div class="counter-label">Состояние</div>
+        <div class="counter-val" id="flag-vulnerability"></div>
+      </div>
+    `
+  },
+  {
+    id: "ambush",
+    icon: "",
+    name: "Магическая засада",
+    action: "Пассивный",
+    resource: "Связано со скрытностью",
+    summary: () => state.hidden ? "Активна сейчас: заклинания по скрытой цели идут с преимуществом, цель спасается с помехой" : "Работает, когда Гарольд скрыт от цели",
+    details: [
+      ["Тип", "Пассивный"],
+      ["Условие", "Гарольд скрыт от существа, на которое накладывает заклинание"],
+      ["Эффект 1", "Наложение заклинания происходит с преимуществом"],
+      ["Эффект 2", "Цель совершает спасбросок от этого заклинания с помехой"]
+    ],
+    synergy: [
+      "Особенно важна после Призрачного плаща.",
+      "Может включаться после Волшебной стрелы, если бросок Скрытности удался."
+    ],
+    controls: `
+      <div class="actions">
+        <button class="btn btn-state" onclick="toggleState('hidden')">Переключить «Скрыт»</button>
+        <button class="btn btn-note" onclick="showStatic('Магическая засада', state.hidden ? 'Активна' : 'Неактивна', state.hidden ? 'Сейчас заклинания Гарольда идут с преимуществом, а цель спасается с помехой.' : 'Пассивка включится, когда глобальное состояние «Скрыт» станет ВКЛ.')">Проверить эффект</button>
+      </div>
+    `
+  },
+  {
+    id: "gracefulJester",
+    icon: "",
+    name: "Грациозный балагур",
+    action: "Пассивный",
+    resource: "Пока есть алкоголь в крови",
+    summary: () => state.alcohol ? "Активен: защита +1, Убеждение +5, Обман +5" : "Срабатывает только при алкоголе в крови",
+    details: [
+      ["Тип", "Пассивный"],
+      ["Условие", "Пока в крови Гарольда есть алкоголь"],
+      ["Эффекты", "Защита / КД +1, Убеждение +5, Обман +5"]
+    ],
+    synergy: [
+      "Связан напрямую с глобальным тумблером «Алкоголь в крови»."
+    ],
+    controls: `
+      <div class="actions">
+        <button class="btn btn-state" onclick="toggleState('alcohol')">Переключить алкоголь</button>
+      </div>
+    `
+  },
+  {
+    id: "sneakAttack",
+    icon: "",
+    name: "Скрытая атака",
+    action: "Пассивный",
+    resource: "При атаке с преимуществом",
+    summary: () => hasAdvantageSource() ? "Сейчас может сработать: атака с преимуществом дает +2d6 урона" : "Когда атака идет с преимуществом, она получает +2d6 урона",
+    details: [
+      ["Тип", "Пассивный"],
+      ["Условие", "Атака совершается с преимуществом"],
+      ["Эффект", "Дополнительно +2d6 урона"]
+    ],
+    synergy: [
+      "Может срабатывать от Хитрого приема.",
+      "Может срабатывать из скрытности.",
+      "Может усиливать Теневой клинок."
+    ],
+    controls: `
+      <div class="actions">
+        <button class="btn btn-dmg" onclick="rollAndShow('Скрытая атака', '2d6', 'Бонусный урон при атаке с преимуществом.')">Бросить +2d6</button>
+      </div>
+    `
+  },
+  {
+    id: "curseMark",
+    icon: "",
+    name: "Проклятая метка",
+    action: "Пассивный",
+    resource: "0–3 на цели",
+    summary: () => `Текущие метки на цели: ${state.curseMarks} • Теневой клинок поглотит все и получит +${state.curseMarks}d8`,
+    details: [
+      ["Тип", "Пассивный"],
+      ["Источник", "Каждое успешное попадание Волшебной стрелой"],
+      ["Максимум", "До 3 меток на цели"],
+      ["Эффект", "Теневой клинок поглощает все метки и получает +1d8 некротического урона за каждую"]
+    ],
+    synergy: [
+      "Волшебная стрела добавляет метки автоматически через кнопку «Выпустить 1 стрелу».",
+      "Теневой клинок поглощает все метки кнопкой «Поглотить метки»."
+    ],
+    controls: `
+      <div class="counter">
+        <div class="counter-label">Метки</div>
+        <div class="counter-val" id="counter-curseMarksPassive"></div>
+        <div class="actions">
+          <button class="btn btn-dark btn-small" onclick="changeCounter('curseMarks', -1, 0, 3)">-1</button>
+          <button class="btn btn-dark btn-small" onclick="changeCounter('curseMarks', 1, 0, 3)">+1</button>
+          <button class="btn btn-reset btn-small" onclick="setCounter('curseMarks', 0)">Сброс</button>
+        </div>
+      </div>
+    `
+  },
+  {
+    id: "mentalWeapon",
+    icon: "",
+    name: "Ментальное оружие",
+    action: "Пассивный",
+    resource: "Постоянно",
+    summary: () => "Любое указанное в листе заклинание дополнительно наносит +1d4 ментального урона",
+    details: [
+      ["Тип", "Пассивный"],
+      ["Эффект", "Любое заклинание дополнительно наносит 1d4 ментального урона"],
+      ["Не применяется автоматически к", "Теневому клинку"]
+    ],
+    synergy: [
+      "Применяется к: Силе мысли, Выжиганию разума, Удушению, Призрачному плащу, Ломким костям, Пагубе, Волшебной стреле, Очам чёрным.",
+      "Для удобства в этих карточках добавлены отдельные кнопки на 1d4 ментального урона."
+    ],
+    controls: `
+      <div class="actions">
+        <button class="btn btn-dmg" onclick="rollAndShow('Ментальное оружие', '1d4', 'Универсальный дополнительный ментальный урон для применимых заклинаний.')">1d4 ментального</button>
+      </div>
+    `
   }
-  try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
-    if (!saved) return fallback;
-    return {
-      hp: typeof saved.hp === "number" ? saved.hp : fallback.hp,
-      tempHp: typeof saved.tempHp === "number" ? saved.tempHp : fallback.tempHp,
-      notesText: typeof saved.notesText === "string" ? saved.notesText : fallback.notesText,
-      coins: { ...fallback.coins, ...(saved.coins || {}) },
-      resources: { ...fallback.resources, ...(saved.resources || {}) },
-      combatStates: { ...fallback.combatStates, ...(saved.combatStates || {}) }
-    };
-  } catch (error) {
-    return fallback;
+];
+
+const DEFAULT_STATE = {
+  hpCurrent: 0,
+  hpMax: 0,
+  hidden: false,
+  alcohol: false,
+  strangling: false,
+  cunningReady: false,
+  phantomActive: false,
+  phantomRoundOne: false,
+  blightActive: false,
+  vulnerability: false,
+  curseMarks: 0,
+  brittleRounds: 1,
+  blightRounds: 0,
+  shadowDotRounds: 0,
+  magicMissilesLeft: 3,
+  uses: {
+    forceMind: 2,
+    mindBurn: 2,
+    stranglingUses: 2,
+    cunningMove: 2,
+    phantomCloak: 3,
+    brittleBones: 1,
+    shadowBlade: 2,
+    blackEyes: 1,
+    luck: 3
+  },
+  coins: { gold: 0, silver: 0, copper: 0 },
+  inventory: "",
+  notes: "",
+  ui: {
+    openCards: {}
   }
+};
+
+let state = loadState();
+
+function cloneDefaultState(){
+  return JSON.parse(JSON.stringify(DEFAULT_STATE));
 }
 
-function resourceStateFromData(resource){
-  if (resource.type === "pips") return { current: resource.current };
-  if (resource.type === "toggle") return { active: !!resource.active };
-  if (resource.type === "toggleCharge") return { current: resource.current, active: !!resource.active };
-  if (resource.type === "counter") return { current: resource.current };
-  return {};
+function loadState(){
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+    return {
+      ...cloneDefaultState(),
+      ...saved,
+      uses: { ...DEFAULT_STATE.uses, ...(saved.uses || {}) },
+      coins: { ...DEFAULT_STATE.coins, ...(saved.coins || {}) },
+      ui: {
+        ...DEFAULT_STATE.ui,
+        ...(saved.ui || {}),
+        openCards: {
+          ...DEFAULT_STATE.ui.openCards,
+          ...((saved.ui && saved.ui.openCards) || {})
+        }
+      }
+    };
+  } catch (error) {
+    return cloneDefaultState();
+  }
 }
 
 function saveState(){
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-}
-
-function signed(value){
-  return value >= 0 ? `+${value}` : `${value}`;
-}
-
-function abilityMod(score){
-  return Math.floor((score - 10) / 2);
-}
-
-function clamp(value, min, max){
-  return Math.min(max, Math.max(min, value));
-}
-
-function getResourceDefinition(id){
-  return TRACKER_DATA.resources.find(resource => resource.id === id);
-}
-
-function getResourceState(id){
-  return state.resources[id] || {};
-}
-
-function getCombatState(id){
-  return !!state.combatStates[id];
-}
-
-function setCombatState(id, value){
-  state.combatStates[id] = !!value;
-}
-
-function computeDerived(){
-  const abilityScores = { ...TRACKER_DATA.abilities };
-  const stats = {
-    ac: TRACKER_DATA.base.ac,
-    speed: TRACKER_DATA.base.speed,
-    initiative: TRACKER_DATA.base.initiative,
-    proficiency: TRACKER_DATA.base.proficiency,
-    passivePerception: TRACKER_DATA.base.passivePerception
-  };
-  const bannerLines = [];
-
-  if (getResourceState("phantomCloak").active) {
-    bannerLines.push("Призрачный плащ активен");
-    if (!getCombatState("phantomCloakRoundOne")) {
-      bannerLines.push("Призрачный плащ: +5 к Скрытности, пока Гарольд держится в тенях");
-    }
-  }
-  if (getCombatState("phantomCloakRoundOne")) {
-    bannerLines.push("Призрачный плащ, 1 раунд: невидим, бесшумен, неосязаем");
-  }
-  if (getCombatState("hiddenFromTarget")) {
-    bannerLines.push("Магическая засада готова: скрытое наложение, цель спасается с помехой");
-  }
-  if (getCombatState("targetStrangled")) {
-    bannerLines.push("Цель под Удушением: КС Выжигания разума -4 и урон +1d8 в этот раунд");
-  }
-  if (getCombatState("targetVulnerable")) {
-    bannerLines.push("Цель уязвима: КД -1, следующий урон Гарольда получает +1d6");
-  }
-  if (getCombatState("cunningMoveAdvantageReady")) {
-    bannerLines.push("Хитрый прием готов: следующая атака совершается с преимуществом");
-  }
-  if (getResourceState("blightAura").active) {
-    bannerLines.push("Пагуба активна: соседние живые существа теряют 1d8 ХП каждый раунд");
-  }
-  if (getResourceState("brittleBones").active) {
-    const rounds = getResourceState("brittleBonesRounds").current || 1;
-    bannerLines.push(`Ломкие кости активны: текущий урон ${rounds}d4`);
-  }
-
-  return { abilityScores, stats, bannerLines };
-}
-
-function buildQuickStats(){
-  const derived = computeDerived();
-  const spellAbility = TRACKER_DATA.base.spellcastingAbility;
-  const spellMod = spellAbility ? abilityMod(derived.abilityScores[spellAbility]) : 0;
-  const spellDc = 8 + derived.stats.proficiency + spellMod;
-  const spellAttack = TRACKER_DATA.base.spellAttackBonus;
-  return [
-    { label: "КД", value: derived.stats.ac, sub: "Пока заглушка" },
-    { label: "Макс. ХП", value: TRACKER_DATA.base.hpMax, sub: "Пока заглушка" },
-    { label: "Инициатива", value: signed(derived.stats.initiative), sub: "Пока заглушка" },
-    { label: "Скорость", value: `${derived.stats.speed} фт`, sub: "Базовое движение" },
-    { label: "КС закл.", value: spellDc, sub: "Временная INT-обвязка" },
-    { label: "Атака магией", value: signed(spellAttack), sub: "Кастомный бонус" }
-  ];
-}
-
-function renderHeader(){
-  document.title = `${TRACKER_DATA.meta.name} - Трекер`;
-  document.getElementById("portrait").src = TRACKER_DATA.meta.portrait;
-  document.getElementById("charName").textContent = TRACKER_DATA.meta.name;
-  document.getElementById("charSub").textContent = TRACKER_DATA.meta.subtitle;
-  document.getElementById("charBadge").textContent = TRACKER_DATA.meta.badge;
-}
-
-function renderEffectBanner(){
-  const derived = computeDerived();
-  const banner = document.getElementById("effectBanner");
-  const text = document.getElementById("effectBannerText");
-  if (!derived.bannerLines.length) {
-    banner.classList.remove("visible");
-    text.textContent = "";
-    return;
-  }
-  banner.classList.add("visible");
-  text.textContent = derived.bannerLines.join("\n");
-}
-
-function renderQuickStats(){
-  const root = document.getElementById("quickStats");
-  root.innerHTML = "";
-  for (const item of buildQuickStats()) {
-    const div = document.createElement("div");
-    div.className = "pill";
-    div.innerHTML = `<span class="val">${item.value}</span><span class="lbl">${item.label}</span><span class="sub">${item.sub}</span>`;
-    root.appendChild(div);
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch (error) {
+    // Some local file viewers block storage; the tracker should still render.
   }
 }
 
-function renderHP(){
-  document.getElementById("currentHP").value = state.hp;
-  document.getElementById("tempHP").value = state.tempHp;
-  document.getElementById("maxHP").textContent = TRACKER_DATA.base.hpMax;
+function signed(num){
+  return num >= 0 ? `+${num}` : `${num}`;
 }
 
-function renderAbilities(){
-  const root = document.getElementById("abilityScores");
-  root.innerHTML = "";
-  for (const key of ["str","dex","con","int","wis","cha"]) {
-    const score = TRACKER_DATA.abilities[key];
-    const div = document.createElement("div");
-    div.className = "ability-cell";
-    div.innerHTML = `
-      <div class="ability-score">${score}</div>
-      <div class="ability-mod">${signed(abilityMod(score))}</div>
-      <div class="ability-name">${key.toUpperCase()}</div>
-    `;
-    root.appendChild(div);
-  }
+function currentStealthBonus(){
+  return state.phantomActive && !state.phantomRoundOne ? 12 : 7;
 }
 
-function adjustedQuickRoll(roll){
-  let formula = roll.formula;
-  let note = roll.note || "";
-  if (roll.name === "Скрытность" && getResourceState("phantomCloak").active && !getCombatState("phantomCloakRoundOne")) {
-    formula = "1d20+12";
-    note = `${note} · Призрачный плащ активен: +5`;
-  }
-  if ((roll.name === "Попадание в ближнем бою" || roll.name === "Попадание магией") && getCombatState("cunningMoveAdvantageReady")) {
-    note = `${note} · следующая атака с преимуществом`;
-  }
-  return { formula, note };
+function currentStealthFormula(){
+  return `1d20+${currentStealthBonus()}`;
 }
 
-function renderQuickRolls(){
-  const root = document.getElementById("quickRolls");
-  root.innerHTML = "";
-  for (const roll of TRACKER_DATA.quickRolls) {
-    const adj = adjustedQuickRoll(roll);
-    const row = document.createElement("div");
-    row.className = "roll-row";
-    row.innerHTML = `
-      <div class="roll-bonus">${signed(roll.bonus)}</div>
-      <div class="roll-meta">
-        <div class="roll-name">${roll.name}</div>
-        <div class="roll-note">${adj.note}</div>
-      </div>
-      <button class="btn btn-roll" onclick="doFormulaRoll('${escapeAttr(roll.name)}', '${escapeAttr(adj.formula)}', 'Проверка')">Бросок</button>
-    `;
-    root.appendChild(row);
-  }
+function hasAdvantageSource(){
+  return state.hidden || state.cunningReady;
 }
 
-function renderCombatStates(){
-  const root = document.getElementById("combatStates");
-  root.innerHTML = "";
-  for (const stateDef of TRACKER_DATA.stateDefs) {
-    const active = getCombatState(stateDef.id);
-    const card = document.createElement("div");
-    card.className = "state-card";
-    card.innerHTML = `
-      <div class="state-head">
-        <div>
-          <div class="state-name">${stateDef.label}</div>
-          <div class="state-note">${stateDef.description}</div>
-        </div>
-        <button class="toggle-chip ${active ? "active" : ""}" onclick="toggleCombatState('${stateDef.id}')">${active ? "Активно" : "Неактивно"}</button>
-      </div>
-    `;
-    root.appendChild(card);
-  }
+function brittleFormula(){
+  return `${Math.max(1, state.brittleRounds)}d4+1d4`;
 }
 
-function renderResources(){
-  const root = document.getElementById("resources");
-  root.innerHTML = "";
-  for (const resource of TRACKER_DATA.resources) {
-    const resourceState = getResourceState(resource.id);
-    const card = document.createElement("div");
-    card.className = "resource-card";
-    let body = "";
-    if (resource.type === "pips") {
-      const pips = Array.from({ length: resource.max }, (_, index) => {
-        const filled = index < resourceState.current;
-        const value = filled ? index : index + 1;
-        return `<button class="pip${filled ? "" : " empty"}" onclick="setResourceCurrent('${resource.id}', ${value})"></button>`;
-      }).join("");
-      body = `<div class="pip-row">${pips}</div><div class="resource-actions"><button class="btn btn-reset" onclick="resetResource('${resource.id}')">Сброс</button></div>`;
-    } else if (resource.type === "toggle") {
-      body = `<div class="resource-actions"><button class="btn btn-toggle" onclick="toggleResource('${resource.id}')">${resourceState.active ? "Выключить" : "Включить"}</button></div>`;
-    } else if (resource.type === "toggleCharge") {
-      body = `
-        <div class="resource-actions">
-          <button class="btn btn-toggle" onclick="toggleChargeResource('${resource.id}')">${resourceState.active ? "Выключить" : "Активировать / использовать"}</button>
-          <button class="btn btn-reset" onclick="resetResource('${resource.id}')">Сброс</button>
-        </div>
-        <div class="resource-desc" style="margin-top:8px">Осталось использований: ${resourceState.current}/${resource.max}</div>
-      `;
-    } else if (resource.type === "counter") {
-      body = `
-        <div class="pool-value">${resourceState.current}/${resource.max}</div>
-        <div class="resource-actions">
-          <button class="btn btn-note" onclick="adjustCounter('${resource.id}', -1)">-1</button>
-          <button class="btn btn-heal" onclick="adjustCounter('${resource.id}', 1)">+1</button>
-          <button class="btn btn-reset" onclick="resetResource('${resource.id}')">Сброс</button>
-        </div>
-      `;
-    }
-    card.innerHTML = `
-      <div class="resource-top">
-        <div>
-          <div class="resource-name">${resource.label}</div>
-          <div class="resource-desc">${resource.description || ""}</div>
-        </div>
-        <div class="resource-refresh">${resource.refresh || ""}</div>
-      </div>
-      ${body}
-    `;
-    root.appendChild(card);
-  }
+function shadowBladeFormula(withSneak){
+  const parts = ["2d10"];
+  if (state.curseMarks > 0) parts.push(`${state.curseMarks}d8`);
+  if (withSneak || hasAdvantageSource()) parts.push("2d6");
+  return parts.join("+");
 }
 
-function renderCards(){
-  const root = document.getElementById("cardsRoot");
-  root.innerHTML = "";
-  const sections = [...new Set(TRACKER_DATA.cards.map(card => card.section))];
-  for (const section of sections) {
-    const hdr = document.createElement("div");
-    hdr.className = "section-hdr";
-    hdr.style.paddingLeft = "0";
-    hdr.style.paddingRight = "0";
-    hdr.textContent = section;
-    root.appendChild(hdr);
-    for (const cardData of TRACKER_DATA.cards.filter(card => card.section === section)) {
-      const card = document.createElement("div");
-      card.className = "card";
-      const tags = (cardData.tags || []).map(tag => {
-        const cls = ({
-          "Действие": "action",
-          "Бонусное действие": "bonus",
-          "Реакция": "reaction",
-          "Долгий отдых": "long",
-          "Пассивно": "passive",
-          "Акцент": "highlight",
-          "Концентрация": "concentration"
-        })[tag] || "passive";
-        return `<span class="tag ${cls}">${tag}</span>`;
-      }).join("");
-      const art = cardData.image ? `<img class="card-art" src="${cardData.image}" alt="${cardData.name}">` : "";
-      card.innerHTML = `
-        <div class="card-head ${cardData.image ? "has-art" : ""}" onclick="toggleCard(this.parentElement)">
-          <div class="card-title-wrap">
-            ${art}
-            <div>
-              <div class="card-name">${cardData.name}</div>
-              <div class="card-sub">${cardData.subtitle || ""}</div>
-              <div class="tag-row">${tags}</div>
-            </div>
-          </div>
-          <div class="chev">▾</div>
-        </div>
-        <div class="card-body">
-          <div class="card-desc">${cardData.description || ""}</div>
-          <div class="button-row">${renderCardButtons(cardData)}</div>
-        </div>
-      `;
-      root.appendChild(card);
-    }
-  }
+function shadowBladeNote(withSneak){
+  const sneak = withSneak || hasAdvantageSource();
+  const text = [];
+  text.push(`Метки на цели: ${state.curseMarks}, это дает +${state.curseMarks}d8.`);
+  text.push("После успешного удара защита цели против ближних атак снижается на 2 до следующего хода Гарольда.");
+  if (sneak) text.push("Скрытая атака применена: +2d6.");
+  return text.join(" ");
 }
 
-function renderCardButtons(cardData){
-  return (cardData.buttons || []).map((button, index) => {
-    const cls = ({
-      "roll": "btn-dmg",
-      "note": "btn-note",
-      "spend": "btn-reset",
-      "toggle": "btn-toggle",
-      "toggleCharge": "btn-toggle",
-      "stateToggle": "btn-toggle",
-      "mindBurnDamage": "btn-dmg",
-      "mindBurnSave": "btn-note",
-      "brittleRoll": "btn-dmg",
-      "counterAdjust": "btn-heal"
-    })[button.type] || "btn-note";
-    return `<button class="btn ${cls}" onclick="handleCardButton('${cardData.id}', ${index})">${button.label}</button>`;
-  }).join("");
-}
-
-function handleCardButton(cardId, buttonIndex){
-  const cardData = TRACKER_DATA.cards.find(card => card.id === cardId);
-  const button = (cardData.buttons || [])[buttonIndex];
-  if (!button) return;
-  if (button.type === "roll") {
-    showResult(button.label, button.formula, rollFormula(button.formula), button.resultType || "Бросок");
-    return;
+function toggleState(key){
+  state[key] = !state[key];
+  if (key === "phantomRoundOne" && state.phantomRoundOne) state.phantomActive = true;
+  if (key === "phantomActive" && !state.phantomActive) state.phantomRoundOne = false;
+  if (key === "hidden" && !state.hidden && state.cunningReady) {
+    // no-op, just keep explicit advantage if user wants
   }
-  if (button.type === "note") {
-    showResult(button.label, "", { total: "-", diceText: "" }, button.message);
-    return;
-  }
-  if (button.type === "spend") {
-    spendResource(button.resourceId, button.amount || 1);
-    return;
-  }
-  if (button.type === "toggle") {
-    toggleResource(button.resourceId);
-    return;
-  }
-  if (button.type === "toggleCharge") {
-    toggleChargeResource(button.resourceId);
-    return;
-  }
-  if (button.type === "stateToggle") {
-    toggleCombatState(button.stateId);
-    return;
-  }
-  if (button.type === "mindBurnDamage") {
-    const formula = getCombatState("targetStrangled") ? "4d8" : "3d8";
-    const note = getCombatState("targetVulnerable") ? "Уязвимость применяется только к следующему отдельному урону по цели." : "Психический урон.";
-    showResult("Выжигание разума: урон", formula, rollFormula(formula), note);
-    return;
-  }
-  if (button.type === "mindBurnSave") {
-    const dc = getCombatState("targetStrangled") ? 10 : 14;
-    const extra = getCombatState("hiddenFromTarget") ? " Цель совершает спасбросок с помехой из-за Магической засады." : "";
-    showResult("Выжигание разума: КС", String(dc), { total: dc, diceText: "" }, `Выжигание разума: спасбросок Интеллекта ${dc}.${extra}`);
-    return;
-  }
-  if (button.type === "brittleRoll") {
-    const rounds = Math.max(1, getResourceState("brittleBonesRounds").current || 1);
-    const formula = `${rounds}d4`;
-    showResult("Ломкие кости: урон", formula, rollFormula(formula), `Раунд ${rounds}, накопительный урон.`);
-    return;
-  }
-  if (button.type === "counterAdjust") {
-    adjustCounter(button.resourceId, button.amount || 0);
-  }
-}
-
-function toggleCard(card){
-  card.classList.toggle("expanded");
-}
-
-function toggleCombatState(id){
-  setCombatState(id, !getCombatState(id));
+  if (key === "blightActive" && !state.blightActive) state.blightRounds = 0;
   saveState();
   render();
 }
 
-function setResourceCurrent(id, value){
-  const resource = getResourceDefinition(id);
-  if (!resource) return;
-  state.resources[id].current = clamp(value, 0, resource.max);
+function adjustHp(delta){
+  state.hpCurrent = Math.max(0, Number(state.hpCurrent || 0) + delta);
+  document.getElementById("hpCurrent").value = state.hpCurrent;
+  saveState();
+}
+
+function changeUse(id, delta){
+  state.uses[id] = Math.max(0, Number(state.uses[id] || 0) + delta);
   saveState();
   render();
 }
 
-function spendResource(id, amount){
-  const resource = getResourceDefinition(id);
-  const resourceState = getResourceState(id);
-  if (!resource || typeof resourceState.current !== "number") return;
-  if (resourceState.current <= 0) {
-    showResult(resource.label, "", { total: "-", diceText: "" }, "Использования закончились.");
-    return;
-  }
-  resourceState.current = clamp(resourceState.current - amount, 0, resource.max);
+function resetUse(id, value){
+  state.uses[id] = value;
   saveState();
   render();
 }
 
-function resetResource(id){
-  const resource = getResourceDefinition(id);
-  if (!resource) return;
-  state.resources[id] = resourceStateFromData(resource);
-  if (id === "phantomCloak") {
-    setCombatState("hiddenFromTarget", false);
-    setCombatState("phantomCloakRoundOne", false);
-  }
-  if (id === "strangling") {
-    setCombatState("targetStrangled", false);
-  }
-  if (id === "brittleBones") {
-    state.resources.brittleBonesRounds.current = 0;
-  }
+function changeCounter(id, delta, min = 0, max = 99){
+  state[id] = Math.max(min, Math.min(max, Number(state[id] || 0) + delta));
   saveState();
   render();
 }
 
-function toggleResource(id){
-  const resourceState = getResourceState(id);
-  resourceState.active = !resourceState.active;
+function setCounter(id, value){
+  state[id] = value;
   saveState();
   render();
 }
 
-function toggleChargeResource(id){
-  const resource = getResourceDefinition(id);
-  const resourceState = getResourceState(id);
-  if (resourceState.active) {
-    resourceState.active = false;
-    if (id === "phantomCloak") {
-      setCombatState("phantomCloakRoundOne", false);
-      setCombatState("hiddenFromTarget", false);
-    }
-    if (id === "strangling") {
-      setCombatState("targetStrangled", false);
-    }
-    if (id === "brittleBones") {
-      state.resources.brittleBonesRounds.current = 0;
-    }
-  } else {
-    if (resourceState.current <= 0) {
-      showResult(resource.label, "", { total: "-", diceText: "" }, "Использования закончились.");
-      return;
-    }
-    resourceState.current = clamp(resourceState.current - 1, 0, resource.max);
-    resourceState.active = true;
-    if (id === "phantomCloak") {
-      setCombatState("hiddenFromTarget", true);
-      setCombatState("phantomCloakRoundOne", true);
-    }
-    if (id === "strangling") {
-      setCombatState("targetStrangled", true);
-    }
-    if (id === "brittleBones") {
-      state.resources.brittleBonesRounds.current = Math.max(1, state.resources.brittleBonesRounds.current || 0);
-    }
-  }
+function clearBattleState(){
+  state.hidden = false;
+  state.strangling = false;
+  state.cunningReady = false;
+  state.phantomActive = false;
+  state.phantomRoundOne = false;
+  state.blightActive = false;
+  state.vulnerability = false;
+  state.curseMarks = 0;
+  state.brittleRounds = 1;
+  state.blightRounds = 0;
+  state.shadowDotRounds = 0;
+  state.magicMissilesLeft = 3;
+}
+
+function shortRest(){
+  clearBattleState();
   saveState();
   render();
-}
-
-function adjustCounter(id, delta){
-  const resource = getResourceDefinition(id);
-  const resourceState = getResourceState(id);
-  resourceState.current = clamp((resourceState.current || 0) + delta, 0, resource.max);
-  saveState();
-  render();
-}
-
-function adjustHP(delta){
-  state.hp = Math.max(0, Number(state.hp || 0) + delta);
-  saveState();
-  renderHP();
-}
-
-function adjustTempHP(delta){
-  state.tempHp = Math.max(0, Number(state.tempHp || 0) + delta);
-  saveState();
-  renderHP();
-}
-
-function shortReset(){
-  setCombatState("hiddenFromTarget", false);
-  setCombatState("phantomCloakRoundOne", false);
-  setCombatState("targetStrangled", false);
-  setCombatState("targetVulnerable", false);
-  setCombatState("cunningMoveAdvantageReady", false);
-  state.resources.blightAura.active = false;
-  state.resources.phantomCloak.active = false;
-  state.resources.strangling.active = false;
-  state.resources.brittleBones.active = false;
-  state.resources.brittleBonesRounds.current = 0;
-  saveState();
-  render();
+  showStatic("Короткий отдых", "Сброс боевых эффектов", "По исходному файлу короткий отдых не восстанавливает способности с пометкой «в долгий отдых». Сброшены временные состояния, метки и восстановлена «Волшебная стрела» как способность «раз в бой».");
 }
 
 function longRest(){
-  state.hp = TRACKER_DATA.base.hpMax;
-  state.tempHp = TRACKER_DATA.base.tempHpDefault || 0;
-  for (const resource of TRACKER_DATA.resources) {
-    state.resources[resource.id] = resourceStateFromData(resource);
-  }
-  for (const stateDef of TRACKER_DATA.stateDefs) {
-    state.combatStates[stateDef.id] = false;
-  }
+  clearBattleState();
+  state.hpCurrent = Number(state.hpMax || 0);
+  state.uses = cloneDefaultState().uses;
   saveState();
   render();
-  showResult("Долгий отдых", "", { total: "Сброшено", diceText: "" }, "Ресурсы, боевые состояния и значения ХП сброшены к текущим значениям листа.");
+  showStatic("Долгий отдых", "Полное восстановление", "Восстановлены все способности с лимитом по долгому отдыху, очищены временные боевые эффекты и ХП восстановлены до максимума.");
 }
 
-function persistInputs(){
-  state.hp = Number(document.getElementById("currentHP").value || 0);
-  state.tempHp = Number(document.getElementById("tempHP").value || 0);
-  state.coins.gp = Number(document.getElementById("coinGp").value || 0);
-  state.coins.sp = Number(document.getElementById("coinSp").value || 0);
-  state.coins.cp = Number(document.getElementById("coinCp").value || 0);
-  state.notesText = document.getElementById("notesText").value;
+function consumeCurseMarks(){
+  state.curseMarks = 0;
   saveState();
+  render();
 }
 
-function renderInputs(){
-  document.getElementById("coinGp").value = state.coins.gp;
-  document.getElementById("coinSp").value = state.coins.sp;
-  document.getElementById("coinCp").value = state.coins.cp;
-  document.getElementById("notesText").value = state.notesText;
+function resetBattleMissiles(){
+  state.magicMissilesLeft = 3;
+  saveState();
+  render();
 }
 
-function rollDie(sides){
-  return Math.floor(Math.random() * sides) + 1;
-}
-
-function rollFormula(formula){
-  const clean = String(formula).replace(/\s+/g, "");
-  if (/^\d+$/.test(clean)) {
-    return { total: Number(clean), diceText: "" };
+function fireMissile(){
+  if (state.magicMissilesLeft <= 0) {
+    showStatic("Волшебная стрела", "Стрел больше нет", "В текущем бою уже использованы все 3 стрелы.");
+    return;
   }
-  let total = 0;
-  const diceTextParts = [];
+  state.magicMissilesLeft -= 1;
+  state.curseMarks = Math.min(3, state.curseMarks + 1);
+  state.vulnerability = true;
+  saveState();
+  render();
+  rollAndShow("Волшебная стрела", "1d4+1d4", "Одна стрела: 1d4 урона выбранной стихии и +1d4 ментального от Ментального оружия. Цель получает 1 Проклятую метку и активируется Уязвимость.");
+}
+
+function parseFormula(formula){
+  const clean = String(formula).replace(/\s+/g, "");
+  if (/^\d+$/.test(clean)) return { total: Number(clean), dice: "", formula: clean };
   const tokens = clean.match(/[+-]?[^+-]+/g) || [];
+  let total = 0;
+  const diceParts = [];
   for (const token of tokens) {
     let sign = 1;
     let body = token;
@@ -1444,63 +1439,230 @@ function rollFormula(formula){
       const sides = Number(sidesText);
       const rolls = [];
       for (let i = 0; i < count; i += 1) {
-        const value = rollDie(sides);
-        rolls.push(value);
-        total += sign * value;
+        const roll = Math.floor(Math.random() * sides) + 1;
+        rolls.push(roll);
+        total += sign * roll;
       }
-      diceTextParts.push(`${sign < 0 ? "-" : "+"}${count}d${sides}: [${rolls.join(", ")}]`);
+      diceParts.push(`${sign < 0 ? "-" : "+"}${count}d${sides}: [${rolls.join(", ")}]`);
     } else {
-      const value = Number(body || 0);
-      total += sign * value;
-      diceTextParts.push(`${sign < 0 ? "-" : "+"}${value}`);
+      const num = Number(body || 0);
+      total += sign * num;
+      diceParts.push(`${sign < 0 ? "-" : "+"}${num}`);
     }
   }
   return {
     total,
-    diceText: diceTextParts.join(" ").replace(/^\+/, "")
+    dice: diceParts.join(" ").replace(/^\+/, ""),
+    formula: clean
   };
 }
 
-function doFormulaRoll(label, formula, note){
-  showResult(label, formula, rollFormula(formula), note);
+function rollAndShow(label, formula, note){
+  const result = parseFormula(formula);
+  showResult(label, result.formula, result.dice, result.total, note);
 }
 
-function showResult(label, formula, result, note){
-  document.getElementById("resultLabel").textContent = label;
+function showStatic(label, formula, note){
+  showResult(label, formula, "", formula || "—", note);
+}
+
+function showResult(label, formula, dice, total, note){
+  document.getElementById("resultName").textContent = label;
   document.getElementById("resultFormula").textContent = formula ? `Формула: ${formula}` : "";
-  document.getElementById("resultDice").textContent = result.diceText || "";
-  document.getElementById("resultTotal").textContent = result.total;
+  document.getElementById("resultDice").textContent = dice ? `Кости: ${dice}` : "";
+  document.getElementById("resultTotal").textContent = total;
   document.getElementById("resultNote").textContent = note || "";
-  document.getElementById("resultOverlay").classList.add("open");
+  document.getElementById("resultWrap").classList.add("open");
 }
 
 function closeResult(){
-  document.getElementById("resultOverlay").classList.remove("open");
+  document.getElementById("resultWrap").classList.remove("open");
 }
 
-function escapeAttr(value){
-  return String(value).replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+function cardChips(ability){
+  const actionClass = ability.action === "Действие" ? "action" : ability.action === "Бонусное действие" ? "bonus" : ability.action === "Реакция" ? "reaction" : "passive";
+  const chips = [`<span class="chip ${actionClass}">${ability.action}</span>`];
+  chips.push(`<span class="chip limit">${ability.resource}</span>`);
+  if (ability.id === "mindBurn" && state.strangling) chips.push(`<span class="chip active-flag">Удушение активно</span>`);
+  if (ability.id === "phantomCloak" && state.phantomActive) chips.push(`<span class="chip active-flag">Плащ активен</span>`);
+  if (ability.id === "blight" && state.blightActive) chips.push(`<span class="chip active-flag">Аура активна</span>`);
+  if (ability.id === "vulnerability" && state.vulnerability) chips.push(`<span class="chip active-flag">Уязвимость активна</span>`);
+  if (ability.id === "ambush" && state.hidden) chips.push(`<span class="chip active-flag">Скрыт</span>`);
+  if (ability.id === "gracefulJester" && state.alcohol) chips.push(`<span class="chip active-flag">Алкоголь ВКЛ</span>`);
+  return chips.join("");
+}
+
+function iconHtml(path, label){
+  if (path) return `<img class="icon" src="${path}" alt="${label}">`;
+  return `<div class="icon placeholder" aria-hidden="true"></div>`;
+}
+
+function renderCards(list, rootId){
+  const root = document.getElementById(rootId);
+  root.innerHTML = list.map(ability => `
+    <article class="card ${state.ui.openCards[ability.id] ? "open" : ""}" id="card-${ability.id}">
+      <div class="card-head" onclick="toggleCard('${ability.id}')">
+        ${iconHtml(ability.icon, ability.name)}
+        <div>
+          <div class="card-name">${ability.name}</div>
+          <div class="meta">${cardChips(ability)}</div>
+          <div class="summary">${ability.summary()}</div>
+        </div>
+        <div class="chev">▾</div>
+      </div>
+      <div class="card-body">
+        <div class="body-grid">
+          <div>
+            <div class="block">
+              <div class="block-title">Механика</div>
+              <div class="details">
+                ${ability.details.map(([key, val]) => `<div class="detail"><div class="detail-key">${key}</div><div class="detail-val">${val}</div></div>`).join("")}
+              </div>
+            </div>
+            <div class="block">
+              <div class="block-title">Синергии</div>
+              <ul class="list">
+                ${ability.synergy.map(item => `<li>${item}</li>`).join("")}
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="block">
+              <div class="block-title">Инструменты в бою</div>
+              ${ability.controls}
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  `).join("");
+}
+
+function renderBonuses(){
+  const root = document.getElementById("bonusGrid");
+  root.innerHTML = BONUS_ROWS.map(row => {
+    const active = !row.conditional || state[row.conditional];
+    let formula = row.formula;
+    let shownBonus = row.bonus;
+    if (row.id === "stealth") {
+      shownBonus = currentStealthBonus();
+      formula = currentStealthFormula();
+    }
+    return `
+      <div class="bonus-row ${active ? (row.conditional ? "active" : "") : ""}">
+        <div>
+          <div class="bonus-name">${row.name}</div>
+          <div class="bonus-note">${row.note || (row.id === "stealth" && shownBonus === 12 ? "Призрачный плащ активен: +12" : "")}</div>
+        </div>
+        <div class="bonus-val">${signed(shownBonus)}</div>
+        ${row.type === "note" ? `<button class="btn btn-small btn-dark bonus-roll" onclick="showStatic('${row.name}', '${signed(shownBonus)}', '${row.note || ""}')">Показать</button>` : `<button class="btn btn-small btn-roll bonus-roll" onclick="rollAndShow('${row.name}', '${formula}', '${row.type === "attack" ? "Бросок атаки" : "Проверка"}')">Бросок</button>`}
+      </div>
+    `;
+  }).join("");
+}
+
+function renderFlags(){
+  document.getElementById("hiddenToggle").textContent = state.hidden ? "ВКЛ" : "ВЫКЛ";
+  document.getElementById("hiddenToggle").classList.toggle("active", state.hidden);
+  document.getElementById("alcoholToggle").textContent = state.alcohol ? "ВКЛ" : "ВЫКЛ";
+  document.getElementById("alcoholToggle").classList.toggle("active", state.alcohol);
+
+  const flagMap = {
+    "flag-strangling": state.strangling ? "ВКЛ" : "ВЫКЛ",
+    "flag-cunningReady": state.cunningReady ? "ДА" : "НЕТ",
+    "flag-phantomActive": state.phantomActive ? "ВКЛ" : "ВЫКЛ",
+    "flag-phantomRoundOne": state.phantomRoundOne ? "ДА" : "НЕТ",
+    "flag-blightActive": state.blightActive ? "ВКЛ" : "ВЫКЛ",
+    "flag-vulnerability": state.vulnerability ? "ВКЛ" : "ВЫКЛ"
+  };
+  Object.entries(flagMap).forEach(([id, value]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  });
+}
+
+function renderCounters(){
+  const usesMap = {
+    "uses-forceMind": state.uses.forceMind,
+    "uses-mindBurn": state.uses.mindBurn,
+    "uses-stranglingUses": state.uses.stranglingUses,
+    "uses-cunningMove": state.uses.cunningMove,
+    "uses-phantomCloak": state.uses.phantomCloak,
+    "uses-brittleBones": state.uses.brittleBones,
+    "uses-shadowBlade": state.uses.shadowBlade,
+    "uses-blackEyes": state.uses.blackEyes,
+    "uses-luck": state.uses.luck,
+    "counter-brittleRounds": state.brittleRounds,
+    "counter-blightRounds": state.blightRounds,
+    "counter-shadowDotRounds": state.shadowDotRounds,
+    "counter-magicMissilesLeft": state.magicMissilesLeft,
+    "counter-curseMarks": state.curseMarks,
+    "counter-shadowMarks": state.curseMarks,
+    "counter-curseMarksPassive": state.curseMarks
+  };
+  Object.entries(usesMap).forEach(([id, value]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  });
+  const meter = document.getElementById("missileMeter");
+  if (meter) {
+    meter.innerHTML = Array.from({ length: 3 }, (_, idx) => `<div class="pip ${idx < state.magicMissilesLeft ? "" : "off"}"></div>`).join("");
+  }
+}
+
+function toggleCard(id){
+  state.ui.openCards[id] = !state.ui.openCards[id];
+  saveState();
+  render();
 }
 
 function bindInputs(){
-  document.getElementById("currentHP").addEventListener("change", persistInputs);
-  document.getElementById("tempHP").addEventListener("change", persistInputs);
-  document.getElementById("coinGp").addEventListener("change", persistInputs);
-  document.getElementById("coinSp").addEventListener("change", persistInputs);
-  document.getElementById("coinCp").addEventListener("change", persistInputs);
-  document.getElementById("notesText").addEventListener("change", persistInputs);
+  document.getElementById("hpCurrent").addEventListener("change", event => {
+    state.hpCurrent = Number(event.target.value || 0);
+    saveState();
+  });
+  document.getElementById("hpMax").addEventListener("change", event => {
+    state.hpMax = Number(event.target.value || 0);
+    saveState();
+  });
+  document.getElementById("gold").addEventListener("change", event => {
+    state.coins.gold = Number(event.target.value || 0);
+    saveState();
+  });
+  document.getElementById("silver").addEventListener("change", event => {
+    state.coins.silver = Number(event.target.value || 0);
+    saveState();
+  });
+  document.getElementById("copper").addEventListener("change", event => {
+    state.coins.copper = Number(event.target.value || 0);
+    saveState();
+  });
+  document.getElementById("inventory").addEventListener("input", event => {
+    state.inventory = event.target.value;
+    saveState();
+  });
+  document.getElementById("notes").addEventListener("input", event => {
+    state.notes = event.target.value;
+    saveState();
+  });
+}
+
+function renderInputs(){
+  document.getElementById("hpCurrent").value = state.hpCurrent;
+  document.getElementById("hpMax").value = state.hpMax;
+  document.getElementById("gold").value = state.coins.gold;
+  document.getElementById("silver").value = state.coins.silver;
+  document.getElementById("copper").value = state.coins.copper;
+  document.getElementById("inventory").value = state.inventory;
+  document.getElementById("notes").value = state.notes;
 }
 
 function render(){
-  renderHeader();
-  renderEffectBanner();
-  renderQuickStats();
-  renderHP();
-  renderAbilities();
-  renderQuickRolls();
-  renderCombatStates();
-  renderResources();
-  renderCards();
+  renderBonuses();
+  renderCards(ACTIVE_ABILITIES, "activeCards");
+  renderCards(PASSIVE_ABILITIES, "passiveCards");
+  renderFlags();
+  renderCounters();
   renderInputs();
 }
 
