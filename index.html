@@ -307,6 +307,7 @@ body{
 .chip.bonus{color:#d2ffd5;border-color:#4b966055;background:#4b966018}
 .chip.reaction{color:#ffe0b4;border-color:#b4803655;background:#b4803618}
 .chip.passive{color:#d5dcea;border-color:#6d7d9555;background:#6d7d9514}
+.chip.weapon{color:#ffd9b8;border-color:#b16b3555;background:#7a4d231f}
 .chip.limit{color:#f4ebc2;border-color:#aa8d4055;background:#aa8d4018}
 .chip.active-flag{color:#ecffef;border-color:#5ea77b;background:#315548}
 .summary{
@@ -522,11 +523,11 @@ textarea{
     <div class="hero-main">
       <div class="title-box">
         <div class="eyebrow">Русскоязычный трекер способностей</div>
-        <h1 class="hero-name">Гарольд</h1>
+        <h1 class="hero-name">Гарольд Аль Лоренс</h1>
         <div class="hero-sub">Компактный боевой лист для отслеживания бросков, состояний, ресурсов, меток, урона по раундам и ключевых синергий.</div>
       </div>
       <div class="hp-box">
-        <div class="hp-title">ХП</div>
+        <div class="hp-title">ХП и защита</div>
         <div class="hp-row">
           <div class="hp-label">Текущее</div>
           <input id="hpCurrent" class="num" type="number" value="0">
@@ -537,6 +538,16 @@ textarea{
             <button class="btn btn-dark btn-small" onclick="adjustHp(1)">+1</button>
             <button class="btn btn-dark btn-small" onclick="adjustHp(-5)">-5</button>
             <button class="btn btn-dark btn-small" onclick="adjustHp(5)">+5</button>
+          </div>
+        </div>
+        <div class="hp-row" style="margin-top:10px">
+          <div class="hp-label">Класс доспеха</div>
+          <input id="armorClass" class="num" type="number" value="14">
+          <div class="hp-label"></div>
+          <div></div>
+          <div class="mini-actions">
+            <button class="btn btn-dark btn-small" onclick="adjustArmor(-1)">-1</button>
+            <button class="btn btn-dark btn-small" onclick="adjustArmor(1)">+1</button>
           </div>
         </div>
       </div>
@@ -567,6 +578,11 @@ textarea{
           <button id="alcoholToggle" class="btn btn-state switch" onclick="toggleState('alcohol')">ВЫКЛ</button>
         </div>
       </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">Оружие</div>
+      <div class="cards" id="weaponCards"></div>
     </section>
 
     <section class="section">
@@ -644,6 +660,52 @@ const BONUS_ROWS = [
   { id: "persuasionAlcohol", name: "Убеждение", bonus: 5, conditional: "alcohol", type: "check", formula: "1d20+5", note: "Только при алкоголе в крови" },
   { id: "deceptionAlcohol", name: "Обман", bonus: 5, conditional: "alcohol", type: "check", formula: "1d20+5", note: "Только при алкоголе в крови" },
   { id: "defenseAlcohol", name: "Защита / КД", bonus: 1, conditional: "alcohol", type: "note", note: "Условный защитный бонус от Грациозного балагура" }
+];
+
+const WEAPONS = [
+  {
+    id: "nulifier",
+    icon: "assets/manual_upload/nulifier.png",
+    name: "Кинжал «Обнуллитель»",
+    action: "Оружие",
+    resource: "Постоянно",
+    summary: () => "Атака 1d20+2 • урон 2d8+2 • накладывает Слабость",
+    details: [
+      ["Тип", "Кинжал"],
+      ["Бросок атаки", "1d20+2"],
+      ["Урон", "2d8+2"],
+      ["Эффект", "Накладывает на противника эффект «Слабость»"]
+    ],
+    synergy: [],
+    controls: `
+      <div class="actions">
+        <button class="btn btn-roll" onclick="rollAndShow('Обнуллитель: атака', '1d20+2', 'Бросок атаки кинжалом «Обнуллитель».')">Атака 1d20+2</button>
+        <button class="btn btn-dmg" onclick="rollAndShow('Обнуллитель: урон', '2d8+2', 'Урон кинжалом «Обнуллитель».')">Урон 2d8+2</button>
+        <button class="btn btn-note" onclick="showStatic('Обнуллитель', 'Слабость', 'При попадании оружие накладывает на противника эффект «Слабость».')">Эффект Слабость</button>
+      </div>
+    `
+  },
+  {
+    id: "crossbow",
+    icon: "",
+    name: "Арбалет",
+    action: "Оружие",
+    resource: "Постоянно",
+    summary: () => "Атака 1d20 • урон 1d6 • дистанция 60 футов",
+    details: [
+      ["Тип", "Обычный арбалет"],
+      ["Бросок атаки", "1d20"],
+      ["Урон", "1d6"],
+      ["Дистанция", "60 футов"]
+    ],
+    synergy: [],
+    controls: `
+      <div class="actions">
+        <button class="btn btn-roll" onclick="rollAndShow('Арбалет: атака', '1d20', 'Бросок атаки обычным арбалетом.')">Атака 1d20</button>
+        <button class="btn btn-dmg" onclick="rollAndShow('Арбалет: урон', '1d6', 'Урон обычного арбалета.')">Урон 1d6</button>
+      </div>
+    `
+  }
 ];
 
 const ACTIVE_ABILITIES = [
@@ -1217,6 +1279,7 @@ const PASSIVE_ABILITIES = [
 const DEFAULT_STATE = {
   hpCurrent: 0,
   hpMax: 0,
+  armorClass: 14,
   hidden: false,
   alcohol: false,
   strangling: false,
@@ -1336,6 +1399,12 @@ function toggleState(key){
 function adjustHp(delta){
   state.hpCurrent = Math.max(0, Number(state.hpCurrent || 0) + delta);
   document.getElementById("hpCurrent").value = state.hpCurrent;
+  saveState();
+}
+
+function adjustArmor(delta){
+  state.armorClass = Math.max(0, Number(state.armorClass || 0) + delta);
+  document.getElementById("armorClass").value = state.armorClass;
   saveState();
 }
 
@@ -1480,7 +1549,7 @@ function closeResult(){
 }
 
 function cardChips(ability){
-  const actionClass = ability.action === "Действие" ? "action" : ability.action === "Бонусное действие" ? "bonus" : ability.action === "Реакция" ? "reaction" : "passive";
+  const actionClass = ability.action === "Действие" ? "action" : ability.action === "Бонусное действие" ? "bonus" : ability.action === "Реакция" ? "reaction" : ability.action === "Оружие" ? "weapon" : "passive";
   const chips = [`<span class="chip ${actionClass}">${ability.action}</span>`];
   chips.push(`<span class="chip limit">${ability.resource}</span>`);
   if (ability.id === "mindBurn" && state.strangling) chips.push(`<span class="chip active-flag">Удушение активно</span>`);
@@ -1519,12 +1588,14 @@ function renderCards(list, rootId){
                 ${ability.details.map(([key, val]) => `<div class="detail"><div class="detail-key">${key}</div><div class="detail-val">${val}</div></div>`).join("")}
               </div>
             </div>
+            ${ability.synergy.length ? `
             <div class="block">
               <div class="block-title">Синергии</div>
               <ul class="list">
                 ${ability.synergy.map(item => `<li>${item}</li>`).join("")}
               </ul>
             </div>
+            ` : ""}
           </div>
           <div>
             <div class="block">
@@ -1625,6 +1696,10 @@ function bindInputs(){
     state.hpMax = Number(event.target.value || 0);
     saveState();
   });
+  document.getElementById("armorClass").addEventListener("change", event => {
+    state.armorClass = Number(event.target.value || 0);
+    saveState();
+  });
   document.getElementById("gold").addEventListener("change", event => {
     state.coins.gold = Number(event.target.value || 0);
     saveState();
@@ -1650,6 +1725,7 @@ function bindInputs(){
 function renderInputs(){
   document.getElementById("hpCurrent").value = state.hpCurrent;
   document.getElementById("hpMax").value = state.hpMax;
+  document.getElementById("armorClass").value = state.armorClass;
   document.getElementById("gold").value = state.coins.gold;
   document.getElementById("silver").value = state.coins.silver;
   document.getElementById("copper").value = state.coins.copper;
@@ -1659,6 +1735,7 @@ function renderInputs(){
 
 function render(){
   renderBonuses();
+  renderCards(WEAPONS, "weaponCards");
   renderCards(ACTIVE_ABILITIES, "activeCards");
   renderCards(PASSIVE_ABILITIES, "passiveCards");
   renderFlags();
